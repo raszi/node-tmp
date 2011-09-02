@@ -1,6 +1,6 @@
 {
   "name":        "tmp",
-  "version":     "0.0.4",
+  "version":     "0.0.5",
   "description": "Temporary file and directory creator",
   "author":      "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
 
@@ -14,15 +14,13 @@
     }
   ],
 
-  "repository": [
-    {
-      "type": "git", 
-      "url":  "git://github.com/raszi/tmp.git"
-    }
-  ],
+  "repository": {
+    "type": "git", 
+    "url":  "git://github.com/raszi/tmp.git"
+  },
 
   "bugs": {
-    "web":  "https://github.com/raszi/tmp/issues"
+    "web":  "http://github.com/raszi/tmp/issues"
   },
 
   "main": "lib/tmp.js",
