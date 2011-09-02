@@ -1,0 +1,45 @@
+{
+  "name":        "tmp",
+  "version":     "0.0.1",
+  "description": "Temporary file and directory creator",
+
+  "preferGlobal": true,
+
+  "keywords": [ "temporary", "tmp", "temp", "tempdir", "tempfile", "tmpdir", "tmpfile" ],
+
+  "author": [
+    {
+      "name":  "KARASZI Istvan",
+      "email": "github@spam.raszi.hu"
+    }
+  ],
+
+  "contributors": [
+    {
+      "name":  "KARASZI Istvan",
+      "email": "github@spam.raszi.hu"
+    }
+  ],
+
+  "bugs": {
+    "web":  "https://github.com/raszi/tmp/issues"
+  },
+
+  "main": "lib/tmp.js",
+
+  "scripts": {
+    "test": "vows test/*-test.js"
+  },
+
+  "engines": {
+    "node": "0.4.10"
+  },
+
+  "dependencies": {
+    "underscore": "~1.1.7"
+  },
+
+  "devDependencies": {
+    "vows": "~0.5.11"
+  }
+}
