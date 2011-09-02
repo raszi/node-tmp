@@ -4,7 +4,7 @@ A simple temporary file and directory creator for node.js.
 
 ## How to install
 
-npm install tmp
+    npm install tmp
 
 ## Usage
 
