@@ -1,6 +1,6 @@
 {
   "name":        "tmp",
-  "version":     "0.0.2",
+  "version":     "0.0.3",
   "description": "Temporary file and directory creator",
 
   "homepage": "http://github.com/raszi/tmp",
@@ -51,9 +51,7 @@
     "node": "0.4.10"
   },
 
-  "dependencies": {
-    "underscore": "~1.1.7"
-  },
+  "dependencies": {},
 
   "devDependencies": {
     "vows": "~0.5.11"
