@@ -8,7 +8,7 @@ npm install tmp
 
 ## Usage
 
-var tmp = require('tmp');
+    var tmp = require('tmp');
 
     tmp.file(function _tempFileCreated(err, path, fd) {
         if (err) throw err;
@@ -24,6 +24,8 @@ var tmp = require('tmp');
     });
 
 ## More advanced usage
+
+    var tmp = require('tmp');
 
     tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileCreated(err, path, fd) {
         if (err) throw err;
