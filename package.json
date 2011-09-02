@@ -1,23 +1,39 @@
 {
   "name":        "tmp",
-  "version":     "0.0.1",
+  "version":     "0.0.2",
   "description": "Temporary file and directory creator",
 
-  "preferGlobal": true,
+  "homepage": "http://github.com/raszi/tmp",
 
   "keywords": [ "temporary", "tmp", "temp", "tempdir", "tempfile", "tmpdir", "tmpfile" ],
 
   "author": [
     {
       "name":  "KARASZI Istvan",
-      "email": "github@spam.raszi.hu"
+      "email": "github@spam.raszi.hu",
+      "web":   "http://raszi.hu/"
     }
   ],
 
   "contributors": [
     {
       "name":  "KARASZI Istvan",
-      "email": "github@spam.raszi.hu"
+      "email": "github@spam.raszi.hu",
+      "web":   "http://raszi.hu/"
+    }
+  ],
+
+  "licenses": [
+    {
+      "type": "GPLv2",
+      "url": "http://www.example.com/licenses/gpl.html",
+    }
+  ],
+
+  "repositories": [
+    {
+      "type": "git", 
+      "url":  "git://github.com/raszi/tmp.git"
     }
   ],
 
