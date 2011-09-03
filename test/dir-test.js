@@ -50,6 +50,16 @@ vows.describe('Directory creation').addBatch({
 
   },
 
+  'when using template': {
+    topic: function () {
+      tmp.dir({ template: tmp.tmpdir.concat('clike-XXXXXX-postfix') }, this.callback);
+    },
+
+    'should be a file': _testDir(040700),
+    'should have the provided prefix': Test.testPrefix('clike-'),
+    'should have the provided postfix': Test.testPostfix('-postfix')
+  },
+
   'when using multiple options': {
     topic: function () {
       tmp.dir({ prefix: 'foo', postfix: 'bar', mode: 0750 }, this.callback);

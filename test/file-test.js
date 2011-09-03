@@ -55,6 +55,16 @@ vows.describe('File creation').addBatch({
 
   },
 
+  'when using template': {
+    topic: function () {
+      tmp.file({ template: tmp.tmpdir.concat('clike-XXXXXX-postfix') }, this.callback);
+    },
+
+    'should be a file': _testFile(0100600),
+    'should have the provided prefix': Test.testPrefix('clike-'),
+    'should have the provided postfix': Test.testPostfix('-postfix')
+  },
+
   'when using multiple options': {
     topic: function () {
       tmp.file({ prefix: 'foo', postfix: 'bar', mode: 0640 }, this.callback);
