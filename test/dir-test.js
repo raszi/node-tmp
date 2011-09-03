@@ -68,5 +68,15 @@ vows.describe('Directory creation').addBatch({
     'should be a directory': _testDir(040755),
     'should have the provided prefix': Test.testPrefix('complicated'),
     'should have the provided postfix': Test.testPostfix('options')
+  },
+
+  'no tries': {
+    topic: function () {
+      tmp.dir({ tries: -1 }, this.callback);
+    },
+
+    'should not be created': function (err, name) {
+      assert.isObject(err);
+    }
   }
 }).export(module);

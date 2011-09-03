@@ -73,5 +73,15 @@ vows.describe('File creation').addBatch({
     'should be a file': _testFile(0100644),
     'should have the provided prefix': Test.testPrefix('complicated'),
     'should have the provided postfix': Test.testPostfix('options')
+  },
+
+  'no tries': {
+    topic: function () {
+      tmp.file({ tries: -1 }, this.callback);
+    },
+
+    'should not be created': function (err, name) {
+      assert.isObject(err);
+    }
   }
 }).export(module);
