@@ -9,9 +9,9 @@ var
   Test   = require('./base.js');
 
 
-function _testFile(mode) {
+function _testFile(mode, fdTest) {
   return function _testFileGenerated(err, name, fd) {
-    assert.ok(path.existsSync(name), 'Should exists');
+    assert.ok(path.existsSync(name), 'Should exist');
 
     var stat = fs.statSync(name);
     assert.equal(stat.size, 0, 'Should have zero size');
@@ -20,8 +20,10 @@ function _testFile(mode) {
     Test.testStat(stat, mode);
 
     // check with fstat as well (fd checking)
-    var fstat = fs.fstatSync(fd);
-    assert.deepEqual(fstat, stat, 'fstat results should be the same');
+    if (fdTest) {
+      var fstat = fs.fstatSync(fd);
+      assert.deepEqual(fstat, stat, 'fstat results should be the same');
+    }
   };
 }
 
@@ -31,7 +33,7 @@ vows.describe('File creation').addBatch({
       tmp.file(this.callback);
     },
 
-    'should be a file': _testFile(0100600),
+    'should be a file': _testFile(0100600, true),
     'should have the default prefix': Test.testPrefix('tmp-'),
     'should have the default postfix': Test.testPostfix('.tmp')
   },
@@ -41,7 +43,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ prefix: 'something' }, this.callback);
     },
 
-    'should be a file': _testFile(0100600),
+    'should be a file': _testFile(0100600, true),
     'should have the provided prefix': Test.testPrefix('something')
   },
 
@@ -50,7 +52,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ postfix: '.txt' }, this.callback);
     },
 
-    'should be a file': _testFile(0100600),
+    'should be a file': _testFile(0100600, true),
     'should have the provided postfix': Test.testPostfix('.txt')
 
   },
@@ -60,7 +62,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ template: tmp.tmpdir.concat('clike-XXXXXX-postfix') }, this.callback);
     },
 
-    'should be a file': _testFile(0100600),
+    'should be a file': _testFile(0100600, true),
     'should have the provided prefix': Test.testPrefix('clike-'),
     'should have the provided postfix': Test.testPostfix('-postfix')
   },
@@ -70,7 +72,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ prefix: 'foo', postfix: 'bar', mode: 0640 }, this.callback);
     },
 
-    'should be a file': _testFile(0100640),
+    'should be a file': _testFile(0100640, true),
     'should have the provided prefix': Test.testPrefix('foo'),
     'should have the provided postfix': Test.testPostfix('bar')
   },
@@ -80,7 +82,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ prefix: 'complicated', postfix: 'options', mode: 0644 }, this.callback);
     },
 
-    'should be a file': _testFile(0100644),
+    'should be a file': _testFile(0100644, true),
     'should have the provided prefix': Test.testPrefix('complicated'),
     'should have the provided postfix': Test.testPostfix('options')
   },
@@ -93,5 +95,27 @@ vows.describe('File creation').addBatch({
     'should not be created': function (err, name) {
       assert.isObject(err);
     }
+  },
+
+  'keep testing': {
+    topic: function () {
+      Test.testKeep('file', '1', this.callback);
+    },
+
+    'should be a file': function(err, name) {
+      _testFile(0100600, false)(err, name, null);
+      fs.unlinkSync(name);
+    }
+  },
+
+  'unlink testing': {
+    topic: function () {
+      Test.testKeep('file', '0', this.callback);
+    },
+
+    'should not exist': function(err, name) {
+      assert.ok(!path.existsSync(name), "File should be removed");
+    }
   }
+
 }).export(module);

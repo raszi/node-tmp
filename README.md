@@ -78,6 +78,7 @@ All options are optional :)
   * `template`: [mkstemps][2] like filename template, no default
   * `dir`: the optional temporary directory, fallbacks to system default (guesses from environment)
   * `tries`: how many times should the function tries to get a unique filename before giving up, default `3`
+  * `keep`: signals that the temporary file or directory should not be deleted on exit, default is to delete
 
 [1]: https://github.com/bruce/node-temp
 [2]: http://www.kernel.org/doc/man-pages/online/pages/man3/mkstemp.3.html

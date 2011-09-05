@@ -11,7 +11,7 @@ var
 
 function _testDir(mode) {
   return function _testDirGenerated(err, name) {
-    assert.ok(path.existsSync(name), 'Should exists');
+    assert.ok(path.existsSync(name), 'Should exist');
 
     var stat = fs.statSync(name);
     assert.ok(stat.isDirectory(), 'Should be a directory');
@@ -87,6 +87,27 @@ vows.describe('Directory creation').addBatch({
 
     'should not be created': function (err, name) {
       assert.isObject(err);
+    }
+  },
+
+  'keep testing': {
+    topic: function () {
+      Test.testKeep('dir', '1', this.callback);
+    },
+
+    'should be a dir': function(err, name) {
+      _testDir(040700)(err, name);
+      fs.rmdirSync(name);
+    }
+  },
+
+  'unlink testing': {
+    topic: function () {
+      Test.testKeep('dir', '0', this.callback);
+    },
+
+    'should not exist': function(err, name) {
+      assert.ok(!path.existsSync(name), "Directory should be removed");
     }
   }
 }).export(module);
