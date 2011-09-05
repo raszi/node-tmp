@@ -21,6 +21,8 @@ or not.
 
 ### File creation
 
+Simple temporary file creation, the file will be unlinked on process exit.
+
     var tmp = require('tmp');
 
     tmp.file(function _tempFileCreated(err, path, fd) {
@@ -31,6 +33,10 @@ or not.
     });
 
 ### Directory creation
+
+Simple temporary directory creation, it will be removed on process exit.
+
+If the directory still contains items on process exit, then it won't be removed.
 
     var tmp = require('tmp');
 
@@ -44,6 +50,8 @@ or not.
 
 ### File creation
 
+Creates a file with mode `0644`, prefix will be `prefix-` and postfix will be `.txt`.
+
     var tmp = require('tmp');
 
     tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileCreated(err, path, fd) {
@@ -55,6 +63,10 @@ or not.
 
 ### Directory creation
 
+Creates a directory with mode `0755`, prefix will be `myTmpDir_`.
+
+    var tmp = require('tmp');
+
     tmp.dir({ mode: 0750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path) {
       if (err) throw err;
 
@@ -62,6 +74,10 @@ or not.
     });
 
 ### mkstemps like
+
+Creates a new temporary directory with mode `0700` and filename like `/tmp/tmp-nk2J1u`.
+
+    var tmp = require('tmp');
 
     tmp.dir({ template: '/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
       iff (err) throw err;
@@ -75,7 +91,7 @@ or not.
 All options are optional :)
 
   * `mode`: the file mode to create with it fallbacks to `0600` on file creation and `0700` on directory creation
-  * `prefix`: the optional prefix, fallback to `tmp-` if not provided
+  * `prefix`: the optional prefix, fallbacks to `tmp-` if not provided
   * `postfix`: the optional postfix, fallbacks to `.tmp` on file creation
   * `template`: [`mkstemps`][3] like filename template, no default
   * `dir`: the optional temporary directory, fallbacks to system default (guesses from environment)
