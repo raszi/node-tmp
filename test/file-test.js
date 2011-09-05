@@ -37,6 +37,7 @@ vows.describe('File creation').addBatch({
       tmp.file(this.callback);
     },
 
+    'should not return with error': assert.isNull,
     'should be a file': _testFile(0100600, true),
     'should have the default prefix': Test.testPrefix('tmp-'),
     'should have the default postfix': Test.testPostfix('.tmp')
@@ -47,6 +48,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ prefix: 'something' }, this.callback);
     },
 
+    'should not return with error': assert.isNull,
     'should be a file': _testFile(0100600, true),
     'should have the provided prefix': Test.testPrefix('something')
   },
@@ -56,6 +58,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ postfix: '.txt' }, this.callback);
     },
 
+    'should not return with error': assert.isNull,
     'should be a file': _testFile(0100600, true),
     'should have the provided postfix': Test.testPostfix('.txt')
 
@@ -66,6 +69,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ template: tmp.tmpdir.concat('clike-XXXXXX-postfix') }, this.callback);
     },
 
+    'should not return with error': assert.isNull,
     'should be a file': _testFile(0100600, true),
     'should have the provided prefix': Test.testPrefix('clike-'),
     'should have the provided postfix': Test.testPostfix('-postfix')
@@ -76,6 +80,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ prefix: 'foo', postfix: 'bar', mode: 0640 }, this.callback);
     },
 
+    'should not return with error': assert.isNull,
     'should be a file': _testFile(0100640, true),
     'should have the provided prefix': Test.testPrefix('foo'),
     'should have the provided postfix': Test.testPostfix('bar')
@@ -86,6 +91,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ prefix: 'complicated', postfix: 'options', mode: 0644 }, this.callback);
     },
 
+    'should not return with error': assert.isNull,
     'should be a file': _testFile(0100644, true),
     'should have the provided prefix': Test.testPrefix('complicated'),
     'should have the provided postfix': Test.testPostfix('options')
@@ -106,6 +112,7 @@ vows.describe('File creation').addBatch({
       Test.testKeep('file', '1', this.callback);
     },
 
+    'should not return with error': assert.isNull,
     'should be a file': function(err, name) {
       _testFile(0100600, false)(err, name, null);
       fs.unlinkSync(name);
@@ -117,6 +124,7 @@ vows.describe('File creation').addBatch({
       Test.testKeep('file', '0', this.callback);
     },
 
+    'should not return with error': assert.isNull,
     'should not exist': function(err, name) {
       assert.ok(!path.existsSync(name), "File should be removed");
     }
