@@ -23,14 +23,16 @@ or not.
 
 Simple temporary file creation, the file will be unlinked on process exit.
 
-    var tmp = require('tmp');
+```javascript
+var tmp = require('tmp');
 
-    tmp.file(function _tempFileCreated(err, path, fd) {
-      if (err) throw err;
+tmp.file(function _tempFileCreated(err, path, fd) {
+  if (err) throw err;
 
-      console.log("File: ", path);
-      console.log("Filedescriptor: ", fd);
-    });
+  console.log("File: ", path);
+  console.log("Filedescriptor: ", fd);
+});
+```
 
 ### Directory creation
 
@@ -38,13 +40,15 @@ Simple temporary directory creation, it will be removed on process exit.
 
 If the directory still contains items on process exit, then it won't be removed.
 
-    var tmp = require('tmp');
+```javascript
+var tmp = require('tmp');
 
-    tmp.dir(function _tempDirCreated(err, path) {
-      if (err) throw err;
+tmp.dir(function _tempDirCreated(err, path) {
+  if (err) throw err;
 
-      console.log("Dir: ", path);
-    });
+  console.log("Dir: ", path);
+});
+```
 
 ## Advanced usage
 
@@ -52,38 +56,44 @@ If the directory still contains items on process exit, then it won't be removed.
 
 Creates a file with mode `0644`, prefix will be `prefix-` and postfix will be `.txt`.
 
-    var tmp = require('tmp');
+```javascript
+var tmp = require('tmp');
 
-    tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileCreated(err, path, fd) {
-      if (err) throw err;
+tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileCreated(err, path, fd) {
+  if (err) throw err;
 
-      console.log("File: ", path);
-      console.log("Filedescriptor: ", fd);
-    });
+  console.log("File: ", path);
+  console.log("Filedescriptor: ", fd);
+});
+```
 
 ### Directory creation
 
 Creates a directory with mode `0755`, prefix will be `myTmpDir_`.
 
-    var tmp = require('tmp');
+```javascript
+var tmp = require('tmp');
 
-    tmp.dir({ mode: 0750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path) {
-      if (err) throw err;
+tmp.dir({ mode: 0750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path) {
+  if (err) throw err;
 
-      console.log("Dir: ", path);
-    });
+  console.log("Dir: ", path);
+});
+```
 
 ### mkstemps like
 
 Creates a new temporary directory with mode `0700` and filename like `/tmp/tmp-nk2J1u`.
 
-    var tmp = require('tmp');
+```javascript
+var tmp = require('tmp');
 
-    tmp.dir({ template: '/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
-      iff (err) throw err;
+tmp.dir({ template: '/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
+  if (err) throw err;
 
-      console.log("Dir: ", path);
-    });
+  console.log("Dir: ", path);
+});
+```
 
 
 ## Options
