@@ -5,17 +5,21 @@ A simple temporary file and directory creator for [node.js.][1]
 ## About
 
 The main difference between bruce's [node-temp][2] is that mine more
-aggressively checks for the existence of the newly created temporary file.
+aggressively checks for the existence of the newly created temporary file and
+creates the new file with `O_EXCL` instead of simple `O_CREAT | O_RDRW`, so it
+is safer.
 
 The API is slightly different as well, Tmp does not yet provide synchronous
 calls and all the parameters are optional.
 
-You can also set whether you want to remove the temporary file on process exit
-or not.
+You can set whether you want to remove the temporary file on process exit or
+not, and the destination directory can also be set.
 
 ## How to install
 
-    npm install tmp
+```bash
+npm install tmp
+```
 
 ## Usage
 
