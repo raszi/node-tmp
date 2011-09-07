@@ -1,10 +1,10 @@
 {
   "name":        "tmp",
-  "version":     "0.0.10",
+  "version":     "0.0.11",
   "description": "Temporary file and directory creator",
   "author":      "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
 
-  "homepage": "http://github.com/raszi/tmp",
+  "homepage": "http://github.com/raszi/node-tmp",
   "keywords": [ "temporary", "tmp", "temp", "tempdir", "tempfile", "tmpdir", "tmpfile" ],
 
   "licenses": [
@@ -16,11 +16,11 @@
 
   "repository": {
     "type": "git", 
-    "url":  "git://github.com/raszi/tmp.git"
+    "url":  "git://github.com/raszi/node-tmp.git"
   },
 
   "bugs": {
-    "web":  "http://github.com/raszi/tmp/issues"
+    "web":  "http://github.com/raszi/node-tmp/issues"
   },
 
   "main": "lib/tmp.js",
