@@ -20,7 +20,7 @@
   },
 
   "bugs": {
-    "web":  "http://github.com/raszi/node-tmp/issues"
+    "url":  "http://github.com/raszi/node-tmp/issues"
   },
 
   "main": "lib/tmp.js",
