@@ -66,7 +66,7 @@ vows.describe('File creation').addBatch({
 
   'when using template': {
     topic: function () {
-      tmp.file({ template: tmp.tmpdir.concat('clike-XXXXXX-postfix') }, this.callback);
+      tmp.file({ template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix') }, this.callback);
     },
 
     'should not return with error': assert.isNull,
