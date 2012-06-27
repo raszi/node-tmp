@@ -2,8 +2,9 @@ var
   vows   = require('vows'),
   assert = require('assert'),
 
-  path   = require('path'),
-  fs     = require('fs'),
+  path       = require('path'),
+  fs         = require('fs'),
+  existsSync = fs.existsSync || path.existsSync,
 
   tmp    = require('../lib/tmp.js'),
   Test   = require('./base.js');
@@ -11,7 +12,7 @@ var
 
 function _testFile(mode, fdTest) {
   return function _testFileGenerated(err, name, fd) {
-    assert.ok(path.existsSync(name), 'Should exist');
+    assert.ok(existsSync(name), 'Should exist');
 
     var stat = fs.statSync(name);
     assert.equal(stat.size, 0, 'Should have zero size');
@@ -126,7 +127,7 @@ vows.describe('File creation').addBatch({
 
     'should not return with error': assert.isNull,
     'should not exist': function(err, name) {
-      assert.ok(!path.existsSync(name), "File should be removed");
+      assert.ok(!existsSync(name), "File should be removed");
     }
   }
 

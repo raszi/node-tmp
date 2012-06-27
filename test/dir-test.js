@@ -2,8 +2,9 @@ var
   vows   = require('vows'),
   assert = require('assert'),
 
-  path   = require('path'),
-  fs     = require('fs'),
+  path       = require('path'),
+  fs         = require('fs'),
+  existsSync = fs.existsSync || path.existsSync,
 
   tmp    = require('../lib/tmp.js'),
   Test   = require('./base.js');
@@ -11,7 +12,7 @@ var
 
 function _testDir(mode) {
   return function _testDirGenerated(err, name) {
-    assert.ok(path.existsSync(name), 'Should exist');
+    assert.ok(existsSync(name), 'Should exist');
 
     var stat = fs.statSync(name);
     assert.ok(stat.isDirectory(), 'Should be a directory');
@@ -115,7 +116,7 @@ vows.describe('Directory creation').addBatch({
 
     'should not return with error': assert.isNull,
     'should not exist': function(err, name) {
-      assert.ok(!path.existsSync(name), "Directory should be removed");
+      assert.ok(!existsSync(name), "Directory should be removed");
     }
   }
 }).export(module);
