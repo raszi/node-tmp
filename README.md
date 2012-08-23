@@ -2,6 +2,8 @@
 
 A simple temporary file and directory creator for [node.js.][1]
 
+[![Build Status](https://secure.travis-ci.org/raszi/node-tmp.png?branch=master)](http://travis-ci.org/raszi/node-tmp)
+
 ## About
 
 The main difference between bruce's [node-temp][2] is that mine more
