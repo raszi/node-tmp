@@ -27,7 +27,7 @@ function _testFile(mode, fdTest) {
 
       var data = new Buffer('something');
       assert.equal(fs.writeSync(fd, data, 0, data.length, 0), data.length, 'Should be writable');
-      assert.ok(!fs.closeSync(fd), 'Should not return with error')
+      assert.ok(!fs.closeSync(fd), 'Should not return with error');
     }
   };
 }
