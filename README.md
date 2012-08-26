@@ -56,6 +56,21 @@ tmp.dir(function _tempDirCreated(err, path) {
 });
 ```
 
+### Filename generation
+
+It is possible with this library to generate a unique filename in the specified
+directory.
+
+```javascript
+var tmp = require('tmp');
+
+tmp.tmpName(function _tempNameGenerated(err, path) {
+    if (err) throw err;
+
+    console.log("Created temporary filename: ", path);
+});
+```
+
 ## Advanced usage
 
 ### File creation
@@ -101,6 +116,19 @@ tmp.dir({ template: '/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
 });
 ```
 
+### Filename generation
+
+The `tmpName()` function accepts the `prefix`, `postfix`, `dir`, etc. parameters also:
+
+```javascript
+var tmp = require('tmp');
+
+tmp.tmpName({ template: '/tmp/tmp-XXXXXX' }, function _tempNameGenerated(err, path) {
+    if (err) throw err;
+
+    console.log("Created temporary filename: ", path);
+});
+```
 
 ## Options
 
