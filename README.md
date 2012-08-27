@@ -134,13 +134,13 @@ tmp.tmpName({ template: '/tmp/tmp-XXXXXX' }, function _tempNameGenerated(err, pa
 
 All options are optional :)
 
-  * `mode`: the file mode to create with it fallbacks to `0600` on file creation and `0700` on directory creation
+  * `mode`: the file mode to create with, it fallbacks to `0600` on file creation and `0700` on directory creation
   * `prefix`: the optional prefix, fallbacks to `tmp-` if not provided
   * `postfix`: the optional postfix, fallbacks to `.tmp` on file creation
   * `template`: [`mkstemps`][3] like filename template, no default
   * `dir`: the optional temporary directory, fallbacks to system default (guesses from environment)
-  * `tries`: how many times should the function tries to get a unique filename before giving up, default `3`
-  * `keep`: signals that the temporary file or directory should not be deleted on exit, default is to delete
+  * `tries`: how many times should the function try to get a unique filename before giving up, default `3`
+  * `keep`: signals that the temporary file or directory should not be deleted on exit, default is `false`, means delete
 
 [1]: http://nodejs.org/
 [2]: https://github.com/bruce/node-temp
