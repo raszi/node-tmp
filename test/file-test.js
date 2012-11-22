@@ -12,11 +12,11 @@ var
 
 function _testFile(mode, fdTest) {
   return function _testFileGenerated(err, name, fd) {
-    assert.ok(existsSync(name), 'Should exist');
+    assert.ok(existsSync(name), 'should exist');
 
     var stat = fs.statSync(name);
-    assert.equal(stat.size, 0, 'Should have zero size');
-    assert.ok(stat.isFile(), 'Should be a file');
+    assert.equal(stat.size, 0, 'should have zero size');
+    assert.ok(stat.isFile(), 'should be a file');
 
     Test.testStat(stat, mode);
 
@@ -26,8 +26,8 @@ function _testFile(mode, fdTest) {
       assert.deepEqual(fstat, stat, 'fstat results should be the same');
 
       var data = new Buffer('something');
-      assert.equal(fs.writeSync(fd, data, 0, data.length, 0), data.length, 'Should be writable');
-      assert.ok(!fs.closeSync(fd), 'Should not return with error');
+      assert.equal(fs.writeSync(fd, data, 0, data.length, 0), data.length, 'should be writable');
+      assert.ok(!fs.closeSync(fd), 'should not return with error');
     }
   };
 }
@@ -38,7 +38,8 @@ vows.describe('File creation').addBatch({
       tmp.file(this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
     'should have the default prefix': Test.testPrefix('tmp-'),
     'should have the default postfix': Test.testPostfix('.tmp')
@@ -49,7 +50,8 @@ vows.describe('File creation').addBatch({
       tmp.file({ prefix: 'something' }, this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
     'should have the provided prefix': Test.testPrefix('something')
   },
@@ -59,7 +61,8 @@ vows.describe('File creation').addBatch({
       tmp.file({ postfix: '.txt' }, this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
     'should have the provided postfix': Test.testPostfix('.txt')
 
@@ -70,7 +73,8 @@ vows.describe('File creation').addBatch({
       tmp.file({ template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix') }, this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
     'should have the provided prefix': Test.testPrefix('clike-'),
     'should have the provided postfix': Test.testPostfix('-postfix')
@@ -81,7 +85,8 @@ vows.describe('File creation').addBatch({
       tmp.file({ prefix: 'foo', postfix: 'bar', mode: 0640 }, this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a file': _testFile(0100640, true),
     'should have the provided prefix': Test.testPrefix('foo'),
     'should have the provided postfix': Test.testPostfix('bar')
@@ -92,7 +97,8 @@ vows.describe('File creation').addBatch({
       tmp.file({ prefix: 'complicated', postfix: 'options', mode: 0644 }, this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a file': _testFile(0100644, true),
     'should have the provided prefix': Test.testPrefix('complicated'),
     'should have the provided postfix': Test.testPostfix('options')
@@ -103,9 +109,7 @@ vows.describe('File creation').addBatch({
       tmp.file({ tries: -1 }, this.callback);
     },
 
-    'should not be created': function (err, name) {
-      assert.isObject(err);
-    }
+    'should not be created': assert.isObject
   },
 
   'keep testing': {
@@ -113,7 +117,8 @@ vows.describe('File creation').addBatch({
       Test.testKeep('file', '1', this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a file': function(err, name) {
       _testFile(0100600, false)(err, name, null);
       fs.unlinkSync(name);
@@ -125,10 +130,36 @@ vows.describe('File creation').addBatch({
       Test.testKeep('file', '0', this.callback);
     },
 
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should not exist': function(err, name) {
+      assert.ok(!existsSync(name), "File should be removed");
+    }
+  },
+
+  'non graceful testing': {
+    topic: function () {
+      Test.testGraceful('file', '0', this.callback);
+    },
+
     'should not return with error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should be a file': function(err, name) {
+      _testFile(0100600, false)(err, name, null);
+      fs.unlinkSync(name);
+    }
+  },
+
+  'graceful testing': {
+    topic: function () {
+      Test.testGraceful('file', '1', this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should not exist': function(err, name) {
       assert.ok(!existsSync(name), "File should be removed");
     }
   }
 
-}).export(module);
+}).exportTo(module);

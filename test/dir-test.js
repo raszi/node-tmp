@@ -12,15 +12,14 @@ var
 
 function _testDir(mode) {
   return function _testDirGenerated(err, name) {
-    assert.ok(existsSync(name), 'Should exist');
+    assert.ok(existsSync(name), 'should exist');
 
     var stat = fs.statSync(name);
-    assert.ok(stat.isDirectory(), 'Should be a directory');
+    assert.ok(stat.isDirectory(), 'should be a directory');
 
     Test.testStat(stat, mode);
   };
 }
-
 
 vows.describe('Directory creation').addBatch({
   'when using without parameters': {
@@ -28,7 +27,6 @@ vows.describe('Directory creation').addBatch({
       tmp.dir(this.callback);
     },
 
-    'should not return with error': assert.isNull,
     'should be a directory': _testDir(040700),
     'should have the default prefix': Test.testPrefix('tmp-')
   },
@@ -38,7 +36,8 @@ vows.describe('Directory creation').addBatch({
       tmp.dir({ prefix: 'something' }, this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a directory': _testDir(040700),
     'should have the provided prefix': Test.testPrefix('something')
   },
@@ -48,10 +47,10 @@ vows.describe('Directory creation').addBatch({
       tmp.dir({ postfix: '.txt' }, this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a directory': _testDir(040700),
     'should have the provided postfix': Test.testPostfix('.txt')
-
   },
 
   'when using template': {
@@ -60,6 +59,7 @@ vows.describe('Directory creation').addBatch({
     },
 
     'should not return with error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a file': _testDir(040700),
     'should have the provided prefix': Test.testPrefix('clike-'),
     'should have the provided postfix': Test.testPostfix('-postfix')
@@ -70,7 +70,8 @@ vows.describe('Directory creation').addBatch({
       tmp.dir({ prefix: 'foo', postfix: 'bar', mode: 0750 }, this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a directory': _testDir(040750),
     'should have the provided prefix': Test.testPrefix('foo'),
     'should have the provided postfix': Test.testPostfix('bar')
@@ -81,7 +82,8 @@ vows.describe('Directory creation').addBatch({
       tmp.dir({ prefix: 'complicated', postfix: 'options', mode: 0755 }, this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a directory': _testDir(040755),
     'should have the provided prefix': Test.testPrefix('complicated'),
     'should have the provided postfix': Test.testPostfix('options')
@@ -92,9 +94,7 @@ vows.describe('Directory creation').addBatch({
       tmp.dir({ tries: -1 }, this.callback);
     },
 
-    'should not be created': function (err, name) {
-      assert.isObject(err);
-    }
+    'should return with an error': assert.isObject
   },
 
   'keep testing': {
@@ -102,7 +102,8 @@ vows.describe('Directory creation').addBatch({
       Test.testKeep('dir', '1', this.callback);
     },
 
-    'should not return with error': assert.isNull,
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should be a dir': function(err, name) {
       _testDir(040700)(err, name);
       fs.rmdirSync(name);
@@ -115,8 +116,34 @@ vows.describe('Directory creation').addBatch({
     },
 
     'should not return with error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should not exist': function(err, name) {
+      assert.ok(!existsSync(name), "Directory should be removed");
+    }
+  },
+
+  'non graceful testing': {
+    topic: function () {
+      Test.testGraceful('dir', '0', this.callback);
+    },
+
+    'should not return with error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should be a dir': function(err, name) {
+      _testDir(040700)(err, name);
+      fs.rmdirSync(name);
+    }
+  },
+
+  'graceful testing': {
+    topic: function () {
+      Test.testGraceful('dir', '1', this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
     'should not exist': function(err, name) {
       assert.ok(!existsSync(name), "Directory should be removed");
     }
   }
-}).export(module);
+}).exportTo(module);

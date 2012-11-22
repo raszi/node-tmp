@@ -1,33 +1,11 @@
-var tmp = require('../lib/tmp.js');
+var spawn = require('./spawn');
 
-var
-  type = process.argv[2],
-  keep = (process.argv[3] && parseInt(process.argv[3], 10) === 1) ? true : false;
+var keep = spawn.arg;
 
-switch (type) {
-  case 'file':
-    tmp.file({ keep: keep }, function(err, name, fd) {
-      if (err) {
-        console.error(err);
-        process.exit(2);
-      }
-
-      console.log(name);
-    });
-    break;
-
-  case 'dir':
-    tmp.dir({ keep: keep }, function(err, name) {
-      if (err) {
-        console.error(err);
-        process.exit(2);
-      }
-
-      console.log(name);
-    });
-    break;
-
-  default:
-    console.error("Invalid type");
-    process.exit(1);
-}
+spawn.tmpFunction({ keep: keep }, function (err, name) {
+  if (err) {
+    spawn.err(err, spawn.exit);
+  } else {
+    spawn.out(name, spawn.exit);
+  }
+});

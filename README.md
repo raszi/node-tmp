@@ -130,6 +130,17 @@ tmp.tmpName({ template: '/tmp/tmp-XXXXXX' }, function _tempNameGenerated(err, pa
 });
 ```
 
+## Graceful cleanup
+
+One may want to cleanup the temporary files even when an uncaught exception
+occurs. To enforce this, you can call the `setGracefulCleanup()` method:
+
+```javascript
+var tmp = require('tmp');
+
+tmp.setGracefulCleanup();
+```
+
 ## Options
 
 All options are optional :)
