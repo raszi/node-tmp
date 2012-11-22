@@ -79,4 +79,4 @@ vows.describe('Name creation').addBatch({
     }
   }
 
-}).export(module);
+}).exportTo(module);
