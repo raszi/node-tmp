@@ -145,5 +145,27 @@ vows.describe('Directory creation').addBatch({
     'should not exist': function (err, name) {
       assert.ok(!existsSync(name), "Directory should be removed");
     }
+  },
+
+  'unsafeCleanup': {
+    topic: function () {
+      Test.testUnsafeCleanup('1', this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should not exist': function (err, name) {
+      assert.ok(!existsSync(name), "Directory should be removed");
+    }
+  },
+
+  'unsafeCleanup': {
+    topic: function () {
+      Test.testUnsafeCleanup('0', this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should be a directory': _testDir(040700)
   }
 }).exportTo(module);

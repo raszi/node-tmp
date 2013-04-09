@@ -60,9 +60,14 @@ function _assertName(err, name) {
   assert.isNotZero(name.length);
 }
 
+function _testUnsafeCleanup(unsafe, cb) {
+  _spawnTestWithoutError('unsafe.js', [ 'dir', unsafe ], cb);
+}
+
 module.exports.testStat = _testStat;
 module.exports.testPrefix = _testPrefix;
 module.exports.testPostfix = _testPostfix;
 module.exports.testKeep = _testKeep;
 module.exports.testGraceful = _testGraceful;
 module.exports.assertName = _assertName;
+module.exports.testUnsafeCleanup = _testUnsafeCleanup;
