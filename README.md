@@ -56,6 +56,9 @@ tmp.dir(function _tempDirCreated(err, path) {
 });
 ```
 
+If you want to cleanup the directory even when there are entries in it, then
+you can pass the `unsafeCleanup` option when creating it.
+
 ### Filename generation
 
 It is possible with this library to generate a unique filename in the specified
