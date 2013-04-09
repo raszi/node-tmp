@@ -57,6 +57,7 @@ function _testGraceful(type, graceful, cb) {
 
 function _assertName(err, name) {
   assert.isString(name);
+  assert.isNotZero(name.length);
 }
 
 module.exports.testStat = _testStat;
