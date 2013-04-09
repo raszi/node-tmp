@@ -21,7 +21,7 @@ module.exports.err = function (str, cb) {
   _writeSync(process.stderr, str, cb);
 };
 
-module.exports.exit = function() {
+module.exports.exit = function () {
   process.exit(0);
 };
 

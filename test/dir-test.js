@@ -104,7 +104,7 @@ vows.describe('Directory creation').addBatch({
 
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should be a dir': function(err, name) {
+    'should be a dir': function (err, name) {
       _testDir(040700)(err, name);
       fs.rmdirSync(name);
     }
@@ -117,7 +117,7 @@ vows.describe('Directory creation').addBatch({
 
     'should not return with error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should not exist': function(err, name) {
+    'should not exist': function (err, name) {
       assert.ok(!existsSync(name), "Directory should be removed");
     }
   },
@@ -129,7 +129,7 @@ vows.describe('Directory creation').addBatch({
 
     'should not return with error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should be a dir': function(err, name) {
+    'should be a dir': function (err, name) {
       _testDir(040700)(err, name);
       fs.rmdirSync(name);
     }
@@ -142,7 +142,7 @@ vows.describe('Directory creation').addBatch({
 
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should not exist': function(err, name) {
+    'should not exist': function (err, name) {
       assert.ok(!existsSync(name), "Directory should be removed");
     }
   }

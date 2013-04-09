@@ -119,7 +119,7 @@ vows.describe('File creation').addBatch({
 
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should be a file': function(err, name) {
+    'should be a file': function (err, name) {
       _testFile(0100600, false)(err, name, null);
       fs.unlinkSync(name);
     }
@@ -132,7 +132,7 @@ vows.describe('File creation').addBatch({
 
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should not exist': function(err, name) {
+    'should not exist': function (err, name) {
       assert.ok(!existsSync(name), "File should be removed");
     }
   },
@@ -144,7 +144,7 @@ vows.describe('File creation').addBatch({
 
     'should not return with error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should be a file': function(err, name) {
+    'should be a file': function (err, name) {
       _testFile(0100600, false)(err, name, null);
       fs.unlinkSync(name);
     }
@@ -157,7 +157,7 @@ vows.describe('File creation').addBatch({
 
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should not exist': function(err, name) {
+    'should not exist': function (err, name) {
       assert.ok(!existsSync(name), "File should be removed");
     }
   }

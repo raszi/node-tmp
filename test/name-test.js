@@ -44,7 +44,7 @@ vows.describe('Name creation').addBatch({
     'should not return with error': assert.isNull,
     'should have the provided prefix': Test.testPrefix('clike-'),
     'should have the provided postfix': Test.testPostfix('-postfix'),
-    'should have template filled': function(err, name) {
+    'should have template filled': function (err, name) {
       assert.isTrue(/[a-zA-Z0-9]{6}/.test(name));
     }
   },
