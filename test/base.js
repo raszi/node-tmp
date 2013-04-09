@@ -3,6 +3,14 @@ var
   path   = require('path'),
   exec   = require('child_process').exec;
 
+function _spawnTestWithError(testFile, params, cb) {
+  _spawnTest(true, testFile, params, cb);
+}
+
+function _spawnTestWithoutError(testFile, params, cb) {
+  _spawnTest(false, testFile, params, cb);
+}
+
 function _spawnTest(passError, testFile, params, cb) {
   var
     filename,
@@ -40,17 +48,16 @@ function _testPostfix(postfix) {
 }
 
 function _testKeep(type, keep, cb) {
-  _spawnTest(true, 'keep.js', [ type, keep ], cb);
+  _spawnTestWithError('keep.js', [ type, keep ], cb);
 }
 
 function _testGraceful(type, graceful, cb) {
-  _spawnTest(false, 'graceful.js', [ type, graceful ], cb);
+  _spawnTestWithoutError('graceful.js', [ type, graceful ], cb);
 }
 
 function _assertName(err, name) {
   assert.isString(name);
 }
-
 
 module.exports.testStat = _testStat;
 module.exports.testPrefix = _testPrefix;
