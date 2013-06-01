@@ -1,6 +1,6 @@
 {
   "name":        "tmp",
-  "version":     "0.0.19",
+  "version":     "0.0.20",
   "description": "Temporary file and directory creator",
   "author":      "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
 
