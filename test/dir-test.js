@@ -147,7 +147,7 @@ vows.describe('Directory creation').addBatch({
     }
   },
 
-  'unsafeCleanup': {
+  'unsafeCleanup === true': {
     topic: function () {
       Test.testUnsafeCleanup('1', this.callback);
     },
@@ -156,10 +156,22 @@ vows.describe('Directory creation').addBatch({
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
       assert.ok(!existsSync(name), "Directory should be removed");
+    },
+    'should remove symlinked dir': function(err, name) {
+      assert.ok(
+        !existsSync(name + '/symlinkme-target'),
+        'should remove target'
+      );
+    },
+    'should not remove contents of symlink dir': function(err, name) {
+      assert.ok(
+        existsSync(__dirname + '/symlinkme/file.js'),
+        'should not remove symlinked directory\'s content'
+      );
     }
   },
 
-  'unsafeCleanup': {
+  'unsafeCleanup === false': {
     topic: function () {
       Test.testUnsafeCleanup('0', this.callback);
     },
