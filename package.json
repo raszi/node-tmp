@@ -1,6 +1,6 @@
 {
   "name":        "tmp",
-  "version":     "0.0.21",
+  "version":     "0.0.22",
   "description": "Temporary file and directory creator",
   "author":      "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
 
@@ -15,7 +15,7 @@
   ],
 
   "repository": {
-    "type": "git", 
+    "type": "git",
     "url":  "git://github.com/raszi/node-tmp.git"
   },
 
