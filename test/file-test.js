@@ -160,6 +160,19 @@ vows.describe('File creation').addBatch({
     'should not exist': function (err, name) {
       assert.ok(!existsSync(name), "File should be removed");
     }
+  },
+
+  'remove callback': {
+    topic: function () {
+      tmp.file(this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'removeCallback should remove file': function (_err, name, _fd, removeCallback) {
+      removeCallback();
+      assert.ok(!existsSync(name), "File should be removed");
+    }
   }
 
 }).exportTo(module);

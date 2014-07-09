@@ -179,5 +179,18 @@ vows.describe('Directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a directory': _testDir(040700)
+  },
+
+  'remove callback': {
+    topic: function () {
+      tmp.dir(this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'removeCallback should remove directory': function (_err, name, removeCallback) {
+      removeCallback();
+      assert.ok(!existsSync(name), "Directory should be removed");
+    }
   }
 }).exportTo(module);
