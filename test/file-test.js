@@ -65,7 +65,6 @@ vows.describe('File creation').addBatch({
     'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
     'should have the provided postfix': Test.testPostfix('.txt')
-
   },
 
   'when using template': {
