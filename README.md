@@ -32,11 +32,16 @@ Simple temporary file creation, the file will be unlinked on process exit.
 ```javascript
 var tmp = require('tmp');
 
-tmp.file(function _tempFileCreated(err, path, fd) {
+tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
   if (err) throw err;
 
   console.log("File: ", path);
   console.log("Filedescriptor: ", fd);
+  
+  // If we don't need the file anymore we could manually call the cleanupCallback
+  // But that is not necessary if we didn't pass the keep option because the library
+  // will clean after itself.
+  cleanupCallback();
 });
 ```
 
@@ -49,10 +54,13 @@ If the directory still contains items on process exit, then it won't be removed.
 ```javascript
 var tmp = require('tmp');
 
-tmp.dir(function _tempDirCreated(err, path) {
+tmp.dir(function _tempDirCreated(err, path, cleanupCallback) {
   if (err) throw err;
 
   console.log("Dir: ", path);
+  
+  // Manual cleanup
+  cleanupCallback();
 });
 ```
 
@@ -155,6 +163,7 @@ All options are optional :)
   * `dir`: the optional temporary directory, fallbacks to system default (guesses from environment)
   * `tries`: how many times should the function try to get a unique filename before giving up, default `3`
   * `keep`: signals that the temporary file or directory should not be deleted on exit, default is `false`, means delete
+    * Please keep in mind that it is recommended in this case to call the provided `cleanupCallback` function manually.
   * `unsafeCleanup`: recursively removes the created temporary directory, even when it's not empty. default is `false`
 
 [1]: http://nodejs.org/
