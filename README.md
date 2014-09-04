@@ -27,7 +27,7 @@ npm install tmp
 
 ### File creation
 
-Simple temporary file creation, the file will be unlinked on process exit.
+Simple temporary file creation, the file will be closed and unlinked on process exit.
 
 ```javascript
 var tmp = require('tmp');
