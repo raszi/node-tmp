@@ -61,6 +61,12 @@ function _assertName(err, name) {
   assert.isNotZero(name.length);
 }
 
+function _testName(expected){
+  return function _testPostfixGenerated(err, name, fd) {
+    assert.equal(expected, name, 'should have the provided name');
+  };
+}
+
 function _testUnsafeCleanup(unsafe, cb) {
   _spawnTestWithoutError('unsafe.js', [ 'dir', unsafe ], cb);
 }
@@ -71,4 +77,5 @@ module.exports.testPostfix = _testPostfix;
 module.exports.testKeep = _testKeep;
 module.exports.testGraceful = _testGraceful;
 module.exports.assertName = _assertName;
+module.exports.testName = _testName;
 module.exports.testUnsafeCleanup = _testUnsafeCleanup;
