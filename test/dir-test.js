@@ -60,9 +60,20 @@ vows.describe('Directory creation').addBatch({
 
     'should not return with error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should be a file': _testDir(040700),
+    'should be a directory': _testDir(040700),
     'should have the provided prefix': Test.testPrefix('clike-'),
     'should have the provided postfix': Test.testPostfix('-postfix')
+  },
+
+  'when using name': {
+    topic: function () {
+      tmp.dir({ name: "using-name" }, this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should be a directory': _testDir(040700),
+    'should have the provided name': Test.testName('/tmp/using-name')
   },
 
   'when using multiple options': {

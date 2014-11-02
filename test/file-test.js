@@ -79,6 +79,17 @@ vows.describe('File creation').addBatch({
     'should have the provided postfix': Test.testPostfix('-postfix')
   },
 
+  'when using name': {
+    topic: function () {
+      tmp.file({ name: "using-name.tmp" }, this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should be a file': _testFile(0100600, true),
+    'should have the provided name': Test.testName('/tmp/using-name.tmp')
+  },
+
   'when using multiple options': {
     topic: function () {
       tmp.file({ prefix: 'foo', postfix: 'bar', mode: 0640 }, this.callback);
