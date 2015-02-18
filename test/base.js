@@ -1,7 +1,13 @@
 var
   assert = require('assert'),
   path   = require('path'),
-  exec   = require('child_process').exec;
+  exec   = require('child_process').exec
+
+  tmp    = require('../lib/tmp');
+
+// make sure that we do not test spam the global tmp
+tmp.TMP_DIR = './tmp';
+
 
 function _spawnTestWithError(testFile, params, cb) {
   _spawnTest(true, testFile, params, cb);
@@ -42,9 +48,27 @@ function _testPrefix(prefix) {
   };
 }
 
+function _testPrefixSync(prefix) {
+  return function _testPrefixGeneratedSync(result) {
+    if (result instanceof Error) {
+      throw result;
+    }
+    _testPrefix(prefix)(null, result.name, result.fd);
+  };
+}
+
 function _testPostfix(postfix) {
   return function _testPostfixGenerated(err, name, fd) {
     assert.equal(name.slice(name.length - postfix.length, name.length), postfix, 'should have the provided postfix');
+  };
+}
+
+function _testPostfixSync(postfix) {
+  return function _testPostfixGeneratedSync(result) {
+    if (result instanceof Error) {
+      throw result;
+    }
+    _testPostfix(postfix)(null, result.name, result.fd);
   };
 }
 
@@ -52,8 +76,16 @@ function _testKeep(type, keep, cb) {
   _spawnTestWithError('keep.js', [ type, keep ], cb);
 }
 
+function _testKeepSync(type, keep, cb) {
+  _spawnTestWithError('keep-sync.js', [ type, keep ], cb);
+}
+
 function _testGraceful(type, graceful, cb) {
   _spawnTestWithoutError('graceful.js', [ type, graceful ], cb);
+}
+
+function _testGracefulSync(type, graceful, cb) {
+  _spawnTestWithoutError('graceful-sync.js', [ type, graceful ], cb);
 }
 
 function _assertName(err, name) {
@@ -61,9 +93,26 @@ function _assertName(err, name) {
   assert.isNotZero(name.length);
 }
 
+function _assertNameSync(result) {
+  if (result instanceof Error) {
+    throw result;
+  }
+  name = typeof(result) == 'string' ? result : result.name;
+  _assertName(null, name);
+}
+
 function _testName(expected){
-  return function _testPostfixGenerated(err, name, fd) {
+  return function _testNameGenerated(err, name, fd) {
     assert.equal(expected, name, 'should have the provided name');
+  };
+}
+
+function _testNameSync(expected){
+  return function _testNameGeneratedSync(result) {
+    if (result instanceof Error) {
+      throw result;
+    }
+    _testName(expected)(null, result.name, result.fd);
   };
 }
 
@@ -71,11 +120,23 @@ function _testUnsafeCleanup(unsafe, cb) {
   _spawnTestWithoutError('unsafe.js', [ 'dir', unsafe ], cb);
 }
 
+function _testUnsafeCleanupSync(unsafe, cb) {
+  _spawnTestWithoutError('unsafe-sync.js', [ 'dir', unsafe ], cb);
+}
+
 module.exports.testStat = _testStat;
 module.exports.testPrefix = _testPrefix;
+module.exports.testPrefixSync = _testPrefixSync;
 module.exports.testPostfix = _testPostfix;
+module.exports.testPostfixSync = _testPostfixSync;
 module.exports.testKeep = _testKeep;
+module.exports.testKeepSync = _testKeepSync;
 module.exports.testGraceful = _testGraceful;
+module.exports.testGracefulSync = _testGracefulSync;
 module.exports.assertName = _assertName;
+module.exports.assertNameSync = _assertNameSync;
 module.exports.testName = _testName;
+module.exports.testNameSync = _testNameSync;
 module.exports.testUnsafeCleanup = _testUnsafeCleanup;
+module.exports.testUnsafeCleanupSync = _testUnsafeCleanupSync;
+
