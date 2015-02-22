@@ -87,7 +87,7 @@ vows.describe('File creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
-    'should have the provided name': Test.testName('/tmp/using-name.tmp')
+    'should have the provided name': Test.testName(tmp.tmpdir + 'using-name.tmp')
   },
 
   'when using multiple options': {

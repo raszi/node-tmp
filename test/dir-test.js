@@ -73,7 +73,7 @@ vows.describe('Directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a directory': _testDir(040700),
-    'should have the provided name': Test.testName('/tmp/using-name')
+    'should have the provided name': Test.testName(tmp.tmpdir + 'using-name')
   },
 
   'when using multiple options': {
