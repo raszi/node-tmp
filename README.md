@@ -14,6 +14,10 @@ is safer.
 The API is slightly different as well, Tmp does not yet provide synchronous
 calls and all the parameters are optional.
 
+Tmp uses crypto for determining random file names, or, when using templates,
+a six letter random identifier. And just in case that you do not have that much
+entropy left on your system, Tmp will fall back to pseudo random numbers.
+
 You can set whether you want to remove the temporary file on process exit or
 not, and the destination directory can also be set.
 
