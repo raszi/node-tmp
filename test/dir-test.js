@@ -189,7 +189,13 @@ vows.describe('Directory creation').addBatch({
 
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should be a directory': _testDir(040700)
+    'should be a directory': function (err, name) {
+      _testDir(040700)(err, name);
+      // make sure that everything gets cleaned up
+      fs.unlinkSync(path.join(name, 'should-be-removed.file'));
+      fs.unlinkSync(path.join(name, 'symlinkme-target'));
+      fs.rmdirSync(name);
+    }
   },
 
   'remove callback': {
