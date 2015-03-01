@@ -81,13 +81,16 @@ vows.describe('File creation').addBatch({
 
   'when using name': {
     topic: function () {
-      tmp.file({ name: "using-name.tmp" }, this.callback);
+      tmp.file({ name: 'using-name.tmp' }, this.callback);
     },
 
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should be a file': _testFile(0100600, true),
-    'should have the provided name': Test.testName(path.join(tmp.tmpdir, 'using-name.tmp'))
+    'should have the provided name': Test.testName(path.join(tmp.tmpdir, 'using-name.tmp')),
+    'should be a file': function (err, name) {
+      _testFile(0100600, true);
+      fs.unlinkSync(name);
+    }
   },
 
   'when using multiple options': {
@@ -143,7 +146,7 @@ vows.describe('File creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "File should be removed");
+      assert.ok(!existsSync(name), 'File should be removed');
     }
   },
 
@@ -168,7 +171,7 @@ vows.describe('File creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "File should be removed");
+      assert.ok(!existsSync(name), 'File should be removed');
     }
   },
 
@@ -181,7 +184,7 @@ vows.describe('File creation').addBatch({
     'should return with a name': Test.assertName,
     'removeCallback should remove file': function (_err, name, _fd, removeCallback) {
       removeCallback();
-      assert.ok(!existsSync(name), "File should be removed");
+      assert.ok(!existsSync(name), 'File should be removed');
     }
   }
 

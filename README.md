@@ -11,8 +11,12 @@ aggressively checks for the existence of the newly created temporary file and
 creates the new file with `O_EXCL` instead of simple `O_CREAT | O_RDRW`, so it
 is safer.
 
-The API is slightly different as well, Tmp does not yet provide synchronous
-calls and all the parameters are optional.
+Tmp offers both an asynchronous and a synchronous API. For all API calls, all
+the parameters are optional.
+
+Tmp uses crypto for determining random file names, or, when using templates,
+a six letter random identifier. And just in case that you do not have that much
+entropy left on your system, Tmp will fall back to pseudo random numbers.
 
 You can set whether you want to remove the temporary file on process exit or
 not, and the destination directory can also be set.
@@ -25,7 +29,7 @@ npm install tmp
 
 ## Usage
 
-### File creation
+### Asynchronous file creation
 
 Simple temporary file creation, the file will be closed and unlinked on process exit.
 
@@ -45,7 +49,28 @@ tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
 });
 ```
 
-### Directory creation
+### Synchronous file creation
+
+A synchronous version of the above.
+
+```javascript
+var tmp = require('tmp');
+
+var tmpobj = tmp.fileSync();
+console.log("File: ", tmpobj.name);
+console.log("Filedescriptor: ", tmpobj.fd);
+  
+// If we don't need the file anymore we could manually call the removeCallback
+// But that is not necessary if we didn't pass the keep option because the library
+// will clean after itself.
+tmpobj.removeCallback();
+```
+
+Note that this might throw an exception if either the maximum limit of retries
+for creating a temporary name fails, or, in case that you do not have the permission
+to write to the directory where the temporary file should be created in.
+
+### Asynchronous directory creation
 
 Simple temporary directory creation, it will be removed on process exit.
 
@@ -67,7 +92,24 @@ tmp.dir(function _tempDirCreated(err, path, cleanupCallback) {
 If you want to cleanup the directory even when there are entries in it, then
 you can pass the `unsafeCleanup` option when creating it.
 
-### Filename generation
+### Synchronous directory creation
+
+A synchronous version of the above.
+
+```javascript
+var tmp = require('tmp');
+
+var tmpobj = tmp.dirSync();
+console.log("Dir: ", tmpobj.name);
+// Manual cleanup
+tmpobj.removeCallback();
+```
+
+Note that this might throw an exception if either the maximum limit of retries
+for creating a temporary name fails, or, in case that you do not have the permission
+to write to the directory where the temporary directory should be created in.
+
+### Asynchronous filename generation
 
 It is possible with this library to generate a unique filename in the specified
 directory.
@@ -82,9 +124,20 @@ tmp.tmpName(function _tempNameGenerated(err, path) {
 });
 ```
 
+### Synchronous filename generation
+
+A synchrounous version of the above.
+
+```javascript
+var tmp = require('tmp');
+
+var name = tmp.tmpNameSync();
+console.log("Created temporary filename: ", name);
+```
+
 ## Advanced usage
 
-### File creation
+### Asynchronous file creation
 
 Creates a file with mode `0644`, prefix will be `prefix-` and postfix will be `.txt`.
 
@@ -99,7 +152,19 @@ tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileC
 });
 ```
 
-### Directory creation
+### Synchronous file creation
+
+A synchronous version of the above.
+
+```javascript
+var tmp = require('tmp');
+
+var tmpobj = tmp.fileSync({ mode: 0644, prefix: 'prefix-', postfix: '.txt' });
+console.log("File: ", tmpobj.name);
+console.log("Filedescriptor: ", tmpobj.fd);
+```
+
+### Asynchronous directory creation
 
 Creates a directory with mode `0755`, prefix will be `myTmpDir_`.
 
@@ -113,7 +178,18 @@ tmp.dir({ mode: 0750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path)
 });
 ```
 
-### mkstemps like
+### Synchronous directory creation
+
+Again, a synchronous version of the above.
+
+```javascript
+var tmp = require('tmp');
+
+var tmpobj = tmp.dirSync({ mode: 0750, prefix: 'myTmpDir_' });
+console.log("Dir: ", tmpobj.name);
+```
+
+### mkstemps like, asynchronously
 
 Creates a new temporary directory with mode `0700` and filename like `/tmp/tmp-nk2J1u`.
 
@@ -127,7 +203,18 @@ tmp.dir({ template: '/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
 });
 ```
 
-### Filename generation
+### mkstemps like, synchronously
+
+This will behave similarly to the asynchronous version.
+
+```javascript
+var tmp = require('tmp');
+
+var tmpobj = tmp.dirSync({ template: '/tmp/tmp-XXXXXX' });
+console.log("Dir: ", tmpobj.name);
+```
+
+### Asynchronous filename generation
 
 The `tmpName()` function accepts the `prefix`, `postfix`, `dir`, etc. parameters also:
 
@@ -139,6 +226,16 @@ tmp.tmpName({ template: '/tmp/tmp-XXXXXX' }, function _tempNameGenerated(err, pa
 
     console.log("Created temporary filename: ", path);
 });
+```
+
+### Synchronous filename generation
+
+The `tmpNameSync()` function works similarly to `tmpName()`.
+
+```javascript
+var tmp = require('tmp');
+var tmpname = tmp.tmpNameSync({ template: '/tmp/tmp-XXXXXX' });
+console.log("Created temporary filename: ", tmpname);
 ```
 
 ## Graceful cleanup
