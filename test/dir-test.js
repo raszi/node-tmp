@@ -67,7 +67,7 @@ vows.describe('Directory creation').addBatch({
 
   'when using name': {
     topic: function () {
-      tmp.dir({ name: "using-name" }, this.callback);
+      tmp.dir({ name: 'using-name' }, this.callback);
     },
 
     'should not return with an error': assert.isNull,
@@ -129,7 +129,7 @@ vows.describe('Directory creation').addBatch({
     'should not return with error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "Directory should be removed");
+      assert.ok(!existsSync(name), 'Directory should be removed');
     }
   },
 
@@ -154,7 +154,7 @@ vows.describe('Directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "Directory should be removed");
+      assert.ok(!existsSync(name), 'Directory should be removed');
     }
   },
 
@@ -166,7 +166,7 @@ vows.describe('Directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "Directory should be removed");
+      assert.ok(!existsSync(name), 'Directory should be removed');
     },
     'should remove symlinked dir': function(err, name) {
       assert.ok(
@@ -201,7 +201,7 @@ vows.describe('Directory creation').addBatch({
     'should return with a name': Test.assertName,
     'removeCallback should remove directory': function (_err, name, removeCallback) {
       removeCallback();
-      assert.ok(!existsSync(name), "Directory should be removed");
+      assert.ok(!existsSync(name), 'Directory should be removed');
     }
   }
 }).exportTo(module);

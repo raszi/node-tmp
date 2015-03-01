@@ -1,8 +1,7 @@
 var
   assert = require('assert'),
   path   = require('path'),
-  exec   = require('child_process').exec
-
+  exec   = require('child_process').exec,
   tmp    = require('../lib/tmp');
 
 // make sure that we do not test spam the global tmp
@@ -19,7 +18,6 @@ function _spawnTestWithoutError(testFile, params, cb) {
 
 function _spawnTest(passError, testFile, params, cb) {
   var
-    filename,
     node_path = process.argv[0],
     command = [ node_path, path.join(__dirname, testFile) ].concat(params).join(' ');
 
@@ -43,7 +41,7 @@ function _testStat(stat, mode) {
 }
 
 function _testPrefix(prefix) {
-  return function _testPrefixGenerated(err, name, fd) {
+  return function _testPrefixGenerated(err, name) {
     assert.equal(path.basename(name).slice(0, prefix.length), prefix, 'should have the provided prefix');
   };
 }
@@ -58,7 +56,7 @@ function _testPrefixSync(prefix) {
 }
 
 function _testPostfix(postfix) {
-  return function _testPostfixGenerated(err, name, fd) {
+  return function _testPostfixGenerated(err, name) {
     assert.equal(name.slice(name.length - postfix.length, name.length), postfix, 'should have the provided postfix');
   };
 }
@@ -97,12 +95,12 @@ function _assertNameSync(result) {
   if (result instanceof Error) {
     throw result;
   }
-  name = typeof(result) == 'string' ? result : result.name;
+  var name = typeof(result) == 'string' ? result : result.name;
   _assertName(null, name);
 }
 
 function _testName(expected){
-  return function _testNameGenerated(err, name, fd) {
+  return function _testNameGenerated(err, name) {
     assert.equal(expected, name, 'should have the provided name');
   };
 }

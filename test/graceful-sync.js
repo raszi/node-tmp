@@ -11,7 +11,7 @@ if (graceful) {
 try {
   var result = spawn.tmpFunction();
   spawn.out(result.name, function () {
-    throw new Error("Thrown on purpose");
+    throw new Error('Thrown on purpose');
   });
 }
 catch (e) {

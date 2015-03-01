@@ -77,7 +77,7 @@ vows.describe('Synchronous file creation').addBatch({
 
   'when using name': {
     topic: function () {
-      return tmp.fileSync({ name: "using-name.tmp" });
+      return tmp.fileSync({ name: 'using-name.tmp' });
     },
 
     'should return with a name': Test.assertNameSync,
@@ -146,7 +146,7 @@ vows.describe('Synchronous file creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "File should be removed");
+      assert.ok(!existsSync(name), 'File should be removed');
     }
   },
 
@@ -171,7 +171,7 @@ vows.describe('Synchronous file creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "File should be removed");
+      assert.ok(!existsSync(name), 'File should be removed');
     }
   },
 
@@ -183,7 +183,7 @@ vows.describe('Synchronous file creation').addBatch({
     'should return with a name': Test.assertNameSync,
     'removeCallback should remove file': function (result) {
       result.removeCallback();
-      assert.ok(!existsSync(result.name), "File should be removed");
+      assert.ok(!existsSync(result.name), 'File should be removed');
     }
   }
 

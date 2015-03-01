@@ -65,7 +65,7 @@ vows.describe('Synchronous directory creation').addBatch({
 
   'when using name': {
     topic: function () {
-      return tmp.dirSync({ name: "using-name" });
+      return tmp.dirSync({ name: 'using-name' });
     },
 
     'should return with a name': Test.assertNameSync,
@@ -73,7 +73,7 @@ vows.describe('Synchronous directory creation').addBatch({
     'should be a directory': function (result) {
       _testDir(040700)(result);
       result.removeCallback();
-      assert.ok(!existsSync(result.name), "Directory should be removed");
+      assert.ok(!existsSync(result.name), 'Directory should be removed');
     }
   },
 
@@ -122,7 +122,7 @@ vows.describe('Synchronous directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a dir': function (err, name) {
-      _testDir(040700)({name:name});
+      _testDir(040700)({ name: name });
       fs.rmdirSync(name);
     }
   },
@@ -135,7 +135,7 @@ vows.describe('Synchronous directory creation').addBatch({
     'should not return with error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "Directory should be removed");
+      assert.ok(!existsSync(name), 'Directory should be removed');
     }
   },
 
@@ -147,7 +147,7 @@ vows.describe('Synchronous directory creation').addBatch({
     'should not return with error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a dir': function (err, name) {
-      _testDir(040700)({name:name});
+      _testDir(040700)({ name: name });
       fs.rmdirSync(name);
     }
   },
@@ -160,7 +160,7 @@ vows.describe('Synchronous directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "Directory should be removed");
+      assert.ok(!existsSync(name), 'Directory should be removed');
     }
   },
 
@@ -172,7 +172,7 @@ vows.describe('Synchronous directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), "Directory should be removed");
+      assert.ok(!existsSync(name), 'Directory should be removed');
     },
     'should remove symlinked dir': function(err, name) {
       assert.ok(
@@ -208,7 +208,7 @@ vows.describe('Synchronous directory creation').addBatch({
     'should return with a name': Test.assertNameSync,
     'removeCallback should remove directory': function (result) {
       result.removeCallback();
-      assert.ok(!existsSync(name), "Directory should be removed");
+      assert.ok(!existsSync(result.name), 'Directory should be removed');
     }
   }
 }).exportTo(module);
