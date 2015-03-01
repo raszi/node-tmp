@@ -81,8 +81,7 @@ vows.describe('Synchronous file creation').addBatch({
     },
 
     'should return with a name': Test.assertNameSync,
-    'should be a file': _testFile(0100600, true),
-    'should have the provided name': Test.testNameSync('/tmp/using-name.tmp'),
+    'should have the provided name': Test.testNameSync(path.join(tmp.tmpdir, 'using-name.tmp')),
     'should be a file': function (result) {
       _testFile(0100600, true);
       fs.unlinkSync(result.name);

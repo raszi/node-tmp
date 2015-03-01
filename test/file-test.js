@@ -86,7 +86,7 @@ vows.describe('File creation').addBatch({
 
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
-    'should have the provided name': Test.testName('/tmp/using-name.tmp'),
+    'should have the provided name': Test.testName(path.join(tmp.tmpdir, 'using-name.tmp')),
     'should be a file': function (err, name) {
       _testFile(0100600, true);
       fs.unlinkSync(name);

@@ -69,7 +69,7 @@ vows.describe('Synchronous directory creation').addBatch({
     },
 
     'should return with a name': Test.assertNameSync,
-    'should have the provided name': Test.testNameSync('/tmp/using-name'),
+    'should have the provided name': Test.testNameSync(path.join(tmp.tmpdir, 'using-name')),
     'should be a directory': function (result) {
       _testDir(040700)(result);
       result.removeCallback();
