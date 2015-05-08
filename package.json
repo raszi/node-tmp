@@ -33,7 +33,9 @@
     "node": ">=0.4.0"
   },
 
-  "dependencies": {},
+  "dependencies": {
+    "os-tmpdir": "~1.0.0"
+  },
 
   "devDependencies": {
     "vows": "~0.7.0"
