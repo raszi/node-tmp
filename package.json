@@ -7,12 +7,7 @@
   "homepage": "http://github.com/raszi/node-tmp",
   "keywords": [ "temporary", "tmp", "temp", "tempdir", "tempfile", "tmpdir", "tmpfile" ],
 
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
-    }
-  ],
+  "license": "MIT",
 
   "repository": {
     "type": "git",
