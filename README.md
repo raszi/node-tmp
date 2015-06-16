@@ -6,10 +6,8 @@ A simple temporary file and directory creator for [node.js.][1]
 
 ## About
 
-The main difference between bruce's [node-temp][2] is that mine more
-aggressively checks for the existence of the newly created temporary file and
-creates the new file with `O_EXCL` instead of simple `O_CREAT | O_RDRW`, so it
-is safer.
+This is a [widely used library][2] to create temporary files and directories
+in a [node.js][1] environment.
 
 Tmp offers both an asynchronous and a synchronous API. For all API calls, all
 the parameters are optional.
@@ -264,5 +262,5 @@ All options are optional :)
   * `unsafeCleanup`: recursively removes the created temporary directory, even when it's not empty. default is `false`
 
 [1]: http://nodejs.org/
-[2]: https://github.com/bruce/node-temp
+[2]: https://www.npmjs.com/browse/depended/tmp
 [3]: http://www.kernel.org/doc/man-pages/online/pages/man3/mkstemp.3.html
