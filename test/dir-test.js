@@ -179,6 +179,9 @@ vows.describe('Directory creation').addBatch({
         existsSync(__dirname + '/symlinkme/file.js'),
         'should not remove symlinked directory\'s content'
       );
+    },
+    'should remove issue62 dir': function(err, name) {
+      assert.ok(!existsSync(name + '/issue62'), 'issue62 dir should be removed');
     }
   },
 
