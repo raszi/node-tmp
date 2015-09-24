@@ -124,7 +124,7 @@ tmp.tmpName(function _tempNameGenerated(err, path) {
 
 ### Synchronous filename generation
 
-A synchrounous version of the above.
+A synchronous version of the above.
 
 ```javascript
 var tmp = require('tmp');
