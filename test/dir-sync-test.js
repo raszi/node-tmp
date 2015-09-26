@@ -185,9 +185,18 @@ vows.describe('Synchronous directory creation').addBatch({
         existsSync(__dirname + '/symlinkme/file.js'),
         'should not remove symlinked directory\'s content'
       );
+    }
+  },
+
+  'unsafeCleanup === true with issue62 structure': {
+    topic: function () {
+      Test.testIssue62Sync('1', this.callback);
     },
-    'should remove issue62 dir': function(err, name) {
-      assert.ok(!existsSync(name + '/issue62'), 'issue62 dir should be removed');
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should not exist': function (err, name) {
+      assert.ok(!existsSync(name), 'Directory should be removed');
     }
   },
 

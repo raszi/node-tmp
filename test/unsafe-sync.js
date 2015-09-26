@@ -20,16 +20,6 @@ try {
     // symlink that should be removed but the contents should be preserved.
     fs.symlinkSync(symlinkSource, symlinkTarget, 'dir');
 
-    if (unsafe) {
-      // structure from issue 62
-      fs.mkdirSync(join(result.name, 'issue62'));
-
-      ['foo', 'bar'].forEach(function(subdir) {
-        fs.mkdirSync(join(result.name, 'issue62', subdir));
-        fs.writeFileSync(join(result.name, 'issue62', subdir, 'baz.txt'), '');
-      });
-    }
-
     spawn.out(result.name, spawn.exit);
   } catch (e) {
     spawn.err(e.toString(), spawn.exit);
@@ -38,4 +28,3 @@ try {
 catch (e) {
   spawn.err(err, spawn.exit);
 }
-

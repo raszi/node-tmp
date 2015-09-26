@@ -122,6 +122,10 @@ function _testUnsafeCleanupSync(unsafe, cb) {
   _spawnTestWithoutError('unsafe-sync.js', [ 'dir', unsafe ], cb);
 }
 
+function _testIssue62Sync(unsafe, cb) {
+  _spawnTestWithoutError('issue62-sync.js', [ 'dir', unsafe ], cb);
+}
+
 module.exports.testStat = _testStat;
 module.exports.testPrefix = _testPrefix;
 module.exports.testPrefixSync = _testPrefixSync;
@@ -137,4 +141,4 @@ module.exports.testName = _testName;
 module.exports.testNameSync = _testNameSync;
 module.exports.testUnsafeCleanup = _testUnsafeCleanup;
 module.exports.testUnsafeCleanupSync = _testUnsafeCleanupSync;
-
+module.exports.testIssue62Sync = _testIssue62Sync;
