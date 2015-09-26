@@ -184,7 +184,7 @@ vows.describe('Directory creation').addBatch({
 
   'unsafeCleanup === true with issue62 structure': {
     topic: function () {
-      Test.testIssue62('1', this.callback);
+      Test.testIssue62(this.callback);
     },
 
     'should not return with an error': assert.isNull,

@@ -88,7 +88,7 @@ function _testGracefulSync(type, graceful, cb) {
 
 function _assertName(err, name) {
   assert.isString(name);
-  assert.isNotZero(name.length);
+  assert.isNotZero(name.length, 'an empty string is not a valid name');
 }
 
 function _assertNameSync(result) {
@@ -118,16 +118,16 @@ function _testUnsafeCleanup(unsafe, cb) {
   _spawnTestWithoutError('unsafe.js', [ 'dir', unsafe ], cb);
 }
 
-function _testIssue62(unsafe, cb) {
-  _spawnTestWithoutError('issue62-sync.js', [ 'dir', unsafe ], cb);
+function _testIssue62(cb) {
+  _spawnTestWithoutError('issue62.js', [], cb);
 }
 
 function _testUnsafeCleanupSync(unsafe, cb) {
   _spawnTestWithoutError('unsafe-sync.js', [ 'dir', unsafe ], cb);
 }
 
-function _testIssue62Sync(unsafe, cb) {
-  _spawnTestWithoutError('issue62-sync.js', [ 'dir', unsafe ], cb);
+function _testIssue62Sync(cb) {
+  _spawnTestWithoutError('issue62-sync.js', [], cb);
 }
 
 module.exports.testStat = _testStat;

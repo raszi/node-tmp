@@ -190,7 +190,7 @@ vows.describe('Synchronous directory creation').addBatch({
 
   'unsafeCleanup === true with issue62 structure': {
     topic: function () {
-      Test.testIssue62Sync('1', this.callback);
+      Test.testIssue62Sync(this.callback);
     },
 
     'should not return with an error': assert.isNull,

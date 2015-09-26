@@ -4,10 +4,8 @@ var
   join  = require('path').join,
   spawn = require('./spawn-sync');
 
-var unsafe = spawn.arg;
-
 try {
-  var result = spawn.tmpFunction({ unsafeCleanup: unsafe });
+  var result = spawn.tmpFunction({ unsafeCleanup: true });
   try {
     // creates structure from issue 62
     // https://github.com/raszi/node-tmp/issues/62
