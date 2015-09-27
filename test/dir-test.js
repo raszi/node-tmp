@@ -182,6 +182,18 @@ vows.describe('Directory creation').addBatch({
     }
   },
 
+  'unsafeCleanup === true with issue62 structure': {
+    topic: function () {
+      Test.testIssue62(this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should not exist': function (err, name) {
+      assert.ok(!existsSync(name), 'Directory should be removed');
+    }
+  },
+
   'unsafeCleanup === false': {
     topic: function () {
       Test.testUnsafeCleanup('0', this.callback);

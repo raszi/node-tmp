@@ -188,6 +188,18 @@ vows.describe('Synchronous directory creation').addBatch({
     }
   },
 
+  'unsafeCleanup === true with issue62 structure': {
+    topic: function () {
+      Test.testIssue62Sync(this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should not exist': function (err, name) {
+      assert.ok(!existsSync(name), 'Directory should be removed');
+    }
+  },
+
   'unsafeCleanup === false': {
     topic: function () {
       Test.testUnsafeCleanupSync('0', this.callback);
