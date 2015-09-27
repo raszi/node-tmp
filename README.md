@@ -3,6 +3,7 @@
 A simple temporary file and directory creator for [node.js.][1]
 
 [![Build Status](https://secure.travis-ci.org/raszi/node-tmp.png?branch=master)](http://travis-ci.org/raszi/node-tmp)
+[![Dependencies](https://david-dm.org/raszi/node-tmp.svg)](https://david-dm.org/raszi/node-tmp)
 
 ## About
 
