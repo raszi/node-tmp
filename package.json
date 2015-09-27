@@ -33,6 +33,6 @@
   },
 
   "devDependencies": {
-    "vows": "~0.8.1"
+    "vows": "~0.7.0"
   }
 }
