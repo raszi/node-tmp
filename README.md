@@ -188,7 +188,7 @@ var tmpobj = tmp.dirSync({ mode: 0750, prefix: 'myTmpDir_' });
 console.log("Dir: ", tmpobj.name);
 ```
 
-### mkstemps like, asynchronously
+### mkstemp like, asynchronously
 
 Creates a new temporary directory with mode `0700` and filename like `/tmp/tmp-nk2J1u`.
 
@@ -202,7 +202,7 @@ tmp.dir({ template: '/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
 });
 ```
 
-### mkstemps like, synchronously
+### mkstemp like, synchronously
 
 This will behave similarly to the asynchronous version.
 
@@ -255,7 +255,7 @@ All options are optional :)
   * `mode`: the file mode to create with, it fallbacks to `0600` on file creation and `0700` on directory creation
   * `prefix`: the optional prefix, fallbacks to `tmp-` if not provided
   * `postfix`: the optional postfix, fallbacks to `.tmp` on file creation
-  * `template`: [`mkstemps`][3] like filename template, no default
+  * `template`: [`mkstemp`][3] like filename template, no default
   * `dir`: the optional temporary directory, fallbacks to system default (guesses from environment)
   * `tries`: how many times should the function try to get a unique filename before giving up, default `3`
   * `keep`: signals that the temporary file or directory should not be deleted on exit, default is `false`, means delete
