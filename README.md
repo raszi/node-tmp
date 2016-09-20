@@ -4,6 +4,7 @@ A simple temporary file and directory creator for [node.js.][1]
 
 [![Build Status](https://travis-ci.org/raszi/node-tmp.svg?branch=master)](https://travis-ci.org/raszi/node-tmp)
 [![Dependencies](https://david-dm.org/raszi/node-tmp.svg)](https://david-dm.org/raszi/node-tmp)
+[![npm version](https://badge.fury.io/js/tmp.svg)](https://badge.fury.io/js/tmp)
 
 ## About
 
