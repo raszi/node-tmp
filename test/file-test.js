@@ -32,6 +32,35 @@ function _testFile(mode, fdTest) {
   };
 }
 
+function _testFileNoDescriptor(mode) {
+  return function _testFileNoDescriptor(err, name, fd) {
+    assert.ok(existsSync(name), 'should exist');
+
+    var stat = fs.statSync(name);
+    assert.equal(stat.size, 0, 'should have zero size');
+    assert.ok(stat.isFile(), 'should be a file');
+
+    Test.testStat(stat, mode);
+
+    assert.strictEqual(fd, undefined);
+  };
+}
+
+function _testFileAfterDetachRemove(mode) {
+  return function _testFileAfterDetachRemove(err, name, fd) {
+    assert.ok(!existsSync(name), 'File should be removed');
+
+    var fstat = fs.fstatSync(fd);
+    assert.equal(fstat.size, 0, 'should have zero size');
+    assert.ok(fstat.isFile(), 'should be a file');
+    Test.testStat(fstat, mode);
+
+    var data = new Buffer('something');
+    assert.equal(fs.writeSync(fd, data, 0, data.length, 0), data.length, 'should be writable');
+    assert.ok(!fs.closeSync(fd), 'should not return with error');
+  };
+}
+
 vows.describe('File creation').addBatch({
   'when using without parameters': {
     topic: function () {
@@ -91,6 +120,31 @@ vows.describe('File creation').addBatch({
       _testFile(0100600, true);
       fs.unlinkSync(name);
     }
+  },
+
+  'when using discardDescriptor': {
+    topic: function () {
+      tmp.file({ discardDescriptor: true }, this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should not return with a descriptor': Test.assertNoDescriptor,
+    'should be a file': _testFileNoDescriptor(0100600),
+  },
+
+  'when using detachDescriptor': {
+    topic: function () {
+      var cb = this.callback;
+      tmp.file({ detachDescriptor: true }, function (err, name, fd, removeCallback) {
+        removeCallback();
+        return cb(err, name, fd);
+      });
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should have working descriptor after removeCallback': _testFileAfterDetachRemove(0100600),
   },
 
   'when using multiple options': {

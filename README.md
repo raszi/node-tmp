@@ -164,6 +164,47 @@ console.log("File: ", tmpobj.name);
 console.log("Filedescriptor: ", tmpobj.fd);
 ```
 
+### Controlling the Descriptor
+
+As a side effect of creating a unique file `tmp` gets a file descriptor that is
+returned to the user as the `fd` parameter.  The descriptor may be used by the
+application and is closed when the `removeCallback` is invoked.
+
+In some use cases the application does not need the descriptor, needs to close it
+without removing the file, or needs to remove the file without closing the
+descriptor.  Two options control how the descriptor is managed:
+
+* `discardDescriptor` - if `true` causes `tmp` to close the descriptor after the file
+  is created.  In this case the `fd` parameter is undefined.
+* `detachDescriptor` - if `true` causes `tmp` to return the descriptor in the `fd`
+  parameter, but it is the application's responsibility to close it when it is no
+  longer needed.
+
+```javascript
+var tmp = require('tmp');
+
+tmp.file({discardDescriptor: true},
+         function _tempFileCreated(err, path, fd, cleanupCallback) {
+  if (err) throw err;
+  // fd will be undefined, allowing application to use fs.createReadStream(path)
+  // without holding an unused descriptor open.
+});
+```
+
+```javascript
+var tmp = require('tmp');
+
+tmp.file({detachDescriptor: true},
+         function _tempFileCreated(err, path, fd, cleanupCallback) {
+  if (err) throw err;
+
+  cleanupCallback();
+  // Application can store data through fd here; the space used will automatically
+  // be reclaimed by the operating system when the descriptor is closed or program
+  // terminates.
+});
+```
+
 ### Asynchronous directory creation
 
 Creates a directory with mode `0755`, prefix will be `myTmpDir_`.
