@@ -5,7 +5,7 @@
   "author":      "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
 
   "homepage": "http://github.com/raszi/node-tmp",
-  "keywords": [ "temporary", "tmp", "temp", "tempdir", "tempfile", "tmpdir", "tmpfile" ],
+  "keywords": ["temporary", "tmp", "temp", "tempdir", "tempfile", "tmpdir", "tmpfile"],
 
   "license": "MIT",
 
@@ -13,6 +13,8 @@
     "type": "git",
     "url":  "git://github.com/raszi/node-tmp.git"
   },
+
+  "files": ["lib/"],
 
   "bugs": {
     "url":  "http://github.com/raszi/node-tmp/issues"
