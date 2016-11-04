@@ -24,3 +24,11 @@ node_js:
   - "6.0"
   - "6.1"
   - "node"
+sudo: false
+cache:
+  directories:
+    - node_modules
+before_install:
+  # Update Node.js modules
+  - "test ! -d node_modules || npm prune"
+  - "test ! -d node_modules || npm rebuild"
