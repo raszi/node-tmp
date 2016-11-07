@@ -1,38 +1,35 @@
 {
-  "name":        "tmp",
-  "version":     "0.0.30",
+  "name": "tmp",
+  "version": "0.0.30",
   "description": "Temporary file and directory creator",
-  "author":      "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
-
-  "homepage": "http://github.com/raszi/node-tmp",
-  "keywords": [ "temporary", "tmp", "temp", "tempdir", "tempfile", "tmpdir", "tmpfile" ],
-
+  "author": "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
+  "keywords": [
+    "temporary",
+    "tmp",
+    "temp",
+    "tempdir",
+    "tempfile",
+    "tmpdir",
+    "tmpfile"
+  ],
   "license": "MIT",
-
-  "repository": {
-    "type": "git",
-    "url":  "git://github.com/raszi/node-tmp.git"
-  },
-
+  "repository": "raszi/node-tmp",
+  "homepage": "http://github.com/raszi/node-tmp",
   "bugs": {
     "url":  "http://github.com/raszi/node-tmp/issues"
   },
-
-  "main": "lib/tmp.js",
-
-  "scripts": {
-    "test": "vows test/*-test.js"
-  },
-
   "engines": {
     "node": ">=0.4.0"
   },
-
   "dependencies": {
     "os-tmpdir": "~1.0.1"
   },
-
   "devDependencies": {
     "vows": "~0.7.0"
+  },
+  "main": "lib/tmp.js",
+  "files": ["lib/"],
+  "scripts": {
+    "test": "vows test/*-test.js"
   }
 }
