@@ -121,7 +121,7 @@ vows.describe('Synchronous file creation').addBatch({
     },
 
     'should return with an error': function (topic) {
-        assert.instanceOf(topic, Error);
+      assert.instanceOf(topic, Error);
     }
   },
 
