@@ -30,6 +30,8 @@ npm install tmp
 
 ## Usage
 
+Please also check [API docs][4].
+
 ### Asynchronous file creation
 
 Simple temporary file creation, the file will be closed and unlinked on process exit.
@@ -306,3 +308,4 @@ All options are optional :)
 [1]: http://nodejs.org/
 [2]: https://www.npmjs.com/browse/depended/tmp
 [3]: http://www.kernel.org/doc/man-pages/online/pages/man3/mkstemp.3.html
+[4]: http://raszi.github.io/node-tmp/
