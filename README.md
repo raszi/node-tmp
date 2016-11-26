@@ -43,8 +43,8 @@ var tmp = require('tmp');
 tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
   if (err) throw err;
 
-  console.log("File: ", path);
-  console.log("Filedescriptor: ", fd);
+  console.log('File: ', path);
+  console.log('Filedescriptor: ', fd);
   
   // If we don't need the file anymore we could manually call the cleanupCallback
   // But that is not necessary if we didn't pass the keep option because the library
@@ -61,8 +61,8 @@ A synchronous version of the above.
 var tmp = require('tmp');
 
 var tmpobj = tmp.fileSync();
-console.log("File: ", tmpobj.name);
-console.log("Filedescriptor: ", tmpobj.fd);
+console.log('File: ', tmpobj.name);
+console.log('Filedescriptor: ', tmpobj.fd);
   
 // If we don't need the file anymore we could manually call the removeCallback
 // But that is not necessary if we didn't pass the keep option because the library
@@ -86,7 +86,7 @@ var tmp = require('tmp');
 tmp.dir(function _tempDirCreated(err, path, cleanupCallback) {
   if (err) throw err;
 
-  console.log("Dir: ", path);
+  console.log('Dir: ', path);
   
   // Manual cleanup
   cleanupCallback();
@@ -104,7 +104,7 @@ A synchronous version of the above.
 var tmp = require('tmp');
 
 var tmpobj = tmp.dirSync();
-console.log("Dir: ", tmpobj.name);
+console.log('Dir: ', tmpobj.name);
 // Manual cleanup
 tmpobj.removeCallback();
 ```
@@ -124,7 +124,7 @@ var tmp = require('tmp');
 tmp.tmpName(function _tempNameGenerated(err, path) {
     if (err) throw err;
 
-    console.log("Created temporary filename: ", path);
+    console.log('Created temporary filename: ', path);
 });
 ```
 
@@ -136,7 +136,7 @@ A synchronous version of the above.
 var tmp = require('tmp');
 
 var name = tmp.tmpNameSync();
-console.log("Created temporary filename: ", name);
+console.log('Created temporary filename: ', name);
 ```
 
 ## Advanced usage
@@ -151,8 +151,8 @@ var tmp = require('tmp');
 tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileCreated(err, path, fd) {
   if (err) throw err;
 
-  console.log("File: ", path);
-  console.log("Filedescriptor: ", fd);
+  console.log('File: ', path);
+  console.log('Filedescriptor: ', fd);
 });
 ```
 
@@ -164,8 +164,8 @@ A synchronous version of the above.
 var tmp = require('tmp');
 
 var tmpobj = tmp.fileSync({ mode: 0644, prefix: 'prefix-', postfix: '.txt' });
-console.log("File: ", tmpobj.name);
-console.log("Filedescriptor: ", tmpobj.fd);
+console.log('File: ', tmpobj.name);
+console.log('Filedescriptor: ', tmpobj.fd);
 ```
 
 ### Controlling the Descriptor
@@ -217,7 +217,7 @@ var tmp = require('tmp');
 tmp.dir({ mode: 0750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path) {
   if (err) throw err;
 
-  console.log("Dir: ", path);
+  console.log('Dir: ', path);
 });
 ```
 
@@ -229,7 +229,7 @@ Again, a synchronous version of the above.
 var tmp = require('tmp');
 
 var tmpobj = tmp.dirSync({ mode: 0750, prefix: 'myTmpDir_' });
-console.log("Dir: ", tmpobj.name);
+console.log('Dir: ', tmpobj.name);
 ```
 
 ### mkstemp like, asynchronously
@@ -242,7 +242,7 @@ var tmp = require('tmp');
 tmp.dir({ template: '/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
   if (err) throw err;
 
-  console.log("Dir: ", path);
+  console.log('Dir: ', path);
 });
 ```
 
@@ -254,7 +254,7 @@ This will behave similarly to the asynchronous version.
 var tmp = require('tmp');
 
 var tmpobj = tmp.dirSync({ template: '/tmp/tmp-XXXXXX' });
-console.log("Dir: ", tmpobj.name);
+console.log('Dir: ', tmpobj.name);
 ```
 
 ### Asynchronous filename generation
@@ -267,7 +267,7 @@ var tmp = require('tmp');
 tmp.tmpName({ template: '/tmp/tmp-XXXXXX' }, function _tempNameGenerated(err, path) {
     if (err) throw err;
 
-    console.log("Created temporary filename: ", path);
+    console.log('Created temporary filename: ', path);
 });
 ```
 
@@ -278,7 +278,7 @@ The `tmpNameSync()` function works similarly to `tmpName()`.
 ```javascript
 var tmp = require('tmp');
 var tmpname = tmp.tmpNameSync({ template: '/tmp/tmp-XXXXXX' });
-console.log("Created temporary filename: ", tmpname);
+console.log('Created temporary filename: ', tmpname);
 ```
 
 ## Graceful cleanup
