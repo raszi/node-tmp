@@ -1,3 +1,5 @@
+/* eslint-disable no-octal */
+
 var
   vows   = require('vows'),
   assert = require('assert'),
