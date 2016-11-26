@@ -64,7 +64,7 @@ vows.describe('Name creation').addBatch({
       tmp.tmpName({ tries: -1 }, this.callback);
     },
 
-    'should fail': function (err, name) {
+    'should fail': function (err) {
       assert.isObject(err);
     }
   },
@@ -74,7 +74,7 @@ vows.describe('Name creation').addBatch({
       tmp.tmpName({ tries: 'hello'}, this.callback);
     },
 
-    'should fail': function (err, name) {
+    'should fail': function (err) {
       assert.isObject(err);
     }
   }
