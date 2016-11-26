@@ -1,6 +1,4 @@
-var
-  fs = require('fs'),
-  tmp = require('../lib/tmp');
+var tmp = require('../lib/tmp');
 
 function _writeSync(stream, str, cb) {
   var flushed = stream.write(str);
