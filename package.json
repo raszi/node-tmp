@@ -25,6 +25,7 @@
     "os-tmpdir": "~1.0.2"
   },
   "devDependencies": {
+    "jsdoc": "^3.4.3",
     "vows": "~0.7.0"
   },
   "main": "lib/tmp.js",
@@ -32,6 +33,7 @@
     "lib/"
   ],
   "scripts": {
-    "test": "vows test/*-test.js"
+    "test": "vows test/*-test.js",
+    "doc": "jsdoc -c .jsdoc.json"
   }
 }
