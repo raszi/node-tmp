@@ -1,3 +1,5 @@
+/* eslint-disable no-octal */
+
 var
   vows   = require('vows'),
   assert = require('assert'),
@@ -174,7 +176,7 @@ vows.describe('Directory creation').addBatch({
         'should remove target'
       );
     },
-    'should not remove contents of symlink dir': function(err, name) {
+    'should not remove contents of symlink dir': function() {
       assert.ok(
         existsSync(__dirname + '/symlinkme/file.js'),
         'should not remove symlinked directory\'s content'

@@ -1,3 +1,5 @@
+/* eslint-disable no-octal */
+
 var
   vows   = require('vows'),
   assert = require('assert'),
@@ -121,7 +123,7 @@ vows.describe('Synchronous file creation').addBatch({
     },
 
     'should return with an error': function (topic) {
-        assert.instanceOf(topic, Error);
+      assert.instanceOf(topic, Error);
     }
   },
 

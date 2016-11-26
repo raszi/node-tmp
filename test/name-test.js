@@ -1,3 +1,5 @@
+/* eslint-disable no-octal */
+
 var
   vows   = require('vows'),
   assert = require('assert'),
@@ -64,7 +66,7 @@ vows.describe('Name creation').addBatch({
       tmp.tmpName({ tries: -1 }, this.callback);
     },
 
-    'should fail': function (err, name) {
+    'should fail': function (err, _name) {
       assert.isObject(err);
     }
   },
@@ -74,7 +76,7 @@ vows.describe('Name creation').addBatch({
       tmp.tmpName({ tries: 'hello'}, this.callback);
     },
 
-    'should fail': function (err, name) {
+    'should fail': function (err, _name) {
       assert.isObject(err);
     }
   }

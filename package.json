@@ -16,7 +16,7 @@
   "repository": "raszi/node-tmp",
   "homepage": "http://github.com/raszi/node-tmp",
   "bugs": {
-    "url":  "http://github.com/raszi/node-tmp/issues"
+    "url": "http://github.com/raszi/node-tmp/issues"
   },
   "engines": {
     "node": ">=0.4.0"
@@ -28,7 +28,9 @@
     "vows": "~0.7.0"
   },
   "main": "lib/tmp.js",
-  "files": ["lib/"],
+  "files": [
+    "lib/"
+  ],
   "scripts": {
     "test": "vows test/*-test.js"
   }
