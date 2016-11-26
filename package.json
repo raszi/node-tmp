@@ -22,7 +22,7 @@
     "node": ">=0.4.0"
   },
   "dependencies": {
-    "os-tmpdir": "~1.0.1"
+    "os-tmpdir": "~1.0.2"
   },
   "devDependencies": {
     "vows": "~0.7.0"
