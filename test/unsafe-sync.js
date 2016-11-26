@@ -26,5 +26,5 @@ try {
   }
 }
 catch (e) {
-  spawn.err(err, spawn.exit);
+  spawn.err(e.toString(), spawn.exit);
 }
