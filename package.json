@@ -25,6 +25,8 @@
     "os-tmpdir": "~1.0.2"
   },
   "devDependencies": {
+    "codeclimate-test-reporter": "^0.4.0",
+    "istanbul": "^0.4.5",
     "vows": "~0.7.0"
   },
   "main": "lib/tmp.js",
@@ -32,7 +34,7 @@
     "lib/"
   ],
   "scripts": {
-    "test": "vows test/*-test.js",
+    "test": "istanbul cover vows test/*-test.js",
     "doc": "jsdoc -c .jsdoc.json"
   }
 }
