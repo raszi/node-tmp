@@ -1,4 +1,4 @@
-/* eslint-disable no-octal */
+/* eslint-disable no-octal, no-unused-vars */
 
 var
   vows   = require('vows'),
