@@ -35,9 +35,20 @@ function _spawnTest(passError, testFile, params, cb) {
 }
 
 function _testStat(stat, mode) {
-  assert.equal(stat.uid, process.getuid(), 'should have the same UID');
-  assert.equal(stat.gid, process.getgid(), 'should have the same GUID');
-  assert.equal(stat.mode, mode);
+  // getuid() and getgid() do not exist on Windows.
+  if (process.getuid) {
+    assert.equal(stat.uid, process.getuid(), 'should have the same UID');
+  }
+  if (process.getgid) {
+    assert.equal(stat.gid, process.getgid(), 'should have the same GUID');
+  }
+  // mode values do not work properly on Windows. Ignore “group” and
+  // “other” bits then.
+  if (process.platform == 'win32') {
+    assert.equal(stat.mode & 0777700, mode & 0777700);
+  } else {
+    assert.equal(stat.mode, mode);
+  }
 }
 
 function _testPrefix(prefix) {
