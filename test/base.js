@@ -1,7 +1,7 @@
 var
   assert = require('assert'),
   path   = require('path'),
-  exec   = require('child_process').exec,
+  spawn   = require('child_process').spawn,
   tmp    = require('../lib/tmp');
 
 // make sure that we do not test spam the global tmp
@@ -19,18 +19,43 @@ function _spawnTestWithoutError(testFile, params, cb) {
 function _spawnTest(passError, testFile, params, cb) {
   var
     node_path = process.argv[0],
-    command = [ node_path, path.join(__dirname, testFile) ].concat(params).join(' ');
+    command_args = [ path.join(__dirname, testFile) ].concat(params),
+    stdoutBufs = [],
+    stderrBufs = [],
+    child,
+    done = false;
 
-  exec(command, function _execDone(err, stdout, stderr) {
-    if (passError) {
-      if (err) {
-        return cb(err);
-      } else if (stderr.length > 0) {
-        return cb(stderr.toString());
+  // spawn doesn’t have the quoting problems that exec does,
+  // especially when going for Windows portability.
+  child = spawn(node_path, command_args);
+  child.stdin.end();
+  child.on('close', function _spawnClose(code) {
+    var
+      stderr = Buffer.concat(stderrBufs),
+      stdout = Buffer.concat(stdoutBufs);
+    if (!done) {
+      done = true;
+      if (passError) {
+        if (stderr.length > 0) {
+          return cb(stderr.toString());
+        }
       }
+      return cb(null, Buffer.concat(stdoutBufs).toString());
     }
-
-    return cb(null, stdout.toString());
+  });
+  if (passError) {
+    child.on('error', function _spawnError(err) {
+      if (!done) {
+        done = true;
+        cb(err);
+      }
+    });
+  }
+  child.stdout.on('data', function _stdoutData(data) {
+    stdoutBufs.push(data);
+  });
+  child.stderr.on('data', function _stderrData(data) {
+    stderrBufs.push(data);
   });
 }
 
