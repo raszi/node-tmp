@@ -21,7 +21,13 @@ spawn.tmpFunction({ unsafeCleanup: unsafe }, function (err, name) {
     var symlinkTarget = join(name, 'symlinkme-target');
 
     // symlink that should be removed but the contents should be preserved.
-    fs.symlinkSync(symlinkSource, symlinkTarget, 'dir');
+    // Skip on Windows because symlinks require elevated privileges (instead just
+    // create the file so that tdir-sync-test.js can unlink it).
+    if (process.platform == 'win32') {
+      fs.writeFileSync(symlinkTarget);
+    } else {
+      fs.symlinkSync(symlinkSource, symlinkTarget, 'dir');
+    }
 
     spawn.out(name, spawn.exit);
   } catch (e) {
