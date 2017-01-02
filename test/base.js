@@ -68,9 +68,10 @@ function _testStat(stat, mode) {
     assert.equal(stat.gid, process.getgid(), 'should have the same GUID');
   }
   // mode values do not work properly on Windows. Ignore “group” and
-  // “other” bits then.
+  // “other” bits then. Ignore execute bit on that platform because it
+  // doesn’t exist—even for directories.
   if (process.platform == 'win32') {
-    assert.equal(stat.mode & 0777700, mode & 0777700);
+    assert.equal(stat.mode & 0666600, mode & 0666600);
   } else {
     assert.equal(stat.mode, mode);
   }
