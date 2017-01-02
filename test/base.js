@@ -7,6 +7,18 @@ var
 // make sure that we do not test spam the global tmp
 tmp.TMP_DIR = './tmp';
 
+function _bufferConcat(buffers) {
+  if (Buffer.concat) {
+    return Buffer.concat.apply(this, arguments);
+  } else {
+    return new Buffer(buffers.reduce(function (acc, buf) {
+      for (var i = 0; i < buf.length; i++) {
+        acc.push(buf[i]);
+      }
+      return acc;
+    }, []));
+  }
+}
 
 function _spawnTestWithError(testFile, params, cb) {
   _spawnTest(true, testFile, params, cb);
@@ -31,8 +43,8 @@ function _spawnTest(passError, testFile, params, cb) {
   child.stdin.end();
   child.on('close', function _spawnClose(code) {
     var
-      stderr = Buffer.concat(stderrBufs),
-      stdout = Buffer.concat(stdoutBufs);
+      stderr = _bufferConcat(stderrBufs),
+      stdout = _bufferConcat(stdoutBufs);
     if (!done) {
       done = true;
       if (passError) {
@@ -40,7 +52,7 @@ function _spawnTest(passError, testFile, params, cb) {
           return cb(stderr.toString());
         }
       }
-      return cb(null, Buffer.concat(stdoutBufs).toString());
+      return cb(null, _bufferConcat(stdoutBufs).toString());
     }
   });
   if (passError) {
