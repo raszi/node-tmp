@@ -35,17 +35,20 @@ function _spawnTest(passError, testFile, params, cb) {
     stdoutBufs = [],
     stderrBufs = [],
     child,
-    done = false;
+    done = false,
+    stderrDone = false,
+    stdoutDone = false;
 
   // spawn doesn’t have the quoting problems that exec does,
   // especially when going for Windows portability.
   child = spawn(node_path, command_args);
   child.stdin.end();
-  child.on('close', function _spawnClose(code) {
+  // Cannot use 'close' event because not on node-0.6.
+  function _close() {
     var
       stderr = _bufferConcat(stderrBufs),
       stdout = _bufferConcat(stdoutBufs);
-    if (!done) {
+    if (stderrDone && stdoutDone && !done) {
       done = true;
       if (passError) {
         if (stderr.length > 0) {
@@ -54,7 +57,7 @@ function _spawnTest(passError, testFile, params, cb) {
       }
       return cb(null, _bufferConcat(stdoutBufs).toString());
     }
-  });
+  }
   if (passError) {
     child.on('error', function _spawnError(err) {
       if (!done) {
@@ -65,9 +68,15 @@ function _spawnTest(passError, testFile, params, cb) {
   }
   child.stdout.on('data', function _stdoutData(data) {
     stdoutBufs.push(data);
+  }).on('close', function _stdoutEnd() {
+    stdoutDone = true;
+    _close();
   });
   child.stderr.on('data', function _stderrData(data) {
     stderrBufs.push(data);
+  }).on('close', function _stderrEnd() {
+    stderrDone = true;
+    _close();
   });
 }
 
