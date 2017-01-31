@@ -1,12 +1,24 @@
 var
   assert = require('assert'),
   path   = require('path'),
-  exec   = require('child_process').exec,
+  spawn   = require('child_process').spawn,
   tmp    = require('../lib/tmp');
 
 // make sure that we do not test spam the global tmp
 tmp.TMP_DIR = './tmp';
 
+function _bufferConcat(buffers) {
+  if (Buffer.concat) {
+    return Buffer.concat.apply(this, arguments);
+  } else {
+    return new Buffer(buffers.reduce(function (acc, buf) {
+      for (var i = 0; i < buf.length; i++) {
+        acc.push(buf[i]);
+      }
+      return acc;
+    }, []));
+  }
+}
 
 function _spawnTestWithError(testFile, params, cb) {
   _spawnTest(true, testFile, params, cb);
@@ -19,25 +31,71 @@ function _spawnTestWithoutError(testFile, params, cb) {
 function _spawnTest(passError, testFile, params, cb) {
   var
     node_path = process.argv[0],
-    command = [ node_path, path.join(__dirname, testFile) ].concat(params).join(' ');
+    command_args = [ path.join(__dirname, testFile) ].concat(params),
+    stdoutBufs = [],
+    stderrBufs = [],
+    child,
+    done = false,
+    stderrDone = false,
+    stdoutDone = false;
 
-  exec(command, function _execDone(err, stdout, stderr) {
-    if (passError) {
-      if (err) {
-        return cb(err);
-      } else if (stderr.length > 0) {
-        return cb(stderr.toString());
+  // spawn doesn’t have the quoting problems that exec does,
+  // especially when going for Windows portability.
+  child = spawn(node_path, command_args);
+  child.stdin.end();
+  // Cannot use 'close' event because not on node-0.6.
+  function _close() {
+    var
+      stderr = _bufferConcat(stderrBufs),
+      stdout = _bufferConcat(stdoutBufs);
+    if (stderrDone && stdoutDone && !done) {
+      done = true;
+      if (passError) {
+        if (stderr.length > 0) {
+          return cb(stderr.toString());
+        }
       }
+      return cb(null, _bufferConcat(stdoutBufs).toString());
     }
-
-    return cb(null, stdout.toString());
+  }
+  if (passError) {
+    child.on('error', function _spawnError(err) {
+      if (!done) {
+        done = true;
+        cb(err);
+      }
+    });
+  }
+  child.stdout.on('data', function _stdoutData(data) {
+    stdoutBufs.push(data);
+  }).on('close', function _stdoutEnd() {
+    stdoutDone = true;
+    _close();
+  });
+  child.stderr.on('data', function _stderrData(data) {
+    stderrBufs.push(data);
+  }).on('close', function _stderrEnd() {
+    stderrDone = true;
+    _close();
   });
 }
 
 function _testStat(stat, mode) {
-  assert.equal(stat.uid, process.getuid(), 'should have the same UID');
-  assert.equal(stat.gid, process.getgid(), 'should have the same GUID');
-  assert.equal(stat.mode, mode);
+  // getuid() and getgid() do not exist on Windows.
+  if (process.getuid) {
+    assert.equal(stat.uid, process.getuid(), 'should have the same UID');
+  }
+  if (process.getgid) {
+    assert.equal(stat.gid, process.getgid(), 'should have the same GUID');
+  }
+  // mode values do not work properly on Windows. Ignore “group” and
+  // “other” bits then. Ignore execute bit on that platform because it
+  // doesn’t exist—even for directories.
+  if (process.platform == 'win32') {
+    assert.equal(stat.mode & 0666600, mode & 0666600);
+  } else {
+    assert.equal(stat.mode, mode);
+  }
 }
 
 function _testPrefix(prefix) {

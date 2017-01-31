@@ -79,11 +79,11 @@ vows.describe('Synchronous file creation').addBatch({
 
   'when using name': {
     topic: function () {
-      return tmp.fileSync({ name: 'using-name.tmp' });
+      return tmp.fileSync({ name: 'using-name-sync.tmp' });
     },
 
     'should return with a name': Test.assertNameSync,
-    'should have the provided name': Test.testNameSync(path.join(tmp.tmpdir, 'using-name.tmp')),
+    'should have the provided name': Test.testNameSync(path.join(tmp.tmpdir, 'using-name-sync.tmp')),
     'should be a file': function (result) {
       _testFile(0100600, true);
       fs.unlinkSync(result.name);
