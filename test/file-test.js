@@ -242,6 +242,30 @@ vows.describe('File creation').addBatch({
       removeCallback();
       assert.ok(!existsSync(name), 'File should be removed');
     }
-  }
+  },
+
+  'issue115 async: user deleted tmp file prior to cleanup': {
+    topic: function () {
+      Test.testIssue115File(this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should not exist': function (err, name) {
+      assert.ok(!existsSync(name), 'File should be removed');
+    }
+  },
+
+  'issue115 sync: user deleted tmp file prior to cleanup': {
+    topic: function () {
+      Test.testIssue115FileSync(this.callback);
+    },
+
+    'should not return with an error': assert.isNull,
+    'should return with a name': Test.assertName,
+    'should not exist': function (err, name) {
+      assert.ok(!existsSync(name), 'File should be removed');
+    }
+  },
 
 }).exportTo(module);
