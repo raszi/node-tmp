@@ -192,6 +192,14 @@ function _testIssue62Sync(cb) {
   _spawnTestWithoutError('issue62-sync.js', [], cb);
 }
 
+function _testIssue115File(cb) {
+  _spawnTestWithError('issue115-file.js', [], cb);
+}
+
+function _testIssue115FileSync(cb) {
+  _spawnTestWithError('issue115-file-sync.js', [], cb);
+}
+
 module.exports.testStat = _testStat;
 module.exports.testPrefix = _testPrefix;
 module.exports.testPrefixSync = _testPrefixSync;
@@ -208,5 +216,7 @@ module.exports.testName = _testName;
 module.exports.testNameSync = _testNameSync;
 module.exports.testUnsafeCleanup = _testUnsafeCleanup;
 module.exports.testIssue62 = _testIssue62;
+module.exports.testIssue115File = _testIssue115File;
+module.exports.testIssue115FileSync = _testIssue115FileSync;
 module.exports.testUnsafeCleanupSync = _testUnsafeCleanupSync;
 module.exports.testIssue62Sync = _testIssue62Sync;

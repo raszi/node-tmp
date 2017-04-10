@@ -23,6 +23,7 @@ node_js:
   - "5.11"
   - "6.0"
   - "6.1"
+  - "7"
   - "node"
 sudo: false
 cache:
