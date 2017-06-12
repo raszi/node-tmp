@@ -25,7 +25,7 @@
     "os-tmpdir": "~1.0.2"
   },
   "devDependencies": {
-    "vows": "~0.7.0"
+    "vows": "~0.8.1"
   },
   "main": "lib/tmp.js",
   "files": [
