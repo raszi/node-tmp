@@ -78,6 +78,8 @@ const
   DIR_MODE = 448 /* 0o700 */,
   FILE_MODE = 384 /* 0o600 */,
 
+  NODE_VERSION = process.versions.node.split('.').map((value) => parseInt(value, 10)),
+
   // this will hold the objects need to be removed on exit
   _removeObjects: CleanupCallback[] = [];
 
@@ -522,11 +524,7 @@ function setGracefulCleanup(): void {
   _gracefulCleanup = true;
 }
 
-const version = process.versions.node.split('.').map(function (value) {
-  return parseInt(value, 10);
-});
-
-if (version[0] === 0 && (version[1] < 9 || version[1] === 9 && version[2] < 5)) {
+if (NODE_VERSION[0] === 0 && (NODE_VERSION[1] < 9 || NODE_VERSION[1] === 9 && NODE_VERSION[2] < 5)) {
   process.addListener('uncaughtException', function _uncaughtExceptionThrown(err) {
     _uncaughtException = true;
     _garbageCollector();
