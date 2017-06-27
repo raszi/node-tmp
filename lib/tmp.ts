@@ -504,38 +504,14 @@ function _garbageCollector() {
  * Helper for testing against EBADF to compensate changes made to Node 7.x under Windows.
  */
 function isEBADF(error: any) {
-  return isExpectedError(error, 'EBADF');
+  return error.code == 'EBADF';
 }
 
 /**
  * Helper for testing against ENOENT to compensate changes made to Node 7.x under Windows.
  */
 function isENOENT(error: any) {
-  return isExpectedError(error, 'EBADF');
-}
-
-/**
- * Helper to determine whether the expected error code matches the actual code and errno,
- * which will differ between the supported node versions.
- *
- * - Node >= 7.0:
- *   error.code {String}
- *   error.errno {String|Number} any numerical value will be negated
- *
- * - Node >= 6.0 < 7.0:
- *   error.code {String}
- *   error.errno {Number} negated
- *
- * - Node >= 4.0 < 6.0: introduces SystemError
- *   error.code {String}
- *   error.errno {Number} negated
- *
- * - Node >= 0.10 < 4.0:
- *   error.code {Number} negated
- *   error.errno n/a
- */
-function isExpectedError(error: any, code: string) {
-  return error.code == code;
+  return error.code == 'ENOENT';
 }
 
 /**
