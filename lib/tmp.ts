@@ -81,7 +81,7 @@ const
   NODE_VERSION = process.versions.node.split('.').map((value) => parseInt(value, 10)),
 
   // this will hold the objects need to be removed on exit
-  _removeObjects: CleanupCallback[] = [];
+  REMOVE_OBJECTS: CleanupCallback[] = [];
 
 var
   _gracefulCleanup = false,
@@ -429,7 +429,7 @@ function _prepareTmpFileRemoveCallback(name: string, fd: number, opts: FileOptio
   }, [fd, name]);
 
   if (!opts.keep) {
-    _removeObjects.unshift(removeCallback);
+    REMOVE_OBJECTS.unshift(removeCallback);
   }
 
   return removeCallback;
@@ -448,7 +448,7 @@ function _prepareTmpDirRemoveCallback(path: string, opts: DirOptions): CleanupCa
   const removeCallback = _prepareRemoveCallback(removeFunction, path);
 
   if (!opts.keep) {
-    _removeObjects.unshift(removeCallback);
+    REMOVE_OBJECTS.unshift(removeCallback);
   }
 
   return removeCallback;
@@ -467,9 +467,9 @@ function _prepareRemoveCallback<T>(removeFunction: (_: T) => void, arg: T): Clea
 
   return function _cleanupCallback(next) {
     if (!called) {
-      const index = _removeObjects.indexOf(_cleanupCallback);
+      const index = REMOVE_OBJECTS.indexOf(_cleanupCallback);
       if (index >= 0) {
-        _removeObjects.splice(index, 1);
+        REMOVE_OBJECTS.splice(index, 1);
       }
 
       called = true;
@@ -492,9 +492,9 @@ function _garbageCollector(): void {
 
   // the function being called removes itself from _removeObjects,
   // loop until _removeObjects is empty
-  while (_removeObjects.length) {
+  while (REMOVE_OBJECTS.length) {
     try {
-      _removeObjects[0].call(null);
+      REMOVE_OBJECTS[0].call(null);
     } catch (e) {
       // already removed?
     }
