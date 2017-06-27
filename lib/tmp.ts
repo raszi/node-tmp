@@ -54,7 +54,7 @@ const
    * The temporary directory.
    * @type {string}
    */
-  tmpDir = osTmpDir(),
+  TMP_DIR = osTmpDir(),
 
   // the random characters to choose from
   RANDOM_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
@@ -122,7 +122,7 @@ function _isUndefined(obj: any) {
  */
 function _generateTmpName(opts: Options) {
   if (opts.name) {
-    return path.join(opts.dir || tmpDir, opts.name);
+    return path.join(opts.dir || TMP_DIR, opts.name);
   }
 
   // mkstemps like template
@@ -138,7 +138,7 @@ function _generateTmpName(opts: Options) {
     opts.postfix || ''
   ].join('');
 
-  return path.join(opts.dir || tmpDir, name);
+  return path.join(opts.dir || TMP_DIR, name);
 }
 
 /**
@@ -626,7 +626,7 @@ process.addListener('exit', function _exit(code) {
  */
 
 // exporting all the needed methods
-module.exports.tmpdir = tmpDir;
+module.exports.tmpdir = TMP_DIR;
 
 module.exports.dir = dir;
 module.exports.dirSync = dirSync;
