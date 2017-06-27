@@ -33,7 +33,6 @@ interface DirSyncObject {
 
 interface FileSyncObject extends DirSyncObject {
   fd: number;
-
 }
 
 type CleanupCallback = (next?: Function) => void;
