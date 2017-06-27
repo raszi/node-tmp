@@ -26,6 +26,16 @@ interface FileOptions extends DirOptions {
   detachDescriptor?: boolean;
 }
 
+interface DirSyncObject {
+  name: string;
+  removeCallback: CleanupCallback;
+}
+
+interface FileSyncObject extends DirSyncObject {
+  fd: number;
+
+}
+
 type CleanupCallback = (next?: Function) => void;
 
 type FileCallback = (err?: Error, name?: string, fd?: number, cb?: CleanupCallback) => void;
@@ -79,8 +89,8 @@ var
  * Random name generator based on crypto.
  * Adapted from http://blog.tompawlak.org/how-to-generate-random-values-nodejs-javascript
  *
- * @param {number} howMany
- * @returns {string} the generated random name
+ * @param howMany how many random characters should be generated
+ * @returns the generated random name
  * @private
  */
 function _randomChars(howMany: number) {
@@ -105,8 +115,8 @@ function _randomChars(howMany: number) {
 /**
  * Generates a new temporary name.
  *
- * @param {Object} opts
- * @returns {string} the new random name according to opts
+ * @param opts the name options
+ * @returns the new random name according to opts
  * @private
  */
 function _generateTmpName(opts: Options) {
@@ -133,8 +143,8 @@ function _generateTmpName(opts: Options) {
 /**
  * Gets a temporary file name.
  *
- * @param {(Options|tmpNameCallback)} options options or callback
- * @param {?tmpNameCallback} callback the callback function
+ * @param callbackOrOptions options or the callback
+ * @param callback the callback function if options is provided
  */
 function tmpName(callbackOrOptions: Options | TmpNameCallback, callback?: TmpNameCallback) {
   const emptyOptions = {} as Options;
@@ -178,9 +188,9 @@ function tmpName(callbackOrOptions: Options | TmpNameCallback, callback?: TmpNam
 /**
  * Synchronous version of tmpName.
  *
- * @param {Object} options
- * @returns {string} the generated random name
- * @throws {Error} if the options are invalid or could not generate a filename
+ * @param options the options
+ * @returns the generated random name
+ * @throws if the options are invalid or could not generate a filename
  */
 function tmpNameSync(options?: Options) {
   const opts: Options = typeof options == 'undefined' ? {} : options;
@@ -208,8 +218,8 @@ function tmpNameSync(options?: Options) {
 /**
  * Creates and opens a temporary file.
  *
- * @param {(Options|fileCallback)} options the config options or the callback function
- * @param {?fileCallback} callback
+ * @param callbackOrOptions options or the callback
+ * @param callback the callback function if options is provided
  */
 function file(callbackOrOptions: FileOptions | FileCallback, callback?: FileCallback) {
   const emptyOptions = {} as FileOptions;
@@ -268,11 +278,11 @@ function file(callbackOrOptions: FileOptions | FileCallback, callback?: FileCall
 /**
  * Synchronous version of file.
  *
- * @param {Options} options
- * @returns {FileSyncObject} object consists of name, fd and removeCallback
- * @throws {Error} if cannot create a file
+ * @param options the options
+ * @returns object consists of name, fd and removeCallback
+ * @throws if cannot create a file
  */
-function fileSync(options: FileOptions) {
+function fileSync(options: FileOptions): FileSyncObject {
   const opts: FileOptions = typeof options == 'undefined' ? {} : options;
 
   opts.postfix = opts.postfix || '.tmp';
@@ -290,7 +300,7 @@ function fileSync(options: FileOptions) {
 /**
  * Removes files and folders in a directory recursively.
  *
- * @param {string} root
+ * @param root the starting directory
  * @private
  */
 function _rmdirRecursiveSync(root: string) {
@@ -330,8 +340,8 @@ function _rmdirRecursiveSync(root: string) {
 /**
  * Creates a temporary directory.
  *
- * @param {(Options|dirCallback)} options the options or the callback function
- * @param {?dirCallback} callback
+ * @param callbackOrOptions options or the callback
+ * @param callback the callback function if options is provided
  */
 function dir(callbackOrOptions: DirOptions | DirCallback, callback?: DirCallback) {
   const emptyOptions = {} as DirOptions;
@@ -364,11 +374,11 @@ function dir(callbackOrOptions: DirOptions | DirCallback, callback?: DirCallback
 /**
  * Synchronous version of dir.
  *
- * @param {Options} options
- * @returns {DirSyncObject} object consists of name and removeCallback
+ * @param options
+ * @returns object consists of name and removeCallback
  * @throws {Error} if it cannot create a directory
  */
-function dirSync(options: DirOptions) {
+function dirSync(options: DirOptions): DirSyncObject {
   const opts: DirOptions = (typeof options == 'undefined') ? {} : options;
 
   const name = tmpNameSync(opts);
@@ -383,10 +393,10 @@ function dirSync(options: DirOptions) {
 /**
  * Prepares the callback for removal of the temporary file.
  *
- * @param {string} name the path of the file
- * @param {number} fd file descriptor
- * @param {Object} opts
- * @returns {fileCallback}
+ * @param name the path of the file
+ * @param fd file descriptor
+ * @param opts the passed options
+ * @returns the callback function
  * @private
  */
 function _prepareTmpFileRemoveCallback(name: string, fd: number, opts: FileOptions): CleanupCallback {
@@ -426,14 +436,14 @@ function _prepareTmpFileRemoveCallback(name: string, fd: number, opts: FileOptio
 /**
  * Prepares the callback for removal of the temporary directory.
  *
- * @param {string} name
- * @param {Object} opts
- * @returns {Function} the callback
+ * @param path the path of the dir
+ * @param opts the provided options
+ * @returns the callback function
  * @private
  */
-function _prepareTmpDirRemoveCallback(name: string, opts: DirOptions) {
+function _prepareTmpDirRemoveCallback(path: string, opts: DirOptions): CleanupCallback {
   const removeFunction = opts.unsafeCleanup ? _rmdirRecursiveSync : fs.rmdirSync.bind(fs);
-  const removeCallback = _prepareRemoveCallback(removeFunction, name);
+  const removeCallback = _prepareRemoveCallback(removeFunction, path);
 
   if (!opts.keep) {
     _removeObjects.unshift(removeCallback);
@@ -445,9 +455,9 @@ function _prepareTmpDirRemoveCallback(name: string, opts: DirOptions) {
 /**
  * Creates a guarded function wrapping the removeFunction call.
  *
- * @param {Function} removeFunction
- * @param {Object} arg
- * @returns {Function}
+ * @param removeFunction the function to guard
+ * @param arg the arguments to pass
+ * @returns the guarded function
  * @private
  */
 function _prepareRemoveCallback<T>(removeFunction: (_: T) => void, arg: T): CleanupCallback {
@@ -529,66 +539,6 @@ process.addListener('exit', function _exit(code) {
   if (code) _uncaughtException = true;
   _garbageCollector();
 });
-
-/**
- * Configuration options.
- *
- * @typedef {Object} Options
- * @property {?number} tries the number of tries before give up the name generation
- * @property {?string} template the "mkstemp" like filename template
- * @property {?string} name fix name
- * @property {?string} dir the tmp directory to use
- * @property {?string} prefix prefix for the generated name
- * @property {?string} postfix postfix for the generated name
- */
-
-/**
- * @typedef {Object} FileSyncObject
- * @property {string} name the name of the file
- * @property {string} fd the file descriptor
- * @property {fileCallback} removeCallback the callback function to remove the file
- */
-
-/**
- * @typedef {Object} DirSyncObject
- * @property {string} name the name of the directory
- * @property {fileCallback} removeCallback the callback function to remove the directory
- */
-
-/**
- * @callback tmpNameCallback
- * @param {?Error} err the error object if anything goes wrong
- * @param {string} name the temporary file name
- */
-
-/**
- * @callback fileCallback
- * @param {?Error} err the error object if anything goes wrong
- * @param {string} name the temporary file name
- * @param {number} fd the file descriptor
- * @param {cleanupCallback} fn the cleanup callback function
- */
-
-/**
- * @callback dirCallback
- * @param {?Error} err the error object if anything goes wrong
- * @param {string} name the temporary file name
- * @param {cleanupCallback} fn the cleanup callback function
- */
-
-/**
- * Removes the temporary created file or directory.
- *
- * @callback cleanupCallback
- * @param {simpleCallback} [next] function to call after entry was removed
- */
-
-/**
- * Callback function for function composition.
- * @see {@link https://github.com/raszi/node-tmp/issues/57|raszi/node-tmp#57}
- *
- * @callback simpleCallback
- */
 
 // exporting all the needed methods
 module.exports.tmpdir = TMP_DIR;
