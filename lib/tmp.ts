@@ -121,8 +121,10 @@ function _randomChars(howMany: number) {
  * @private
  */
 function _generateTmpName(opts: Options) {
+  const tmpDir = opts.dir || TMP_DIR;
+
   if (opts.name) {
-    return path.join(opts.dir || TMP_DIR, opts.name);
+    return path.join(tmpDir, opts.name);
   }
 
   // mkstemps like template
@@ -138,7 +140,7 @@ function _generateTmpName(opts: Options) {
     opts.postfix || ''
   ].join('');
 
-  return path.join(opts.dir || TMP_DIR, name);
+  return path.join(tmpDir, name);
 }
 
 /**
