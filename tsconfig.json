@@ -2,10 +2,12 @@
   "compilerOptions": {
     "types": ["node"],
     "target": "es3",
-      "module": "commonjs",
-      "allowJs": true,
-      "checkJs": true,
-      "strict": true
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "allowJs": false,
+    "checkJs": true,
+    "strict": true
   },
   "include": ["lib/*"],
   "exclude": ["node_modules"]
