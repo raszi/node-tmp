@@ -103,17 +103,6 @@ function _randomChars(howMany: number) {
 }
 
 /**
- * Checks whether the `obj` parameter is defined or not.
- *
- * @param {Object} obj
- * @returns {boolean} true if the object is undefined
- * @private
- */
-function _isUndefined(obj: any) {
-  return typeof obj === 'undefined';
-}
-
-/**
  * Generates a new temporary name.
  *
  * @param {Object} opts
@@ -237,7 +226,7 @@ function file(callbackOrOptions: FileOptions | FileCallback, callback?: FileCall
     cb = callback || emptyCallback;
   }
 
-  opts.postfix = (_isUndefined(opts.postfix)) ? '.tmp' : opts.postfix;
+  opts.postfix = (typeof opts.postfix == 'undefined') ? '.tmp' : opts.postfix;
 
   // gets a temporary filename
   tmpName(opts, function _tmpNameCreated(err, name) {
@@ -380,7 +369,7 @@ function dir(callbackOrOptions: DirOptions | DirCallback, callback?: DirCallback
  * @throws {Error} if it cannot create a directory
  */
 function dirSync(options: DirOptions) {
-  const opts: DirOptions = typeof options == 'undefined' ? {} : options;
+  const opts: DirOptions = (typeof options == 'undefined') ? {} : options;
 
   const name = tmpNameSync(opts);
   fs.mkdirSync(name, opts.mode || DIR_MODE);
