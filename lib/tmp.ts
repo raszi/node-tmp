@@ -146,7 +146,7 @@ function _generateTmpName(opts: Options) {
  * @param callbackOrOptions options or the callback
  * @param callback the callback function if options is provided
  */
-function tmpName(callbackOrOptions: Options | TmpNameCallback, callback?: TmpNameCallback) {
+function tmpName(callbackOrOptions: Options | TmpNameCallback, callback?: TmpNameCallback): void {
   const emptyOptions = {} as Options;
   const emptyCallback = function() {};
 
@@ -221,7 +221,7 @@ function tmpNameSync(options?: Options) {
  * @param callbackOrOptions options or the callback
  * @param callback the callback function if options is provided
  */
-function file(callbackOrOptions: FileOptions | FileCallback, callback?: FileCallback) {
+function file(callbackOrOptions: FileOptions | FileCallback, callback?: FileCallback): void {
   const emptyOptions = {} as FileOptions;
   const emptyCallback = function() {};
 
@@ -343,7 +343,7 @@ function _rmdirRecursiveSync(root: string) {
  * @param callbackOrOptions options or the callback
  * @param callback the callback function if options is provided
  */
-function dir(callbackOrOptions: DirOptions | DirCallback, callback?: DirCallback) {
+function dir(callbackOrOptions: DirOptions | DirCallback, callback?: DirCallback): void {
   const emptyOptions = {} as DirOptions;
   const emptyCallback = function() {};
 
@@ -483,7 +483,7 @@ function _prepareRemoveCallback<T>(removeFunction: (_: T) => void, arg: T): Clea
  *
  * @private
  */
-function _garbageCollector() {
+function _garbageCollector(): void {
   if (_uncaughtException && !_gracefulCleanup) {
     return;
   }
@@ -502,14 +502,14 @@ function _garbageCollector() {
 /**
  * Helper for testing against EBADF to compensate changes made to Node 7.x under Windows.
  */
-function isEBADF(error: any) {
+function isEBADF(error: any): boolean {
   return error.code == 'EBADF';
 }
 
 /**
  * Helper for testing against ENOENT to compensate changes made to Node 7.x under Windows.
  */
-function isENOENT(error: any) {
+function isENOENT(error: any): boolean {
   return error.code == 'ENOENT';
 }
 
@@ -518,7 +518,7 @@ function isENOENT(error: any) {
  *
  * Also removes the created files and directories when an uncaught exception occurs.
  */
-function setGracefulCleanup() {
+function setGracefulCleanup(): void {
   _gracefulCleanup = true;
 }
 
