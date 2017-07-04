@@ -73,7 +73,8 @@ vows.describe('File creation').addBatch({
     'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
     'should have the default prefix': Test.testPrefix('tmp-'),
-    'should have the default postfix': Test.testPostfix('.tmp')
+    'should have the default postfix': Test.testPostfix('.tmp'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using with prefix': {
@@ -84,7 +85,8 @@ vows.describe('File creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
-    'should have the provided prefix': Test.testPrefix('something')
+    'should have the provided prefix': Test.testPrefix('something'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using with postfix': {
@@ -95,7 +97,8 @@ vows.describe('File creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
-    'should have the provided postfix': Test.testPostfix('.txt')
+    'should have the provided postfix': Test.testPostfix('.txt'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using template': {
@@ -107,7 +110,8 @@ vows.describe('File creation').addBatch({
     'should return with a name': Test.assertName,
     'should be a file': _testFile(0100600, true),
     'should have the provided prefix': Test.testPrefix('clike-'),
-    'should have the provided postfix': Test.testPostfix('-postfix')
+    'should have the provided postfix': Test.testPostfix('-postfix'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using name': {
@@ -121,7 +125,8 @@ vows.describe('File creation').addBatch({
     'should be a file': function (err, name) {
       _testFile(0100600, true);
       fs.unlinkSync(name);
-    }
+    },
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using discardDescriptor': {
@@ -133,6 +138,7 @@ vows.describe('File creation').addBatch({
     'should return with a name': Test.assertName,
     'should not return with a descriptor': Test.assertNoDescriptor,
     'should be a file': _testFileNoDescriptor(0100600),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using detachDescriptor': {
@@ -147,6 +153,7 @@ vows.describe('File creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should have working descriptor after removeCallback': _testFileAfterDetachRemove(0100600),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using multiple options': {
@@ -158,7 +165,8 @@ vows.describe('File creation').addBatch({
     'should return with a name': Test.assertName,
     'should be a file': _testFile(0100640, true),
     'should have the provided prefix': Test.testPrefix('foo'),
-    'should have the provided postfix': Test.testPostfix('bar')
+    'should have the provided postfix': Test.testPostfix('bar'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using multiple options and mode': {
@@ -170,7 +178,8 @@ vows.describe('File creation').addBatch({
     'should return with a name': Test.assertName,
     'should be a file': _testFile(0100644, true),
     'should have the provided prefix': Test.testPrefix('complicated'),
-    'should have the provided postfix': Test.testPostfix('options')
+    'should have the provided postfix': Test.testPostfix('options'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'no tries': {
@@ -190,7 +199,6 @@ vows.describe('File creation').addBatch({
     'should return with a name': Test.assertName,
     'should be a file': function (err, name) {
       _testFile(0100600, false)(err, name, null);
-      fs.unlinkSync(name);
     }
   },
 

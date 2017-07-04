@@ -11,7 +11,6 @@ var
   tmp    = require('../lib/tmp.js'),
   Test   = require('./base.js');
 
-
 function _testDir(mode) {
   return function _testDirGenerated(err, name) {
     assert.ok(existsSync(name), 'should exist');
@@ -23,6 +22,7 @@ function _testDir(mode) {
   };
 }
 
+
 vows.describe('Directory creation').addBatch({
   'when using without parameters': {
     topic: function () {
@@ -30,7 +30,8 @@ vows.describe('Directory creation').addBatch({
     },
 
     'should be a directory': _testDir(040700),
-    'should have the default prefix': Test.testPrefix('tmp-')
+    'should have the default prefix': Test.testPrefix('tmp-'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using with prefix': {
@@ -41,7 +42,8 @@ vows.describe('Directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a directory': _testDir(040700),
-    'should have the provided prefix': Test.testPrefix('something')
+    'should have the provided prefix': Test.testPrefix('something'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using with postfix': {
@@ -52,7 +54,8 @@ vows.describe('Directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a directory': _testDir(040700),
-    'should have the provided postfix': Test.testPostfix('.txt')
+    'should have the provided postfix': Test.testPostfix('.txt'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using template': {
@@ -64,7 +67,8 @@ vows.describe('Directory creation').addBatch({
     'should return with a name': Test.assertName,
     'should be a directory': _testDir(040700),
     'should have the provided prefix': Test.testPrefix('clike-'),
-    'should have the provided postfix': Test.testPostfix('-postfix')
+    'should have the provided postfix': Test.testPostfix('-postfix'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using name': {
@@ -75,7 +79,8 @@ vows.describe('Directory creation').addBatch({
     'should not return with an error': assert.isNull,
     'should return with a name': Test.assertName,
     'should be a directory': _testDir(040700),
-    'should have the provided name': Test.testName(path.join(tmp.tmpdir, 'using-name'))
+    'should have the provided name': Test.testName(path.join(tmp.tmpdir, 'using-name')),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using multiple options': {
@@ -87,7 +92,8 @@ vows.describe('Directory creation').addBatch({
     'should return with a name': Test.assertName,
     'should be a directory': _testDir(040750),
     'should have the provided prefix': Test.testPrefix('foo'),
-    'should have the provided postfix': Test.testPostfix('bar')
+    'should have the provided postfix': Test.testPostfix('bar'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'when using multiple options and mode': {
@@ -99,7 +105,8 @@ vows.describe('Directory creation').addBatch({
     'should return with a name': Test.assertName,
     'should be a directory': _testDir(040755),
     'should have the provided prefix': Test.testPrefix('complicated'),
-    'should have the provided postfix': Test.testPostfix('options')
+    'should have the provided postfix': Test.testPostfix('options'),
+    'should have been cleaned up': Test.testCleanup
   },
 
   'no tries': {

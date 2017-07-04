@@ -31,7 +31,8 @@ vows.describe('Synchronous directory creation').addBatch({
 
     'should return with a name': Test.assertNameSync,
     'should be a directory': _testDir(040700),
-    'should have the default prefix': Test.testPrefixSync('tmp-')
+    'should have the default prefix': Test.testPrefixSync('tmp-'),
+    'should have been cleaned up': Test.testCleanupSync
   },
 
   'when using with prefix': {
@@ -41,7 +42,8 @@ vows.describe('Synchronous directory creation').addBatch({
 
     'should return with a name': Test.assertNameSync,
     'should be a directory': _testDir(040700),
-    'should have the provided prefix': Test.testPrefixSync('something')
+    'should have the provided prefix': Test.testPrefixSync('something'),
+    'should have been cleaned up': Test.testCleanupSync
   },
 
   'when using with postfix': {
@@ -51,7 +53,8 @@ vows.describe('Synchronous directory creation').addBatch({
 
     'should return with a name': Test.assertNameSync,
     'should be a directory': _testDir(040700),
-    'should have the provided postfix': Test.testPostfixSync('.txt')
+    'should have the provided postfix': Test.testPostfixSync('.txt'),
+    'should have been cleaned up': Test.testCleanupSync
   },
 
   'when using template': {
@@ -62,7 +65,8 @@ vows.describe('Synchronous directory creation').addBatch({
     'should return with a name': Test.assertNameSync,
     'should be a directory': _testDir(040700),
     'should have the provided prefix': Test.testPrefixSync('clike-'),
-    'should have the provided postfix': Test.testPostfixSync('-postfix')
+    'should have the provided postfix': Test.testPostfixSync('-postfix'),
+    'should have been cleaned up': Test.testCleanupSync
   },
 
   'when using name': {
@@ -74,9 +78,8 @@ vows.describe('Synchronous directory creation').addBatch({
     'should have the provided name': Test.testNameSync(path.join(tmp.tmpdir, 'using-name')),
     'should be a directory': function (result) {
       _testDir(040700)(result);
-      result.removeCallback();
-      assert.ok(!existsSync(result.name), 'Directory should be removed');
-    }
+    },
+    'should have been cleaned up': Test.testCleanupSync
   },
 
   'when using multiple options': {
@@ -87,7 +90,8 @@ vows.describe('Synchronous directory creation').addBatch({
     'should return with a name': Test.assertNameSync,
     'should be a directory': _testDir(040750),
     'should have the provided prefix': Test.testPrefixSync('foo'),
-    'should have the provided postfix': Test.testPostfixSync('bar')
+    'should have the provided postfix': Test.testPostfixSync('bar'),
+    'should have been cleaned up': Test.testCleanupSync
   },
 
   'when using multiple options and mode': {
@@ -98,7 +102,8 @@ vows.describe('Synchronous directory creation').addBatch({
     'should return with a name': Test.assertNameSync,
     'should be a directory': _testDir(040755),
     'should have the provided prefix': Test.testPrefixSync('complicated'),
-    'should have the provided postfix': Test.testPostfixSync('options')
+    'should have the provided postfix': Test.testPostfixSync('options'),
+    'should have been cleaned up': Test.testCleanupSync
   },
 
   'no tries': {
