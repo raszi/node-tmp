@@ -1,9 +1,14 @@
 var
   assert = require('assert'),
+  fs     = require('fs'),
   path   = require('path'),
   spawn   = require('child_process').spawn,
+  existsSync = fs.existsSync || path.existsSync,
   tmp    = require('../lib/tmp');
 
+var _cleanup_fn = undefined;
+
+// FIXME:does not seem to work at all
 // make sure that we do not test spam the global tmp
 tmp.TMP_DIR = './tmp';
 
@@ -200,6 +205,18 @@ function _testIssue115FileSync(cb) {
   _spawnTestWithError('issue115-file-sync.js', [], cb);
 }
 
+function _testCleanup(err, name, fd, fn) {
+  var actual_fn = fn;
+  if (typeof(fd) == 'function') actual_fn = fd;
+  if (actual_fn) actual_fn();
+  assert.ok(!existsSync(name), 'should not exist');
+}
+
+function _testCleanupSync(result) {
+  result.removeCallback();
+  assert.ok(!existsSync(result.name), 'should not exist');
+}
+
 module.exports.testStat = _testStat;
 module.exports.testPrefix = _testPrefix;
 module.exports.testPrefixSync = _testPrefixSync;
@@ -220,3 +237,5 @@ module.exports.testIssue115File = _testIssue115File;
 module.exports.testIssue115FileSync = _testIssue115FileSync;
 module.exports.testUnsafeCleanupSync = _testUnsafeCleanupSync;
 module.exports.testIssue62Sync = _testIssue62Sync;
+module.exports.testCleanup = _testCleanup;
+module.exports.testCleanupSync = _testCleanupSync;
