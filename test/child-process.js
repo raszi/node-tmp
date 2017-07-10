@@ -7,10 +7,33 @@ var
   spawn = require('child_process').spawn;
 
 
-module.exports = function spawnChildProcess(configFile, cb) {
+module.exports.genericChildProcess = function spawnGenericChildProcess(configFile, cb) {
+  var
+    configFilePath = path.join(__dirname, 'outband', configFile),
+    command_args = [path.join(__dirname, 'spawn-generic.js'), configFilePath];
+
+  // make sure that the config file exists
+  if (!existsSync(configFilePath))
+    return cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
+
+  _do_spawn(command_args, cb);
+};
+
+module.exports.childProcess = function spawnChildProcess(configFile, cb) {
+  var
+    configFilePath = path.join(__dirname, 'outband', configFile),
+    command_args = [path.join(__dirname, 'spawn-custom.js'), configFilePath];
+
+  // make sure that the config file exists
+  if (!existsSync(configFilePath))
+    return cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
+
+  _do_spawn(command_args, cb);
+}
+
+function _do_spawn(command_args, cb) {
   var
     node_path = process.argv[0],
-    command_args = [path.join(__dirname, 'spawn.js')].concat(configFile),
     stdoutBufs = [],
     stderrBufs = [],
     child,
@@ -18,14 +41,11 @@ module.exports = function spawnChildProcess(configFile, cb) {
     stderrDone = false,
     stdoutDone = false;
 
-  // make sure that the config file exists
-  if (!existsSync(path.join(__dirname, configFile)))
-    return cb(new Error('ENOENT: configFile ' + path.join(__dirname, configFile) + ' does not exist'));
-
   // spawn doesn’t have the quoting problems that exec does,
   // especially when going for Windows portability.
   child = spawn(node_path, command_args);
   child.stdin.end();
+  // TODO:we no longer support node 0.6
   // Cannot use 'close' event because not on node-0.6.
   function _close() {
     var
@@ -55,7 +75,6 @@ module.exports = function spawnChildProcess(configFile, cb) {
     _close();
   });
 }
-
 
 function _bufferConcat(buffers) {
   if (Buffer.concat) {

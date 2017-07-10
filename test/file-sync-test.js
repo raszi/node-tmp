@@ -6,7 +6,7 @@ var
   fs = require('fs'),
   inbandStandardTests = require('./inband-standard'),
   assertions = require('./assertions'),
-  childProcess = require('./child-process'),
+  childProcess = require('./child-process').genericChildProcess,
   tmp = require('../lib/tmp');
 
 
@@ -51,7 +51,7 @@ describe('tmp', function () {
     // API call standard outband tests
     describe('when running standard outband tests', function () {
       it('on graceful', function (done) {
-        childProcess('outband/graceful-file-sync.json', function (err, stderr, stdout) {
+        childProcess('graceful-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else assertions.assertDoesNotExist(stdout);
@@ -59,7 +59,7 @@ describe('tmp', function () {
         });
       });
       it('on non graceful', function (done) {
-        childProcess('outband/non-graceful-file-sync.json', function (err, stderr, stdout) {
+        childProcess('non-graceful-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else {
@@ -70,7 +70,7 @@ describe('tmp', function () {
         });
       });
       it('on keep', function (done) {
-        childProcess('outband/keep-file-sync.json', function (err, stderr, stdout) {
+        childProcess('keep-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -81,7 +81,7 @@ describe('tmp', function () {
         });
       });
       it('on unlink (keep == false)', function (done) {
-        childProcess('outband/unlink-file-sync.json', function (err, stderr, stdout) {
+        childProcess('unlink-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);
@@ -94,7 +94,7 @@ describe('tmp', function () {
     describe('when running issue specific outband tests', function () {
       // add your issue specific tests here
       it('on issue #115', function (done) {
-        childProcess('outband/issue115-sync.json', function (err, stderr, stdout) {
+        childProcess('issue115-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);

@@ -67,3 +67,7 @@ module.exports.assertDoesNotExist = function assertDoesNotExist(name) {
   assert.ok(!existsSync(name), name + ' should not exist');
 };
 
+module.exports.assertDoesNotStartWith = function assertDoesNotStartWith(s, prefix, msg) {
+  if (s.indexOf(prefix) == 0) assert.fail(msg || s);
+};
+
