@@ -43,8 +43,7 @@ vows.describe('Synchronous file creation').addBatch({
     'should return with a name': Test.assertNameSync,
     'should be a file': _testFile(0100600, true),
     'should have the default prefix': Test.testPrefixSync('tmp-'),
-    'should have the default postfix': Test.testPostfixSync('.tmp'),
-    'should have been cleaned up': Test.testCleanupSync
+    'should have the default postfix': Test.testPostfixSync('.tmp')
   },
 
   'when using with prefix': {
@@ -54,8 +53,7 @@ vows.describe('Synchronous file creation').addBatch({
 
     'should return with a name': Test.assertNameSync,
     'should be a file': _testFile(0100600, true),
-    'should have the provided prefix': Test.testPrefixSync('something'),
-    'should have been cleaned up': Test.testCleanupSync
+    'should have the provided prefix': Test.testPrefixSync('something')
   },
 
   'when using with postfix': {
@@ -65,8 +63,7 @@ vows.describe('Synchronous file creation').addBatch({
 
     'should return with a name': Test.assertNameSync,
     'should be a file': _testFile(0100600, true),
-    'should have the provided postfix': Test.testPostfixSync('.txt'),
-    'should have been cleaned up': Test.testCleanupSync
+    'should have the provided postfix': Test.testPostfixSync('.txt')
   },
 
   'when using template': {
@@ -77,21 +74,20 @@ vows.describe('Synchronous file creation').addBatch({
     'should return with a name': Test.assertNameSync,
     'should be a file': _testFile(0100600, true),
     'should have the provided prefix': Test.testPrefixSync('clike-'),
-    'should have the provided postfix': Test.testPostfixSync('-postfix'),
-    'should have been cleaned up': Test.testCleanupSync
+    'should have the provided postfix': Test.testPostfixSync('-postfix')
   },
 
   'when using name': {
     topic: function () {
-      return tmp.fileSync({ name: 'using-name' });
+      return tmp.fileSync({ name: 'using-name-sync.tmp' });
     },
 
     'should return with a name': Test.assertNameSync,
-    'should have the provided name': Test.testNameSync(path.join(tmp.tmpdir, 'using-name')),
+    'should have the provided name': Test.testNameSync(path.join(tmp.tmpdir, 'using-name-sync.tmp')),
     'should be a file': function (result) {
       _testFile(0100600, true);
-    },
-    'should have been cleaned up': Test.testCleanupSync
+      fs.unlinkSync(result.name);
+    }
   },
 
   'when using multiple options': {
@@ -102,8 +98,7 @@ vows.describe('Synchronous file creation').addBatch({
     'should return with a name': Test.assertNameSync,
     'should be a file': _testFile(0100640, true),
     'should have the provided prefix': Test.testPrefixSync('foo'),
-    'should have the provided postfix': Test.testPostfixSync('bar'),
-    'should have been cleaned up': Test.testCleanupSync
+    'should have the provided postfix': Test.testPostfixSync('bar')
   },
 
   'when using multiple options and mode': {
@@ -114,8 +109,7 @@ vows.describe('Synchronous file creation').addBatch({
     'should return with a name': Test.assertNameSync,
     'should be a file': _testFile(0100644, true),
     'should have the provided prefix': Test.testPrefixSync('complicated'),
-    'should have the provided postfix': Test.testPostfixSync('options'),
-    'should have been cleaned up': Test.testCleanupSync
+    'should have the provided postfix': Test.testPostfixSync('options')
   },
 
   'no tries': {
