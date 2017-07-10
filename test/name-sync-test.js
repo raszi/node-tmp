@@ -8,33 +8,30 @@ var
 
 
 describe('tmp', function () {
-  describe('#tmpName()', function () {
+  describe('#tmpNameSync()', function () {
     // API call standard inband tests
     describe('when running inband standard tests', function () {
 
-      inbandStandardTests(function before(done) {
-        var that = this;
-        tmp.dir(this.opts, function (err, name) {
-          if (err) done(err);
-          else {
-            that.topic = name;
-            done();
-          }
-        });
+      inbandStandardTests(function before() {
+        this.topic = tmp.tmpNameSync(this.opts);
       });
 
       describe('with invalid tries', function () {
-        it('should result in an error on negative tries', function (done) {
-          tmp.tmpName({tries: -1}, function (err) {
-            assert.ok(err instanceof Error, 'should have failed');
-            done();
-          });
+        it('should result in an error on negative tries', function () {
+          try {
+            tmp.tmpNameSync({tries: -1});
+            assert.fail('should have failed');
+          } catch (err) {
+            assert.ok(err instanceof Error);
+          }
         });
-        it('should result in an error on non numeric tries', function (done) {
-          tmp.tmpName({tries: 'nan'}, function (err) {
-            assert.ok(err instanceof Error, 'should have failed');
-            done();
-          });
+        it('should result in an error on non numeric tries', function () {
+          try {
+            tmp.tmpNameSync({tries: 'nan'});
+            assert.fail('should have failed');
+          } catch (err) {
+            assert.ok(err instanceof Error);
+          }
         });
       });
     });

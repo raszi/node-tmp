@@ -1,271 +1,110 @@
 /* eslint-disable no-octal */
+// vim: expandtab:ts=2:sw=2
 
 var
-  vows   = require('vows'),
   assert = require('assert'),
-
-  path       = require('path'),
-  fs         = require('fs'),
-  existsSync = fs.existsSync || path.existsSync,
-
-  tmp    = require('../lib/tmp.js'),
-  Test   = require('./base.js');
+  fs = require('fs'),
+  inbandStandardTests = require('./inband-standard'),
+  assertions = require('./assertions'),
+  childProcess = require('./child-process'),
+  tmp = require('../lib/tmp');
 
 
-function _testFile(mode, fdTest) {
-  return function _testFileGenerated(err, name, fd) {
-    assert.ok(existsSync(name), 'should exist');
+// make sure that everything gets cleaned up
+tmp.setGracefulCleanup();
 
-    var stat = fs.statSync(name);
-    assert.equal(stat.size, 0, 'should have zero size');
-    assert.ok(stat.isFile(), 'should be a file');
 
-    Test.testStat(stat, mode);
+describe('tmp', function () {
+  describe('#file()', function () {
+    // API call standard inband tests
+    describe('when running inband standard tests', function () {
 
-    // check with fstat as well (fd checking)
-    if (fdTest) {
-      var fstat = fs.fstatSync(fd);
-      assert.deepEqual(fstat, stat, 'fstat results should be the same');
-
-      var data = new Buffer('something');
-      assert.equal(fs.writeSync(fd, data, 0, data.length, 0), data.length, 'should be writable');
-      assert.ok(!fs.closeSync(fd), 'should not return with error');
-    }
-  };
-}
-
-function _testFileNoDescriptor(mode) {
-  return function _testFileNoDescriptor(err, name, fd) {
-    assert.ok(existsSync(name), 'should exist');
-
-    var stat = fs.statSync(name);
-    assert.equal(stat.size, 0, 'should have zero size');
-    assert.ok(stat.isFile(), 'should be a file');
-
-    Test.testStat(stat, mode);
-
-    assert.strictEqual(fd, undefined);
-  };
-}
-
-function _testFileAfterDetachRemove(mode) {
-  return function _testFileAfterDetachRemove(err, name, fd) {
-    assert.ok(!existsSync(name), 'File should be removed');
-
-    var fstat = fs.fstatSync(fd);
-    assert.equal(fstat.size, 0, 'should have zero size');
-    assert.ok(fstat.isFile(), 'should be a file');
-    Test.testStat(fstat, mode);
-
-    var data = new Buffer('something');
-    assert.equal(fs.writeSync(fd, data, 0, data.length, 0), data.length, 'should be writable');
-    assert.ok(!fs.closeSync(fd), 'should not return with error');
-  };
-}
-
-vows.describe('File creation').addBatch({
-  'when using without parameters': {
-    topic: function () {
-      tmp.file(this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should be a file': _testFile(0100600, true),
-    'should have the default prefix': Test.testPrefix('tmp-'),
-    'should have the default postfix': Test.testPostfix('.tmp')
-  },
-
-  'when using with prefix': {
-    topic: function () {
-      tmp.file({ prefix: 'something' }, this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should be a file': _testFile(0100600, true),
-    'should have the provided prefix': Test.testPrefix('something')
-  },
-
-  'when using with postfix': {
-    topic: function () {
-      tmp.file({ postfix: '.txt' }, this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should be a file': _testFile(0100600, true),
-    'should have the provided postfix': Test.testPostfix('.txt')
-  },
-
-  'when using template': {
-    topic: function () {
-      tmp.file({ template: 'clike-XXXXXX-postfix' }, this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should be a file': _testFile(0100600, true),
-    'should have the provided prefix': Test.testPrefix('clike-'),
-    'should have the provided postfix': Test.testPostfix('-postfix')
-  },
-
-  'when using name': {
-    topic: function () {
-      tmp.file({ name: 'using-name.tmp' }, this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should have the provided name': Test.testName(path.join(tmp.tmpdir, 'using-name.tmp')),
-    'should be a file': function (err, name) {
-      _testFile(0100600, true);
-      fs.unlinkSync(name);
-    }
-  },
-
-  'when using discardDescriptor': {
-    topic: function () {
-      tmp.file({ discardDescriptor: true }, this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should not return with a descriptor': Test.assertNoDescriptor,
-    'should be a file': _testFileNoDescriptor(0100600),
-  },
-
-  'when using detachDescriptor': {
-    topic: function () {
-      var cb = this.callback;
-      tmp.file({ detachDescriptor: true }, function (err, name, fd, removeCallback) {
-        removeCallback();
-        return cb(err, name, fd);
+      inbandStandardTests(true, function before(done) {
+        var that = this;
+        tmp.file(this.opts, function (err, name, fd, removeCallback) {
+          if (err) done(err);
+          else {
+            that.topic = {name: name, fd: fd, removeCallback: removeCallback};
+            done();
+          }
+        });
       });
-    },
 
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should have working descriptor after removeCallback': _testFileAfterDetachRemove(0100600),
-  },
+      describe('with invalid tries', function () {
+        it('should result in an error on negative tries', function (done) {
+          tmp.file({tries: -1}, function (err) {
+            assert.ok(err instanceof Error, 'should have failed');
+            done();
+          });
+        });
+        it('should result in an error on non numeric tries', function (done) {
+          tmp.file({tries: 'nan'}, function (err) {
+            assert.ok(err instanceof Error, 'should have failed');
+            done();
+          });
+        });
+      });
+    });
 
-  'when using multiple options': {
-    topic: function () {
-      tmp.file({ prefix: 'foo', postfix: 'bar', mode: 0640 }, this.callback);
-    },
+    // API call issue specific inband tests
+    describe('when running issue specific inband tests', function () {
+      // add your issue specific tests here
+    });
 
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should be a file': _testFile(0100640, true),
-    'should have the provided prefix': Test.testPrefix('foo'),
-    'should have the provided postfix': Test.testPostfix('bar')
-  },
+    // API call standard outband tests
+    describe('when running standard outband tests', function () {
+      it('on graceful', function (done) {
+        childProcess('outband/graceful-file.json', function (err, stderr, stdout) {
+          if (err) return done(err);
+          else if (!stderr) assert.fail('stderr expected');
+          else assertions.assertDoesNotExist(stdout);
+          done();
+        });
+      });
+      it('on non graceful', function (done) {
+        childProcess('outband/non-graceful-file.json', function (err, stderr, stdout) {
+          if (err) return done(err);
+          else if (!stderr) assert.fail('stderr expected');
+          else {
+            assertions.assertExists(stdout, true);
+            fs.unlinkSync(stdout);
+          }
+          done();
+        });
+      });
+      it('on keep', function (done) {
+        childProcess('outband/keep-file.json', function (err, stderr, stdout) {
+          if (err) return done(err);
+          else if (stderr) assert.fail(stderr);
+          else {
+            assertions.assertExists(stdout, true);
+            fs.unlinkSync(stdout);
+          }
+          done();
+        });
+      });
+      it('on unlink (keep == false)', function (done) {
+        childProcess('outband/unlink-file.json', function (err, stderr, stdout) {
+          if (err) return done(err);
+          else if (stderr) assert.fail(stderr);
+          else assertions.assertDoesNotExist(stdout);
+          done();
+        });
+      });
+    });
 
-  'when using multiple options and mode': {
-    topic: function () {
-      tmp.file({ prefix: 'complicated', postfix: 'options', mode: 0644 }, this.callback);
-    },
+    // API call issue specific outband tests
+    describe('when running issue specific outband tests', function () {
+      // add your issue specific tests here
+      it('on issue #115', function (done) {
+        childProcess('outband/issue115.json', function (err, stderr, stdout) {
+          if (err) return done(err);
+          else if (stderr) assert.fail(stderr);
+          else assertions.assertDoesNotExist(stdout);
+          done();
+        });
+      });
+    });
+  });
+});
 
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should be a file': _testFile(0100644, true),
-    'should have the provided prefix': Test.testPrefix('complicated'),
-    'should have the provided postfix': Test.testPostfix('options')
-  },
-
-  'no tries': {
-    topic: function () {
-      tmp.file({ tries: -1 }, this.callback);
-    },
-
-    'should not be created': assert.isObject
-  },
-
-  'keep testing': {
-    topic: function () {
-      Test.testKeep('file', '1', this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should be a file': function (err, name) {
-      _testFile(0100600, false)(err, name, null);
-      fs.unlinkSync(name);
-    }
-  },
-
-  'unlink testing': {
-    topic: function () {
-      Test.testKeep('file', '0', this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), 'File should be removed');
-    }
-  },
-
-  'non graceful testing': {
-    topic: function () {
-      Test.testGraceful('file', '0', this.callback);
-    },
-
-    'should not return with error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should be a file': function (err, name) {
-      _testFile(0100600, false)(err, name, null);
-      fs.unlinkSync(name);
-    }
-  },
-
-  'graceful testing': {
-    topic: function () {
-      Test.testGraceful('file', '1', this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), 'File should be removed');
-    }
-  },
-
-  'remove callback': {
-    topic: function () {
-      tmp.file(this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'removeCallback should remove file': function (_err, name, _fd, removeCallback) {
-      removeCallback();
-      assert.ok(!existsSync(name), 'File should be removed');
-    }
-  },
-
-  'issue115 async: user deleted tmp file prior to cleanup': {
-    topic: function () {
-      Test.testIssue115File(this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), 'File should be removed');
-    }
-  },
-
-  'issue115 sync: user deleted tmp file prior to cleanup': {
-    topic: function () {
-      Test.testIssue115FileSync(this.callback);
-    },
-
-    'should not return with an error': assert.isNull,
-    'should return with a name': Test.assertName,
-    'should not exist': function (err, name) {
-      assert.ok(!existsSync(name), 'File should be removed');
-    }
-  },
-
-}).exportTo(module);
