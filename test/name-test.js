@@ -40,7 +40,7 @@ vows.describe('Name creation').addBatch({
 
   'when using template': {
     topic: function () {
-      tmp.tmpName({ template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix') }, this.callback);
+      tmp.tmpName({ template: 'clike-XXXXXX-postfix' }, this.callback);
     },
 
     'should not return with error': assert.isNull,

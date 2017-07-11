@@ -56,7 +56,7 @@ vows.describe('Synchronous directory creation').addBatch({
 
   'when using template': {
     topic: function () {
-      return tmp.dirSync({ template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix') });
+      return tmp.dirSync({ template: 'clike-XXXXXX-postfix' });
     },
 
     'should return with a name': Test.assertNameSync,

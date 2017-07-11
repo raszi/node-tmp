@@ -97,7 +97,7 @@ vows.describe('Synchronous file creation').addBatch({
 
   'when using template': {
     topic: function () {
-      return tmp.fileSync({ template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix') });
+      return tmp.fileSync({ template: 'clike-XXXXXX-postfix' });
     },
 
     'should return with a name': Test.assertNameSync,
