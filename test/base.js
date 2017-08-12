@@ -148,6 +148,10 @@ function _assertNoDescriptor(err, name, fd) {
   assert.strictEqual(fd, undefined);
 }
 
+function _assertNoDescriptorSync(result) {
+  assert.strictEqual(result.fd, undefined);
+}
+
 function _assertName(err, name) {
   assert.isString(name);
   assert.isNotZero(name.length, 'an empty string is not a valid name');
@@ -212,6 +216,7 @@ module.exports.testGracefulSync = _testGracefulSync;
 module.exports.assertName = _assertName;
 module.exports.assertNameSync = _assertNameSync;
 module.exports.assertNoDescriptor = _assertNoDescriptor;
+module.exports.assertNoDescriptorSync = _assertNoDescriptorSync;
 module.exports.testName = _testName;
 module.exports.testNameSync = _testNameSync;
 module.exports.testUnsafeCleanup = _testUnsafeCleanup;

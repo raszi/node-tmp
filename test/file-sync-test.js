@@ -34,6 +34,35 @@ function _testFile(mode, fdTest) {
   };
 }
 
+function _testFileNoDescriptor(mode) {
+  return function _testFileNoDescriptor(result) {
+    assert.ok(existsSync(result.name), 'should exist');
+
+    var stat = fs.statSync(result.name);
+    assert.equal(stat.size, 0, 'should have zero size');
+    assert.ok(stat.isFile(), 'should be a file');
+
+    Test.testStat(stat, mode);
+
+    assert.strictEqual(result.fd, undefined);
+  };
+}
+
+function _testFileAfterDetachRemove(mode) {
+  return function _testFileAfterDetachRemove(result) {
+    assert.ok(!existsSync(result.name), 'File should be removed');
+
+    var fstat = fs.fstatSync(result.fd);
+    assert.equal(fstat.size, 0, 'should have zero size');
+    assert.ok(fstat.isFile(), 'should be a file');
+    Test.testStat(fstat, mode);
+
+    var data = new Buffer('something');
+    assert.equal(fs.writeSync(result.fd, data, 0, data.length, 0), data.length, 'should be writable');
+    assert.ok(!fs.closeSync(result.fd), 'should not return with error');
+  };
+}
+
 vows.describe('Synchronous file creation').addBatch({
   'when using without parameters': {
     topic: function () {
@@ -187,6 +216,27 @@ vows.describe('Synchronous file creation').addBatch({
       result.removeCallback();
       assert.ok(!existsSync(result.name), 'File should be removed');
     }
+  },
+
+  'when using discardDescriptor': {
+    topic: function () {
+      return tmp.fileSync({ discardDescriptor: true });
+    },
+
+    'should return with a name': Test.assertNameSync,
+    'should not return with a descriptor': Test.assertNoDescriptorSync,
+    'should be a file': _testFileNoDescriptor(0100600),
+  },
+
+  'when using detachDescriptor': {
+    topic: function () {
+      var result = tmp.fileSync({ detachDescriptor: true });
+      result.removeCallback();
+      return result;
+    },
+
+    'should return with a name': Test.assertNameSync,
+    'should have working descriptor after removeCallback': _testFileAfterDetachRemove(0100600),
   }
 
 }).exportTo(module);
