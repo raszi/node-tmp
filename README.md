@@ -15,7 +15,7 @@ in a [node.js][1] environment.
 
 Tmp offers both an asynchronous and a synchronous API. For all API calls, all
 the parameters are optional. There also exists a promisified version of the
-API, see (5) under references below.
+API, see [tmp-promise][5].
 
 Tmp uses crypto for determining random file names, or, when using templates,
 a six letter random identifier. And just in case that you do not have that much
