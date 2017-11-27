@@ -57,7 +57,7 @@ vows.describe('Directory creation').addBatch({
 
   'when using template': {
     topic: function () {
-      tmp.dir({ template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix') }, this.callback);
+      tmp.dir({ template: 'clike-XXXXXX-postfix' }, this.callback);
     },
 
     'should not return with error': assert.isNull,

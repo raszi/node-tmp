@@ -237,10 +237,14 @@ console.log('Dir: ', tmpobj.name);
 
 Creates a new temporary directory with mode `0700` and filename like `/tmp/tmp-nk2J1u`.
 
+IMPORTANT NOTE: template no longer accepts a path. Use the dir option instead if you
+require tmp to create your temporary filesystem object in a different place than the
+default `tmp.tmpdir`.
+
 ```javascript
 var tmp = require('tmp');
 
-tmp.dir({ template: '/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
+tmp.dir({ template: 'tmp-XXXXXX' }, function _tempDirCreated(err, path) {
   if (err) throw err;
 
   console.log('Dir: ', path);
@@ -254,7 +258,7 @@ This will behave similarly to the asynchronous version.
 ```javascript
 var tmp = require('tmp');
 
-var tmpobj = tmp.dirSync({ template: '/tmp/tmp-XXXXXX' });
+var tmpobj = tmp.dirSync({ template: 'tmp-XXXXXX' });
 console.log('Dir: ', tmpobj.name);
 ```
 
