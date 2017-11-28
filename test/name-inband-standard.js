@@ -11,12 +11,12 @@ var
 
 
 module.exports = function inbandStandard(beforeHook) {
-  describe('without any parameters', inbandStandardTests({prefix: 'tmp-'}, null, beforeHook));
-  describe('with prefix', inbandStandardTests(null, {prefix: 'something'}, beforeHook));
-  describe('with postfix', inbandStandardTests(null, {postfix: '.txt'}, beforeHook));
-  describe('with template and no leading path', inbandStandardTests({prefix: 'clike-', postfix: '-postfix'}, {template: 'clike-XXXXXX-postfix'}, beforeHook));
-  describe('with template and leading path', inbandStandardTests({prefix: 'clike-', postfix: '-postfix'}, {template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix')}, beforeHook));
-  describe('with multiple options', inbandStandardTests(null, {prefix: 'foo', postfix: 'bar', tries: 5}, beforeHook));
+  describe('without any parameters', inbandStandardTests({ prefix: 'tmp-' }, null, beforeHook));
+  describe('with prefix', inbandStandardTests(null, { prefix: 'something' }, beforeHook));
+  describe('with postfix', inbandStandardTests(null, { postfix: '.txt' }, beforeHook));
+  describe('with template and no leading path', inbandStandardTests({ prefix: 'clike-', postfix: '-postfix' }, { template: 'clike-XXXXXX-postfix' }, beforeHook));
+  describe('with template and leading path', inbandStandardTests({ prefix: 'clike-', postfix: '-postfix' }, { template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix')}, beforeHook));
+  describe('with multiple options', inbandStandardTests(null, { prefix: 'foo', postfix: 'bar', tries: 5 }, beforeHook));
 };
 
 
@@ -24,7 +24,7 @@ function inbandStandardTests(testOpts, opts, beforeHook) {
   return function () {
     opts = opts || {};
     testOpts = testOpts || {};
-    topic = {topic: null, opts: opts};
+    topic = { topic: null, opts: opts };
 
     // bind everything to topic so we avoid global
     before(beforeHook.bind(topic));

@@ -2,6 +2,6 @@
   "tc": "unsafe",
   "async": false,
   "file": false,
-  "options": {"unsafeCleanup":false},
+  "options": { "unsafeCleanup":false },
   "graceful": false 
 }

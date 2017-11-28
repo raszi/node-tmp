@@ -12,7 +12,6 @@ function _writeSync(stream, str, cb) {
   }
 
   stream.once('drain', function _flushed() {
-console.log('draining');
     cb(null);
   });
 }
@@ -59,8 +58,8 @@ if (config.async)
     if (err) spawn.err(err);
     else {
       var result = null; 
-      if (config.file) result = {name: name, fd: fdOrCallback, removeCallback: cb};
-      else result = {name: name, removeCallback: fdOrCallback};
+      if (config.file) result = { name: name, fd: fdOrCallback, removeCallback: cb };
+      else result = { name: name, removeCallback: fdOrCallback };
       fn.apply(spawn, [result, tmp]);
     }
   });

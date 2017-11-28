@@ -19,7 +19,7 @@ describe('tmp', function () {
       describe('with invalid tries', function () {
         it('should result in an error on negative tries', function () {
           try {
-            tmp.tmpNameSync({tries: -1});
+            tmp.tmpNameSync({ tries: -1 });
             assert.fail('should have failed');
           } catch (err) {
             assert.ok(err instanceof Error);
@@ -27,7 +27,7 @@ describe('tmp', function () {
         });
         it('should result in an error on non numeric tries', function () {
           try {
-            tmp.tmpNameSync({tries: 'nan'});
+            tmp.tmpNameSync({ tries: 'nan' });
             assert.fail('should have failed');
           } catch (err) {
             assert.ok(err instanceof Error);

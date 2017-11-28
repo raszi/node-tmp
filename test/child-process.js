@@ -10,7 +10,7 @@ var
 module.exports = function spawnChildProcess(configFile, cb) {
   var
     node_path = process.argv[0],
-    command_args = [ path.join(__dirname, 'spawn.js') ].concat(configFile),
+    command_args = [path.join(__dirname, 'spawn.js')].concat(configFile),
     stdoutBufs = [],
     stderrBufs = [],
     child,

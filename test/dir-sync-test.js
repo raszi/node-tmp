@@ -25,9 +25,10 @@ describe('tmp', function () {
       });
 
       describe('with invalid tries', function () {
+
         it('should result in an error on negative tries', function () {
           try {
-            tmp.dirSync({tries: -1});
+            tmp.dirSync({ tries: -1 });
             assert.fail('should have failed');
           } catch (err) {
             assert.ok(err instanceof Error);
@@ -35,12 +36,13 @@ describe('tmp', function () {
         });
         it('should result in an error on non numeric tries', function () {
           try {
-            tmp.dirSync({tries: 'nan'});
+            tmp.dirSync({ tries: 'nan' });
             assert.fail('should have failed');
           } catch (err) {
             assert.ok(err instanceof Error);
           }
         });
+
       });
     });
 

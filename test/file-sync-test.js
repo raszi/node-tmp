@@ -20,13 +20,13 @@ describe('tmp', function () {
     describe('when running inband standard tests', function () {
 
       inbandStandardTests(true, function before() {
-	this.topic = tmp.fileSync(this.opts);
+        this.topic = tmp.fileSync(this.opts);
       });
 
       describe('with invalid tries', function () {
         it('should result in an error on negative tries', function () {
           try {
-            tmp.fileSync({tries: -1});
+            tmp.fileSync({ tries: -1 });
             assert.fail('should have failed');
           } catch (err) {
             assert.ok(err instanceof Error);
@@ -34,7 +34,7 @@ describe('tmp', function () {
         });
         it('should result in an error on non numeric tries', function () {
           try {
-            tmp.fileSync({tries: 'nan'});
+            tmp.fileSync({ tries: 'nan' });
             assert.fail('should have failed');
           } catch (err) {
             assert.ok(err instanceof Error);

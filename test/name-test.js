@@ -25,13 +25,13 @@ describe('tmp', function () {
 
       describe('with invalid tries', function () {
         it('should result in an error on negative tries', function (done) {
-          tmp.tmpName({tries: -1}, function (err) {
+          tmp.tmpName({ tries: -1 }, function (err) {
             assert.ok(err instanceof Error, 'should have failed');
             done();
           });
         });
         it('should result in an error on non numeric tries', function (done) {
-          tmp.tmpName({tries: 'nan'}, function (err) {
+          tmp.tmpName({ tries: 'nan' }, function (err) {
             assert.ok(err instanceof Error, 'should have failed');
             done();
           });

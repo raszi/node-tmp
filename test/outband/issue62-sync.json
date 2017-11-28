@@ -2,6 +2,6 @@
   "tc": "issue62",
   "async": false,
   "file": false,
-  "options": {"unsafeCleanup":true},
+  "options": { "unsafeCleanup":true },
   "graceful": false
 }

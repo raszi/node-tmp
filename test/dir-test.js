@@ -25,7 +25,7 @@ describe('tmp', function () {
         tmp.dir(this.opts, function (err, name, removeCallback) {
           if (err) done(err);
           else {
-            that.topic = {name: name, removeCallback: removeCallback};
+            that.topic = { name: name, removeCallback: removeCallback };
             done();
           }
         });
@@ -33,13 +33,13 @@ describe('tmp', function () {
 
       describe('with invalid tries', function () {
         it('should result in an error on negative tries', function (done) {
-          tmp.dir({tries: -1}, function (err) {
+          tmp.dir({ tries: -1 }, function (err) {
             assert.ok(err instanceof Error, 'should have failed');
             done();
           });
         });
         it('should result in an error on non numeric tries', function (done) {
-          tmp.dir({tries: 'nan'}, function (err) {
+          tmp.dir({ tries: 'nan' }, function (err) {
             assert.ok(err instanceof Error, 'should have failed');
             done();
           });

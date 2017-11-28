@@ -2,6 +2,6 @@
   "tc": "keep",
   "async": true,
   "file": false,
-  "options": {"keep":true},
+  "options": { "keep":true },
   "graceful": false 
 }

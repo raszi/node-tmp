@@ -12,17 +12,17 @@ var
 
 module.exports = function inbandStandard(isFile, beforeHook) {
   var testMode = isFile ? 0600 : 0700;
-  describe('without any parameters', inbandStandardTests({mode: testMode, prefix: 'tmp-'}, null, isFile, beforeHook));
-  describe('with prefix', inbandStandardTests({mode: testMode}, {prefix: 'something'}, isFile, beforeHook));
-  describe('with postfix', inbandStandardTests({mode: testMode}, {postfix: '.txt'}, isFile, beforeHook));
-  describe('with template and no leading path', inbandStandardTests({mode: testMode, prefix: 'clike-', postfix: '-postfix'}, {template: 'clike-XXXXXX-postfix'}, isFile, beforeHook));
-  describe('with template and leading path', inbandStandardTests({mode: testMode, prefix: 'clike-', postfix: '-postfix'}, {template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix')}, isFile, beforeHook));
-  describe('with name', inbandStandardTests({mode: testMode}, {name: 'using-name'}, isFile, beforeHook));
-  describe('with mode', inbandStandardTests(null, {mode: 0755}, isFile, beforeHook));
-  describe('with multiple options', inbandStandardTests(null, {prefix: 'foo', postfix: 'bar', mode: 0750}, isFile, beforeHook));
+  describe('without any parameters', inbandStandardTests({ mode: testMode, prefix: 'tmp-' }, null, isFile, beforeHook));
+  describe('with prefix', inbandStandardTests({ mode: testMode }, { prefix: 'something' }, isFile, beforeHook));
+  describe('with postfix', inbandStandardTests({ mode: testMode }, { postfix: '.txt' }, isFile, beforeHook));
+  describe('with template and no leading path', inbandStandardTests({ mode: testMode, prefix: 'clike-', postfix: '-postfix' }, { template: 'clike-XXXXXX-postfix' }, isFile, beforeHook));
+  describe('with template and leading path', inbandStandardTests({ mode: testMode, prefix: 'clike-', postfix: '-postfix' }, { template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix')}, isFile, beforeHook));
+  describe('with name', inbandStandardTests({ mode: testMode }, { name: 'using-name' }, isFile, beforeHook));
+  describe('with mode', inbandStandardTests(null, { mode: 0755 }, isFile, beforeHook));
+  describe('with multiple options', inbandStandardTests(null, { prefix: 'foo', postfix: 'bar', mode: 0750 }, isFile, beforeHook));
   if (isFile) {
-    describe('with discardDescriptor', inbandStandardTests(null, {mode: testMode, discardDescriptor: true}, isFile, beforeHook));
-    describe('with detachDescriptor', inbandStandardTests(null, {mode: testMode, detachDescriptor: true}, isFile, beforeHook));
+    describe('with discardDescriptor', inbandStandardTests(null, { mode: testMode, discardDescriptor: true }, isFile, beforeHook));
+    describe('with detachDescriptor', inbandStandardTests(null, { mode: testMode, detachDescriptor: true }, isFile, beforeHook));
   }
 };
 
@@ -33,7 +33,7 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook) {
     testOpts = testOpts || {};
 
     // topic reference will be created by the beforeHook
-    topic = {topic: null, opts: opts};
+    topic = { topic: null, opts: opts };
 
     // bind everything to topic so we avoid global
     before(beforeHook.bind(topic));

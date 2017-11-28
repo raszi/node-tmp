@@ -9,9 +9,10 @@ var
 
 module.exports.assertName = function assertName(name, expected) {
   assert.ok(typeof name == 'string');
-  assert.ok(name.length > 0, 'an empty string is not a valid name');
   if (expected) {
     assert.equal(path.basename(name), expected, 'should be the expected name');
+  } else {
+    assert.ok(name.length > 0, 'an empty string is not a valid name');
   }
 };
 
