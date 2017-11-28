@@ -24,6 +24,27 @@ entropy left on your system, Tmp will fall back to pseudo random numbers.
 You can set whether you want to remove the temporary file on process exit or
 not, and the destination directory can also be set.
 
+## An Important Note on Compatibility
+
+### Version 0.1.0
+
+Since version 0.1.0, all support for node versions < 0.10.0 has been dropped.
+
+Most importantly, any support for earlier versions of node-tmp was also dropped.
+
+If you still require node versions < 0.10.0, then you must limit your node-tmp
+dependency to versions below 0.1.0.
+
+### Version 0.0.33
+
+Since version 0.0.33, all support for node versions < 0.8 has been dropped.
+
+If you still require node version 0.8, then you must limit your node-tmp
+dependency to version 0.0.33.
+
+For node versions < 0.8 you must limit your node-tmp dependency to
+versions < 0.0.33.
+
 ## How to install
 
 ```bash
