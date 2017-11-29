@@ -6,7 +6,7 @@ var
   fs = require('fs'),
   path = require('path'),
   inbandStandardTests = require('./inband-standard'),
-  childProcess = require('./child-process'),
+  childProcess = require('./child-process').genericChildProcess,
   assertions = require('./assertions'),
   tmp = require('../lib/tmp');
 
@@ -55,7 +55,7 @@ describe('tmp', function () {
     // API call standard outband tests
     describe('when running standard outband tests', function () {
       it('on graceful cleanup', function (done) {
-        childProcess('outband/graceful-dir.json', function (err, stderr, stdout) {
+        childProcess('graceful-dir.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else assertions.assertDoesNotExist(stdout);
@@ -63,7 +63,7 @@ describe('tmp', function () {
         });
       });
       it('on non graceful cleanup', function (done) {
-        childProcess('outband/non-graceful-dir.json', function (err, stderr, stdout) {
+        childProcess('non-graceful-dir.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else {
@@ -74,7 +74,7 @@ describe('tmp', function () {
         });
       });
       it('on keep', function (done) {
-        childProcess('outband/keep-dir.json', function (err, stderr, stdout) {
+        childProcess('keep-dir.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -85,7 +85,7 @@ describe('tmp', function () {
         });
       });
       it('on unlink (keep == false)', function (done) {
-        childProcess('outband/unlink-dir.json', function (err, stderr, stdout) {
+        childProcess('unlink-dir.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);
@@ -93,7 +93,7 @@ describe('tmp', function () {
         });
       });
       it('on unsafe cleanup', function (done) {
-        childProcess('outband/unsafe.json', function (err, stderr, stdout) {
+        childProcess('unsafe.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -106,7 +106,7 @@ describe('tmp', function () {
         });
       });
       it('on non unsafe cleanup', function (done) {
-        childProcess('outband/non-unsafe.json', function (err, stderr, stdout) {
+        childProcess('non-unsafe.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -129,7 +129,7 @@ describe('tmp', function () {
     describe('when running issue specific outband tests', function () {
       // add your issue specific tests here
       it('on issue #62', function (done) {
-        childProcess('outband/issue62.json', function (err, stderr, stdout) {
+        childProcess('issue62.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);

@@ -3,5 +3,5 @@
   "async": true,
   "file": false,
   "options": { "unsafeCleanup":true },
-  "graceful": false
+  "graceful": true 
 }

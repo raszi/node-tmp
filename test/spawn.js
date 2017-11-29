@@ -2,8 +2,7 @@
 
 var
   fs = require('fs'),
-  path = require('path'),
-  tmp = require('../lib/tmp');
+  path = require('path');
 
 function _writeSync(stream, str, cb) {
   var flushed = stream.write(str);
@@ -16,15 +15,20 @@ function _writeSync(stream, str, cb) {
   });
 }
 
-var spawn = {
+module.exports = {
+  graceful: false,
   out: function (str, cb) {
-    cb = cb || spawn.exit;
+    cb = cb || this.exit;
     _writeSync(process.stdout, str, cb);
   },
   err: function (errOrStr, cb) {
-    cb = cb || spawn.exit;
-    if (!config.graceful) _writeSync(process.stderr, (errOrStr instanceof Error) ? errOrStr.toString() : errOrStr, cb);
+    cb = cb || this.exit;
+    if (!this.graceful) _writeSync(process.stderr, (errOrStr instanceof Error) ? errOrStr.toString() : errOrStr, cb);
     else cb();
+  },
+  fail: function (errOrStr, cb) {
+    cb = cb || this.exit;
+    _writeSync(process.stderr, (errOrStr instanceof Error) ? errOrStr.toString() : errOrStr, cb);
   },
   exit: function (code) {
     process.exit(code || 0);
@@ -33,40 +37,4 @@ var spawn = {
     process.kill(signal || 'SIGINT');
   }
 };
-
-var config = {};
-try {
-  var contents = fs.readFileSync(path.join(__dirname, process.argv[2]));
-  config = JSON.parse(contents);
-}
-catch (err) {
-  spawn.err(err);
-}
-
-var fnUnderTest = null;
-
-if (config.async) fnUnderTest = (config.file) ? tmp.file : tmp.dir;
-else fnUnderTest = (config.file) ? tmp.fileSync : tmp.dirSync;
-
-// do we test against tmp doing a graceful cleanup?
-if (config.graceful) tmp.setGracefulCleanup();
-
-// import the test case function and execute it
-var fn = require(path.join(__dirname, 'outband', config.tc));
-if (config.async)
-  fnUnderTest(config.options, function (err, name, fdOrCallback, cb) {
-    if (err) spawn.err(err);
-    else {
-      var result = null; 
-      if (config.file) result = { name: name, fd: fdOrCallback, removeCallback: cb };
-      else result = { name: name, removeCallback: fdOrCallback };
-      fn.apply(spawn, [result, tmp]);
-    }
-  });
-else {
-  var result = null;
-  var err = null;
-  result = fnUnderTest(config.options);
-  fn.apply(spawn, [result, tmp]);
-}
 

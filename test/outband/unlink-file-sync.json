@@ -1,5 +1,5 @@
 {
-  "tc": "keep",
+  "tc": "unlink",
   "async": false,
   "file": true,
   "options": { "keep":false },
