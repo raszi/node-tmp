@@ -30,7 +30,7 @@ module.exports = {
     process.exit(code || 0);
   },
   kill: function (signal) {
-    process.kill(signal || 'SIGINT');
+    process.kill(process.pid, signal || 'SIGINT');
   }
 };
 
