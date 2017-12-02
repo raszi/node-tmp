@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "eslint": "^4.12.1",
+    "eslint-plugin-mocha": "^4.11.0",
     "mocha": "~3.4.2"
   },
   "main": "lib/tmp.js",
@@ -33,7 +34,7 @@
     "lib/"
   ],
   "scripts": {
-    "lint": "eslint lib test",
+    "lint": "eslint lib --env mocha test",
     "test": "mocha test/*-test.js",
     "doc": "jsdoc -c .jsdoc.json"
   }
