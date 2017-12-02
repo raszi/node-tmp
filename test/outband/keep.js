@@ -1,3 +1,3 @@
-module.exports = function (result, tmp) {
+module.exports = function (result) {
   this.out(result.name);
 };

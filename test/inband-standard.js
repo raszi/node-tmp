@@ -33,7 +33,7 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook) {
     testOpts = testOpts || {};
 
     // topic reference will be created by the beforeHook
-    topic = { topic: null, opts: opts };
+    const topic = { topic: null, opts: opts };
 
     // bind everything to topic so we avoid global
     before(beforeHook.bind(topic));
@@ -77,5 +77,4 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook) {
       assert.ok(!existsSync(this.topic.name));
     }.bind(topic));
   };
-};
-
+}

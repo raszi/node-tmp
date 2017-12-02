@@ -29,7 +29,7 @@ module.exports.childProcess = function spawnChildProcess(configFile, cb) {
     return cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
 
   _do_spawn(command_args, cb);
-}
+};
 
 function _do_spawn(command_args, cb) {
   var
