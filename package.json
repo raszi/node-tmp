@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "lint": "eslint lib --env mocha test",
-    "test": "npm run lint && mocha test/*-test.js",
+    "test": "mocha test/*-test.js",
     "doc": "jsdoc -c .jsdoc.json"
   }
 }
