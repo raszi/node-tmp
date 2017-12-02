@@ -34,7 +34,6 @@
     "lib/"
   ],
   "scripts": {
-    "lint": "eslint lib test",
     "test": "istanbul cover _mocha -u exports -R test/*-test.js",
     "doc": "jsdoc -c .jsdoc.json"
   }
