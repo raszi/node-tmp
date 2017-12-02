@@ -25,6 +25,7 @@
     "os-tmpdir": "~1.0.2"
   },
   "devDependencies": {
+    "eslint": "^4.12.1",
     "mocha": "~3.4.2"
   },
   "main": "lib/tmp.js",
