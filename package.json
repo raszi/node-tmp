@@ -32,6 +32,7 @@
     "lib/"
   ],
   "scripts": {
+    "lint": "eslint lib test",
     "test": "mocha test/*-test.js",
     "doc": "jsdoc -c .jsdoc.json"
   }
