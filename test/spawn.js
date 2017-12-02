@@ -1,4 +1,8 @@
-var tmp = require('../lib/tmp');
+// vim: expandtab:ts=2:sw=2
+
+var
+  fs = require('fs'),
+  path = require('path');
 
 function _writeSync(stream, str, cb) {
   var flushed = stream.write(str);
@@ -11,20 +15,26 @@ function _writeSync(stream, str, cb) {
   });
 }
 
-module.exports.out = function (str, cb) {
-  _writeSync(process.stdout, str, cb);
+module.exports = {
+  graceful: false,
+  out: function (str, cb) {
+    cb = cb || this.exit;
+    _writeSync(process.stdout, str, cb);
+  },
+  err: function (errOrStr, cb) {
+    cb = cb || this.exit;
+    if (!this.graceful) _writeSync(process.stderr, (errOrStr instanceof Error) ? errOrStr.toString() : errOrStr, cb);
+    else cb();
+  },
+  fail: function (errOrStr, cb) {
+    cb = cb || this.exit;
+    _writeSync(process.stderr, (errOrStr instanceof Error) ? errOrStr.toString() : errOrStr, cb);
+  },
+  exit: function (code) {
+    process.exit(code || 0);
+  },
+  kill: function (signal) {
+    process.kill(signal || 'SIGINT');
+  }
 };
 
-module.exports.err = function (str, cb) {
-  _writeSync(process.stderr, str, cb);
-};
-
-module.exports.exit = function () {
-  process.exit(0);
-};
-
-var type = process.argv[2];
-module.exports.tmpFunction = (type == 'file') ? tmp.file : tmp.dir;
-
-var arg = (process.argv[3] && parseInt(process.argv[3], 10) === 1) ? true : false;
-module.exports.arg = arg;

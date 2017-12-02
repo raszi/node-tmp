@@ -14,7 +14,8 @@ This is a [widely used library][2] to create temporary files and directories
 in a [node.js][1] environment.
 
 Tmp offers both an asynchronous and a synchronous API. For all API calls, all
-the parameters are optional.
+the parameters are optional. There also exists a promisified version of the
+API, see [tmp-promise][5].
 
 Tmp uses crypto for determining random file names, or, when using templates,
 a six letter random identifier. And just in case that you do not have that much
@@ -22,6 +23,27 @@ entropy left on your system, Tmp will fall back to pseudo random numbers.
 
 You can set whether you want to remove the temporary file on process exit or
 not, and the destination directory can also be set.
+
+## An Important Note on Compatibility
+
+### Version 0.1.0
+
+Since version 0.1.0, all support for node versions < 0.10.0 has been dropped.
+
+Most importantly, any support for earlier versions of node-tmp was also dropped.
+
+If you still require node versions < 0.10.0, then you must limit your node-tmp
+dependency to versions below 0.1.0.
+
+### Version 0.0.33
+
+Since version 0.0.33, all support for node versions < 0.8 has been dropped.
+
+If you still require node version 0.8, then you must limit your node-tmp
+dependency to version 0.0.33.
+
+For node versions < 0.8 you must limit your node-tmp dependency to
+versions < 0.0.33.
 
 ## How to install
 
@@ -236,10 +258,14 @@ console.log('Dir: ', tmpobj.name);
 
 Creates a new temporary directory with mode `0700` and filename like `/tmp/tmp-nk2J1u`.
 
+IMPORTANT NOTE: template no longer accepts a path. Use the dir option instead if you
+require tmp to create your temporary filesystem object in a different place than the
+default `tmp.tmpdir`.
+
 ```javascript
 var tmp = require('tmp');
 
-tmp.dir({ template: '/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
+tmp.dir({ template: 'tmp-XXXXXX' }, function _tempDirCreated(err, path) {
   if (err) throw err;
 
   console.log('Dir: ', path);
@@ -253,7 +279,7 @@ This will behave similarly to the asynchronous version.
 ```javascript
 var tmp = require('tmp');
 
-var tmpobj = tmp.dirSync({ template: '/tmp/tmp-XXXXXX' });
+var tmpobj = tmp.dirSync({ template: 'tmp-XXXXXX' });
 console.log('Dir: ', tmpobj.name);
 ```
 
@@ -310,3 +336,4 @@ All options are optional :)
 [2]: https://www.npmjs.com/browse/depended/tmp
 [3]: http://www.kernel.org/doc/man-pages/online/pages/man3/mkstemp.3.html
 [4]: https://raszi.github.io/node-tmp/
+[5]: https://github.com/benjamingr/tmp-promise

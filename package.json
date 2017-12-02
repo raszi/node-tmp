@@ -1,6 +1,6 @@
 {
   "name": "tmp",
-  "version": "0.0.31",
+  "version": "0.1.0",
   "description": "Temporary file and directory creator",
   "author": "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
   "keywords": [
@@ -19,7 +19,7 @@
     "url": "http://github.com/raszi/node-tmp/issues"
   },
   "engines": {
-    "node": ">=0.6.0"
+    "node": ">=0.10.0"
   },
   "dependencies": {
     "os-tmpdir": "~1.0.2"
@@ -27,14 +27,15 @@
   "devDependencies": {
     "codeclimate-test-reporter": "~0.4.0",
     "istanbul": "~0.4.5",
-    "vows": "~0.7.0"
+    "mocha": "~3.4.2"
   },
   "main": "lib/tmp.js",
   "files": [
     "lib/"
   ],
   "scripts": {
-    "test": "istanbul cover vows test/*-test.js",
+    "lint": "eslint lib test",
+    "test": "istanbul cover mocha test/*-test.js",
     "doc": "jsdoc -c .jsdoc.json"
   }
 }
