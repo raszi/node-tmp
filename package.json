@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "clean": "rm -Rf ./coverage",
-    "test": "istanbul cover _mocha --report none --print none --dir ./coverage/json -u exports -R test/*-test.js && istanbul report --root ./coverage/json html && istanbul check-coverage || true",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report none --print none --dir ./coverage/json -u exports -R test/*-test.js && istanbul report --root ./coverage/json html && istanbul report text-summary",
     "doc": "jsdoc -c .jsdoc.json"
   }
 }
