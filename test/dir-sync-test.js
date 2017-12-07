@@ -1,7 +1,7 @@
 /* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-var
+const
   assert = require('assert'),
   fs = require('fs'),
   path = require('path'),

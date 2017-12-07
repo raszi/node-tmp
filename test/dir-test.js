@@ -1,7 +1,7 @@
 /* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-var
+const
   assert = require('assert'),
   fs = require('fs'),
   path = require('path'),
@@ -20,7 +20,7 @@ describe('tmp', function () {
   describe('#dir()', function () {
     describe('when running inband standard tests', function () {
       inbandStandardTests(false, function before(done) {
-        var that = this;
+        const that = this;
         tmp.dir(this.opts, function (err, name, removeCallback) {
           if (err) return done(err);
           that.topic = { name: name, removeCallback: removeCallback };

@@ -1,6 +1,6 @@
 /* eslint-disable no-octal */
 
-var
+const
   assert = require('assert'),
   fs = require('fs'),
   path = require('path'),
@@ -18,7 +18,7 @@ module.exports.assertName = function assertName(name, expected) {
 
 
 module.exports.assertMode = function assertMode(name, mode) {
-  var stat = fs.statSync(name);
+  const stat = fs.statSync(name);
 
   // mode values do not work properly on Windows. Ignore “group” and
   // “other” bits then. Ignore execute bit on that platform because it
@@ -57,7 +57,7 @@ module.exports.assertProperResult = function assertProperResult(result, withfd) 
 
 module.exports.assertExists = function assertExists(name, isfile) {
   assert.ok(existsSync(name), name + ' should exist');
-  var stat = fs.statSync(name);
+  const stat = fs.statSync(name);
   if (isfile) assert.ok(stat.isFile(), name + ' should be a file');
   else assert.ok(stat.isDirectory(), name + ' should be a directory');
 };

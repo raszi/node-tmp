@@ -1,7 +1,7 @@
 /* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-var
+const
   assert = require('assert'),
   inbandStandardTests = require('./name-inband-standard'),
   tmp = require('../lib/tmp');
@@ -11,7 +11,7 @@ describe('tmp', function () {
   describe('#tmpName()', function () {
     describe('when running inband standard tests', function () {
       inbandStandardTests(function before(done) {
-        var that = this;
+        const that = this;
         tmp.dir(this.opts, function (err, name) {
           if (err) return done(err);
           that.topic = name;

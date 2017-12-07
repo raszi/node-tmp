@@ -1,20 +1,16 @@
 // vim: expandtab:ts=2:sw=2
 
-var
+const
   path = require('path'),
   readJsonConfig = require('./util').readJsonConfig,
-  spawn = require('./spawn');
+  spawn = require('./spawn'),
+  config = readJsonConfig(process.argv[2]);
 
-var config = readJsonConfig(process.argv[2]);
 spawn.graceful = !!config.graceful;
 
-var args = [];
-
-for (var i=3; i<process.argv.length; i++) {
-  args[i-3] = process.argv[i];
-}
+const args = Array.prototype.slice.call(process.argv, 3);
 
 // import the test case function and execute it
-var fn = require(path.join(__dirname, 'outband', config.tc));
+const fn = require(path.join(__dirname, 'outband', config.tc));
 fn.apply(spawn, args);
 
