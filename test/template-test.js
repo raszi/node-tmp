@@ -1,0 +1,37 @@
+/* eslint-disable no-octal */
+// vim: expandtab:ts=2:sw=2
+
+const
+  assert = require('assert'),
+  inbandStandardTests = require('./name-inband-standard'),
+  tmp = require('../lib/tmp');
+
+
+describe('tmp', function () {
+  describe('dir()', function () {
+    it('with invalid template', function (done) {
+      tmp.dir({template:'invalid'}, function (err, result) {
+        if (!err) return done(new Error('err expected'));
+        try {
+          assert.equal(err.message, 'Invalid template provided', 'should have thrown the expected error');
+        } catch (err2) {
+          done(err);
+        }
+        done();
+      });
+    });
+  });
+  describe('file()', function () {
+    it('with invalid template', function (done) {
+      tmp.file({template:'invalid'}, function (err, result) {
+        if (!err) return done(new Error('err expected'));
+        try {
+          assert.equal(err.message, 'Invalid template provided', 'should have thrown the expected error');
+        } catch (err2) {
+          done(err);
+        }
+        done();
+      });
+    });
+  });
+});
