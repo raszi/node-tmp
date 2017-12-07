@@ -41,9 +41,20 @@ function _do_spawn(command_args, cb) {
     stderrDone = false,
     stdoutDone = false;
 
+  if (process.env.running_under_istanbul) {
+    var
+      istanbul_path = path.join(__dirname, '..', 'node_modules', '.bin', 'istanbul'),
+      istanbul_args = [
+        'cover', '--report' , 'none', '--print', 'none', '--dir', path.join('coverage', 'json'), 
+        '--include-pid', command_args[0], '--', command_args[1]
+      ];
+    child = spawn(istanbul_path, istanbul_args);
+  }
+  else {
+    child = spawn(node_path, command_args);
+  }
   // spawn doesn’t have the quoting problems that exec does,
   // especially when going for Windows portability.
-  child = spawn(node_path, command_args);
   child.stdin.end();
   // TODO:we no longer support node 0.6
   // Cannot use 'close' event because not on node-0.6.
