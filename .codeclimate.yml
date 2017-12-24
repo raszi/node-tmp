@@ -2,5 +2,8 @@ engines:
   eslint:
     enabled: true
     channel: "eslint-3"
+ratings:
+  paths:
+  - "lib/**/*.js"
 exclude_paths:
 - "docs/"
