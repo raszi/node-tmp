@@ -6,6 +6,8 @@ var
   exists = fs.exists || path.exists,
   spawn = require('child_process').spawn;
 
+const ISTANBUL_PATH = path.join(__dirname, '..', 'node_modules', 'istanbul', 'lib', 'cli.js');
+
 module.exports.genericChildProcess = _spawnProcess('spawn-generic.js');
 module.exports.childProcess = _spawnProcess('spawn-custom.js');
 
@@ -35,9 +37,8 @@ function _doSpawn(commandArgs, cb) {
 
   if (process.env.running_under_istanbul) {
     var
-      istanbul_path = path.join(__dirname, '..', 'node_modules', 'istanbul', 'lib', 'cli.js');
       commandArgs = [
-        istanbul_path, 'cover', '--report' , 'none', '--print', 'none',
+        ISTANBUL_PATH, 'cover', '--report' , 'none', '--print', 'none',
         '--dir', path.join('coverage', 'json'), '--include-pid',
         commandArgs[0], '--', commandArgs[1]
       ];
