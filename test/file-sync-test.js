@@ -16,7 +16,6 @@ tmp.setGracefulCleanup();
 
 describe('tmp', function () {
   describe('#fileSync()', function () {
-    // API call standard inband tests
     describe('when running inband standard tests', function () {
 
       inbandStandardTests(true, function before() {
@@ -43,12 +42,9 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific inband tests
     describe('when running issue specific inband tests', function () {
-      // add your issue specific tests here
     });
 
-    // API call standard outband tests
     describe('when running standard outband tests', function () {
       it('on graceful', function (done) {
         childProcess('graceful-file-sync.json', function (err, stderr, stdout) {
@@ -90,9 +86,7 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific outband tests
     describe('when running issue specific outband tests', function () {
-      // add your issue specific tests here
       it('on issue #115', function (done) {
         childProcess('issue115-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);

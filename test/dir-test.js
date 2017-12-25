@@ -17,7 +17,6 @@ tmp.setGracefulCleanup();
 
 describe('tmp', function () {
   describe('#dir()', function () {
-    // API call standard inband tests
     describe('when running inband standard tests', function () {
 
       inbandStandardTests(false, function before(done) {
@@ -47,12 +46,10 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific inband tests
     describe('when running issue specific inband tests', function () {
       // add your issue specific tests here
     });
 
-    // API call standard outband tests
     describe('when running standard outband tests', function () {
       it('on graceful cleanup', function (done) {
         childProcess('graceful-dir.json', function (err, stderr, stdout) {
@@ -125,9 +122,7 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific outband tests
     describe('when running issue specific outband tests', function () {
-      // add your issue specific tests here
       it('on issue #62', function (done) {
         childProcess('issue62.json', function (err, stderr, stdout) {
           if (err) return done(err);
