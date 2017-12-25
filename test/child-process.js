@@ -3,7 +3,7 @@
 var
   fs = require('fs'),
   path = require('path'),
-  existsSync = fs.existsSync || path.existsSync,
+  exists = fs.exists || path.exists,
   spawn = require('child_process').spawn;
 
 module.exports.genericChildProcess = _spawnProcess('spawn-generic.js');
@@ -15,11 +15,11 @@ function _spawnProcess(spawnFile) {
       configFilePath = path.join(__dirname, 'outband', configFile),
       commandArgs = [path.join(__dirname, spawnFile), configFilePath];
 
-    // make sure that the config file exists
-    if (!existsSync(configFilePath))
-      return cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
+    exists(configFilePath, function (configExists) {
+      if (configExists) return _doSpawn(commandArgs, cb);
 
-    _doSpawn(commandArgs, cb);
+      cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
+    });
   };
 }
 
