@@ -44,14 +44,14 @@ function _doSpawn(commandArgs, cb) {
       commandArgs[0], '--', commandArgs[1]
     ];
   }
+
   // spawn doesn’t have the quoting problems that exec does,
   // especially when going for Windows portability.
-
   child = spawn(node_path, commandArgs);
   child.stdin.end();
-  // TODO:we no longer support node 0.6
-  // Cannot use 'close' event because not on node-0.6.
 
+  // TODO we no longer support node 0.6
+  // Cannot use 'close' event because not on node-0.6.
   function _close() {
     var
       stderr = _bufferConcat(stderrBufs).toString(),
