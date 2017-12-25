@@ -36,12 +36,11 @@ function _doSpawn(commandArgs, cb) {
     stdoutDone = false;
 
   if (process.env.running_under_istanbul) {
-    var
-      commandArgs = [
-        ISTANBUL_PATH, 'cover', '--report' , 'none', '--print', 'none',
-        '--dir', path.join('coverage', 'json'), '--include-pid',
-        commandArgs[0], '--', commandArgs[1]
-      ];
+    commandArgs = [
+      ISTANBUL_PATH, 'cover', '--report' , 'none', '--print', 'none',
+      '--dir', path.join('coverage', 'json'), '--include-pid',
+      commandArgs[0], '--', commandArgs[1]
+    ];
   }
   // spawn doesn’t have the quoting problems that exec does,
   // especially when going for Windows portability.
