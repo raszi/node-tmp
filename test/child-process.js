@@ -36,39 +36,45 @@ function _doSpawn(commandArgs, cb) {
   if (process.env.running_under_istanbul) {
     var
       istanbul_path = path.join(__dirname, '..', 'node_modules', 'istanbul', 'lib', 'cli.js');
-    command_args = [
-      istanbul_path, 'cover', '--report' , 'none', '--print', 'none',
-      '--dir', path.join('coverage', 'json'), '--include-pid',
-      command_args[0], '--', command_args[1]
-    ];
+      commandArgs = [
+        istanbul_path, 'cover', '--report' , 'none', '--print', 'none',
+        '--dir', path.join('coverage', 'json'), '--include-pid',
+        commandArgs[0], '--', commandArgs[1]
+      ];
   }
   // spawn doesn’t have the quoting problems that exec does,
   // especially when going for Windows portability.
-  child = spawn(node_path, command_args);
+
+  child = spawn(node_path, commandArgs);
   child.stdin.end();
   // TODO:we no longer support node 0.6
   // Cannot use 'close' event because not on node-0.6.
+
   function _close() {
     var
       stderr = _bufferConcat(stderrBufs).toString(),
       stdout = _bufferConcat(stdoutBufs).toString();
+
     if (stderrDone && stdoutDone && !done) {
       done = true;
       cb(null, stderr, stdout);
     }
   }
+
   child.on('error', function _spawnError(err) {
     if (!done) {
       done = true;
       cb(err);
     }
   });
+
   child.stdout.on('data', function _stdoutData(data) {
     stdoutBufs.push(data);
   }).on('close', function _stdoutEnd() {
     stdoutDone = true;
     _close();
   });
+
   child.stderr.on('data', function _stderrData(data) {
     stderrBufs.push(data);
   }).on('close', function _stderrEnd() {
@@ -80,13 +86,13 @@ function _doSpawn(commandArgs, cb) {
 function _bufferConcat(buffers) {
   if (Buffer.concat) {
     return Buffer.concat.apply(this, arguments);
-  } else {
-    return new Buffer(buffers.reduce(function (acc, buf) {
-      for (var i = 0; i < buf.length; i++) {
-        acc.push(buf[i]);
-      }
-      return acc;
-    }, []));
   }
+
+  return new Buffer(buffers.reduce(function (acc, buf) {
+    for (var i = 0; i < buf.length; i++) {
+      acc.push(buf[i]);
+    }
+    return acc;
+  }, []));
 }
 
