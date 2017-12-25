@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-module.exports = function (result, tmp) {
+module.exports = function (result) {
   const stat = fs.statSync(result.name);
   if (stat.isFile()) {
     fs.unlinkSync(result.name);

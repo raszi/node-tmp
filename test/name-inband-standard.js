@@ -2,10 +2,7 @@
 // vim: expandtab:ts=2:sw=2
 
 var
-  assert = require('assert'),
-  fs = require('fs'),
   path = require('path'),
-  existsSync = fs.existsSync || path.existsSync,
   assertions = require('./assertions'),
   tmp = require('../lib/tmp');
 
@@ -24,7 +21,7 @@ function inbandStandardTests(testOpts, opts, beforeHook) {
   return function () {
     opts = opts || {};
     testOpts = testOpts || {};
-    topic = { topic: null, opts: opts };
+    const topic = { topic: null, opts: opts };
 
     // bind everything to topic so we avoid global
     before(beforeHook.bind(topic));
@@ -51,5 +48,4 @@ function inbandStandardTests(testOpts, opts, beforeHook) {
       }.bind(topic));
     }
   };
-};
-
+}

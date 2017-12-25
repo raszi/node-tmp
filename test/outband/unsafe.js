@@ -2,7 +2,7 @@ var
   fs    = require('fs'),
   join  = require('path').join;
 
-module.exports = function (result, tmp) {
+module.exports = function (result) {
   // file that should be removed
   var fd = fs.openSync(join(result.name, 'should-be-removed.file'), 'w');
   fs.closeSync(fd);

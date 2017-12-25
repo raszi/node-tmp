@@ -13,14 +13,13 @@ var
 // make sure that everything gets cleaned up
 tmp.setGracefulCleanup();
 
-
 describe('tmp', function () {
   describe('#file()', function () {
-    // API call standard inband tests
     describe('when running inband standard tests', function () {
 
       inbandStandardTests(true, function before(done) {
         var that = this;
+
         tmp.file(this.opts, function (err, name, fd, removeCallback) {
           if (err) done(err);
           else {
@@ -37,6 +36,7 @@ describe('tmp', function () {
             done();
           });
         });
+
         it('should result in an error on non numeric tries', function (done) {
           tmp.file({ tries: 'nan' }, function (err) {
             assert.ok(err instanceof Error, 'should have failed');
@@ -46,23 +46,21 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific inband tests
     describe('when running issue specific inband tests', function () {
-      // add your issue specific tests here
     });
 
-    // API call standard outband tests
     describe('when running standard outband tests', function () {
       it('on graceful', function (done) {
-        childProcess('graceful-file.json', function (err, stderr, stdout) {
+        childProcess(this, 'graceful-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else assertions.assertDoesNotExist(stdout);
           done();
         });
       });
+
       it('on non graceful', function (done) {
-        childProcess('non-graceful-file.json', function (err, stderr, stdout) {
+        childProcess(this, 'non-graceful-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else {
@@ -72,8 +70,9 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on keep', function (done) {
-        childProcess('keep-file.json', function (err, stderr, stdout) {
+        childProcess(this, 'keep-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -83,8 +82,9 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on unlink (keep == false)', function (done) {
-        childProcess('unlink-file.json', function (err, stderr, stdout) {
+        childProcess(this, 'unlink-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);
@@ -93,11 +93,9 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific outband tests
     describe('when running issue specific outband tests', function () {
-      // add your issue specific tests here
       it('on issue #115', function (done) {
-        childProcess('issue115.json', function (err, stderr, stdout) {
+        childProcess(this, 'issue115.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);

@@ -1,8 +1,7 @@
-var
-  fs    = require('fs'),
-  join  = require('path').join;
+var fs = require('fs');
+var join = require('path').join;
 
-module.exports = function (result, tmp) {
+module.exports = function (result) {
   // creates structure from issue 62
   // https://github.com/raszi/node-tmp/issues/62
 
@@ -15,4 +14,3 @@ module.exports = function (result, tmp) {
 
   this.out(result.name, this.exit);
 };
-

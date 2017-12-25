@@ -9,9 +9,7 @@ var
 
 describe('tmp', function () {
   describe('#tmpName()', function () {
-    // API call standard inband tests
     describe('when running inband standard tests', function () {
-
       inbandStandardTests(function before(done) {
         var that = this;
         tmp.dir(this.opts, function (err, name) {
@@ -30,6 +28,7 @@ describe('tmp', function () {
             done();
           });
         });
+
         it('should result in an error on non numeric tries', function (done) {
           tmp.tmpName({ tries: 'nan' }, function (err) {
             assert.ok(err instanceof Error, 'should have failed');
@@ -39,18 +38,13 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific inband tests
     describe('when running issue specific inband tests', function () {
-      // add your issue specific tests here
     });
 
-    // API call standard outband tests
     describe('when running standard outband tests', function () {
     });
 
-    // API call issue specific outband tests
     describe('when running issue specific outband tests', function () {
-      // add your issue specific tests here
     });
   });
 });

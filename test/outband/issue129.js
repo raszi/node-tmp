@@ -1,18 +1,15 @@
 /* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-var fs = require('fs');
-
 // https://github.com/raszi/node-tmp/issues/129
 module.exports = function () {
+  // dup from lib/tmp.js
+  function _is_legacy_listener(listener) {
+    return (listener.name == '_exit' || listener.name == '_uncaughtExceptionThrown')
+      && listener.toString().indexOf('_garbageCollector();') != -1;
+  }
 
-// dup from lib/tmp.js
-function _is_legacy_listener(listener) {
-  return (listener.name == '_exit' || listener.name == '_uncaughtExceptionThrown')
-    && listener.toString().indexOf('_garbageCollector();') != -1;
-}
-
-function _garbageCollector() {}
+  function _garbageCollector() {}
 
   var callState = {
     newStyleListener : false,
@@ -22,7 +19,7 @@ function _garbageCollector() {}
 
   // simulate the new exit listener
   var listener1 = (function (callState) {
-    return function _tmp$safe_listener(data) {
+    return function _tmp$safe_listener() {
       _garbageCollector();
       callState.newStyleListener = true;
     };
@@ -30,7 +27,7 @@ function _garbageCollector() {}
 
   // simulate the legacy _exit listener
   var listener2 = (function (callState) {
-    return function _exit(code) {
+    return function _exit() {
       _garbageCollector();
       callState.legacyExitListener = true;
     };
@@ -38,18 +35,18 @@ function _garbageCollector() {}
 
   // simulate the legacy _uncaughtExceptionThrown listener
   var listener3 = (function (callState) {
-    return function _uncaughtExceptionThrown(err) {
+    return function _uncaughtExceptionThrown() {
       _garbageCollector();
       callState.legacyUncaughtListener = true;
     };
   })(callState);
 
-  process.addListener('exit', listener1); 
+  process.addListener('exit', listener1);
   process.addListener('exit', listener2);
   process.addListener('exit', listener3);
 
   // now let tmp install its listener safely
-  var tmp = require('../../lib/tmp');
+  require('../../lib/tmp');
 
   var legacyExitListener = null;
   var legacyUncaughtListener = null;
@@ -77,4 +74,3 @@ function _garbageCollector() {}
   if (!callState.newStyleListener) this.fail('ENOAVAIL:NEWSTYLE: existing new style listener was not called', this.exit);
   this.out('EOK', this.exit);
 };
-
