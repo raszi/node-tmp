@@ -1,9 +1,5 @@
 // vim: expandtab:ts=2:sw=2
 
-var
-  fs = require('fs'),
-  path = require('path');
-
 function _writeSync(stream, str, cb) {
   var flushed = stream.write(str);
   if (flushed) {

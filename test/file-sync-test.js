@@ -16,9 +16,7 @@ tmp.setGracefulCleanup();
 
 describe('tmp', function () {
   describe('#fileSync()', function () {
-    // API call standard inband tests
     describe('when running inband standard tests', function () {
-
       inbandStandardTests(true, function before() {
         this.topic = tmp.fileSync(this.opts);
       });
@@ -32,6 +30,7 @@ describe('tmp', function () {
             assert.ok(err instanceof Error);
           }
         });
+
         it('should result in an error on non numeric tries', function () {
           try {
             tmp.fileSync({ tries: 'nan' });
@@ -43,23 +42,21 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific inband tests
     describe('when running issue specific inband tests', function () {
-      // add your issue specific tests here
     });
 
-    // API call standard outband tests
     describe('when running standard outband tests', function () {
       it('on graceful', function (done) {
-        childProcess('graceful-file-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'graceful-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else assertions.assertDoesNotExist(stdout);
           done();
         });
       });
+
       it('on non graceful', function (done) {
-        childProcess('non-graceful-file-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'non-graceful-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else {
@@ -69,8 +66,9 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on keep', function (done) {
-        childProcess('keep-file-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'keep-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -80,8 +78,9 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on unlink (keep == false)', function (done) {
-        childProcess('unlink-file-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'unlink-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);
@@ -90,11 +89,9 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific outband tests
     describe('when running issue specific outband tests', function () {
-      // add your issue specific tests here
       it('on issue #115', function (done) {
-        childProcess('issue115-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'issue115-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);
@@ -104,4 +101,3 @@ describe('tmp', function () {
     });
   });
 });
-

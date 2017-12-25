@@ -6,4 +6,4 @@ var
 module.exports.readJsonConfig = function readJsonConfig(path) {
   var contents = fs.readFileSync(path);
   return JSON.parse(contents);
-}
+};

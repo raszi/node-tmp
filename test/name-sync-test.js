@@ -9,9 +9,7 @@ var
 
 describe('tmp', function () {
   describe('#tmpNameSync()', function () {
-    // API call standard inband tests
     describe('when running inband standard tests', function () {
-
       inbandStandardTests(function before() {
         this.topic = tmp.tmpNameSync(this.opts);
       });
@@ -36,18 +34,13 @@ describe('tmp', function () {
       });
     });
 
-    // API call issue specific inband tests
     describe('when running issue specific inband tests', function () {
-      // add your issue specific tests here
     });
 
-    // API call standard outband tests
     describe('when running standard outband tests', function () {
     });
 
-    // API call issue specific outband tests
     describe('when running issue specific outband tests', function () {
-      // add your issue specific tests here
     });
   });
 });

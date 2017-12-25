@@ -3,35 +3,31 @@
 var
   fs = require('fs'),
   path = require('path'),
-  existsSync = fs.existsSync || path.existsSync,
+  exists = fs.exists || path.exists,
   spawn = require('child_process').spawn;
 
+const ISTANBUL_PATH = path.join(__dirname, '..', 'node_modules', 'istanbul', 'lib', 'cli.js');
 
-module.exports.genericChildProcess = function spawnGenericChildProcess(configFile, cb) {
-  var
-    configFilePath = path.join(__dirname, 'outband', configFile),
-    command_args = [path.join(__dirname, 'spawn-generic.js'), configFilePath];
+module.exports.genericChildProcess = _spawnProcess('spawn-generic.js');
+module.exports.childProcess = _spawnProcess('spawn-custom.js');
 
-  // make sure that the config file exists
-  if (!existsSync(configFilePath))
-    return cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
+function _spawnProcess(spawnFile) {
+  return function (testCase, configFile, cb) {
+    testCase.timeout(5000);
 
-  _do_spawn(command_args, cb);
-};
+    var
+      configFilePath = path.join(__dirname, 'outband', configFile),
+      commandArgs = [path.join(__dirname, spawnFile), configFilePath];
 
-module.exports.childProcess = function spawnChildProcess(configFile, cb) {
-  var
-    configFilePath = path.join(__dirname, 'outband', configFile),
-    command_args = [path.join(__dirname, 'spawn-custom.js'), configFilePath];
+    exists(configFilePath, function (configExists) {
+      if (configExists) return _doSpawn(commandArgs, cb);
 
-  // make sure that the config file exists
-  if (!existsSync(configFilePath))
-    return cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
-
-  _do_spawn(command_args, cb);
+      cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
+    });
+  };
 }
 
-function _do_spawn(command_args, cb) {
+function _doSpawn(commandArgs, cb) {
   var
     node_path = process.argv[0],
     stdoutBufs = [],
@@ -41,33 +37,46 @@ function _do_spawn(command_args, cb) {
     stderrDone = false,
     stdoutDone = false;
 
+  if (process.env.running_under_istanbul) {
+    commandArgs = [
+      ISTANBUL_PATH, 'cover', '--report' , 'none', '--print', 'none',
+      '--dir', path.join('coverage', 'json'), '--include-pid',
+      commandArgs[0], '--', commandArgs[1]
+    ];
+  }
+
   // spawn doesn’t have the quoting problems that exec does,
   // especially when going for Windows portability.
-  child = spawn(node_path, command_args);
+  child = spawn(node_path, commandArgs);
   child.stdin.end();
-  // TODO:we no longer support node 0.6
+
+  // TODO we no longer support node 0.6
   // Cannot use 'close' event because not on node-0.6.
   function _close() {
     var
       stderr = _bufferConcat(stderrBufs).toString(),
       stdout = _bufferConcat(stdoutBufs).toString();
+
     if (stderrDone && stdoutDone && !done) {
       done = true;
       cb(null, stderr, stdout);
     }
   }
+
   child.on('error', function _spawnError(err) {
     if (!done) {
       done = true;
       cb(err);
     }
   });
+
   child.stdout.on('data', function _stdoutData(data) {
     stdoutBufs.push(data);
   }).on('close', function _stdoutEnd() {
     stdoutDone = true;
     _close();
   });
+
   child.stderr.on('data', function _stderrData(data) {
     stderrBufs.push(data);
   }).on('close', function _stderrEnd() {
@@ -79,13 +88,13 @@ function _do_spawn(command_args, cb) {
 function _bufferConcat(buffers) {
   if (Buffer.concat) {
     return Buffer.concat.apply(this, arguments);
-  } else {
-    return new Buffer(buffers.reduce(function (acc, buf) {
-      for (var i = 0; i < buf.length; i++) {
-        acc.push(buf[i]);
-      }
-      return acc;
-    }, []));
   }
+
+  return new Buffer(buffers.reduce(function (acc, buf) {
+    for (var i = 0; i < buf.length; i++) {
+      acc.push(buf[i]);
+    }
+    return acc;
+  }, []));
 }
 
