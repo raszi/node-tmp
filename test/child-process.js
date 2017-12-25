@@ -41,6 +41,15 @@ function _do_spawn(command_args, cb) {
     stderrDone = false,
     stdoutDone = false;
 
+  if (process.env.running_under_istanbul) {
+    var
+      istanbul_path = path.join(__dirname, '..', 'node_modules', 'istanbul', 'lib', 'cli.js');
+    command_args = [
+      istanbul_path, 'cover', '--report' , 'none', '--print', 'none',
+      '--dir', path.join('coverage', 'json'), '--include-pid',
+      command_args[0], '--', command_args[1]
+    ];
+  }
   // spawn doesn’t have the quoting problems that exec does,
   // especially when going for Windows portability.
   child = spawn(node_path, command_args);

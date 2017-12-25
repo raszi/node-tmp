@@ -27,6 +27,8 @@
   "devDependencies": {
     "eslint": "^4.12.1",
     "eslint-plugin-mocha": "^4.11.0",
+    "codeclimate-test-reporter": "~0.4.0",
+    "istanbul": "~0.4.5",
     "mocha": "~3.4.2"
   },
   "main": "lib/tmp.js",
@@ -35,7 +37,8 @@
   ],
   "scripts": {
     "lint": "eslint lib --env mocha test",
-    "test": "mocha test/*-test.js",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report none --print none --dir ./coverage/json -u exports -R test/*-test.js && istanbul report --root ./coverage/json html && istanbul report text-summary",
+    "clean": "rm -Rf ./coverage",
     "doc": "jsdoc -c .jsdoc.json"
   }
 }
