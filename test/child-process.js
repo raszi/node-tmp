@@ -13,6 +13,8 @@ module.exports.childProcess = _spawnProcess('spawn-custom.js');
 
 function _spawnProcess(spawnFile) {
   return function (testCase, configFile, cb) {
+    testCase.timeout(5000);
+
     var
       configFilePath = path.join(__dirname, 'outband', configFile),
       commandArgs = [path.join(__dirname, spawnFile), configFilePath];
