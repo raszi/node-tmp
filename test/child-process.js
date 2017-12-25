@@ -6,32 +6,24 @@ var
   existsSync = fs.existsSync || path.existsSync,
   spawn = require('child_process').spawn;
 
+module.exports.genericChildProcess = _spawnProcess('spawn-generic.js');
+module.exports.childProcess = _spawnProcess('spawn-custom.js');
 
-module.exports.genericChildProcess = function spawnGenericChildProcess(configFile, cb) {
-  var
-    configFilePath = path.join(__dirname, 'outband', configFile),
-    command_args = [path.join(__dirname, 'spawn-generic.js'), configFilePath];
+function _spawnProcess(spawnFile) {
+  return function (testCase, configFile, cb) {
+    var
+      configFilePath = path.join(__dirname, 'outband', configFile),
+      commandArgs = [path.join(__dirname, spawnFile), configFilePath];
 
-  // make sure that the config file exists
-  if (!existsSync(configFilePath))
-    return cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
+    // make sure that the config file exists
+    if (!existsSync(configFilePath))
+      return cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
 
-  _do_spawn(command_args, cb);
-};
+    _doSpawn(commandArgs, cb);
+  };
+}
 
-module.exports.childProcess = function spawnChildProcess(configFile, cb) {
-  var
-    configFilePath = path.join(__dirname, 'outband', configFile),
-    command_args = [path.join(__dirname, 'spawn-custom.js'), configFilePath];
-
-  // make sure that the config file exists
-  if (!existsSync(configFilePath))
-    return cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
-
-  _do_spawn(command_args, cb);
-};
-
-function _do_spawn(command_args, cb) {
+function _doSpawn(commandArgs, cb) {
   var
     node_path = process.argv[0],
     stdoutBufs = [],

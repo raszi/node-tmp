@@ -51,7 +51,7 @@ describe('tmp', function () {
 
     describe('when running standard outband tests', function () {
       it('on graceful', function (done) {
-        childProcess('graceful-file.json', function (err, stderr, stdout) {
+        childProcess(this, 'graceful-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else assertions.assertDoesNotExist(stdout);
@@ -60,7 +60,7 @@ describe('tmp', function () {
       });
 
       it('on non graceful', function (done) {
-        childProcess('non-graceful-file.json', function (err, stderr, stdout) {
+        childProcess(this, 'non-graceful-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else {
@@ -72,7 +72,7 @@ describe('tmp', function () {
       });
 
       it('on keep', function (done) {
-        childProcess('keep-file.json', function (err, stderr, stdout) {
+        childProcess(this, 'keep-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -84,7 +84,7 @@ describe('tmp', function () {
       });
 
       it('on unlink (keep == false)', function (done) {
-        childProcess('unlink-file.json', function (err, stderr, stdout) {
+        childProcess(this, 'unlink-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);
@@ -95,7 +95,7 @@ describe('tmp', function () {
 
     describe('when running issue specific outband tests', function () {
       it('on issue #115', function (done) {
-        childProcess('issue115.json', function (err, stderr, stdout) {
+        childProcess(this, 'issue115.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);

@@ -48,7 +48,7 @@ describe('tmp', function () {
 
     describe('when running standard outband tests', function () {
       it('on graceful cleanup', function (done) {
-        childProcess('graceful-dir-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'graceful-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else assertions.assertDoesNotExist(stdout);
@@ -57,7 +57,7 @@ describe('tmp', function () {
       });
 
       it('on non graceful cleanup', function (done) {
-        childProcess('non-graceful-dir-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'non-graceful-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (!stderr) assert.fail('stderr expected');
           else {
@@ -69,7 +69,7 @@ describe('tmp', function () {
       });
 
       it('on keep', function (done) {
-        childProcess('keep-dir-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'keep-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -81,7 +81,7 @@ describe('tmp', function () {
       });
 
       it('on unlink (keep == false)', function (done) {
-        childProcess('unlink-dir-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'unlink-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);
@@ -90,7 +90,7 @@ describe('tmp', function () {
       });
 
       it('on unsafe cleanup', function (done) {
-        childProcess('unsafe-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'unsafe-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -104,7 +104,7 @@ describe('tmp', function () {
       });
 
       it('on non unsafe cleanup', function (done) {
-        childProcess('non-unsafe-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'non-unsafe-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else {
@@ -125,7 +125,7 @@ describe('tmp', function () {
 
     describe('when running issue specific outband tests', function () {
       it('on issue #62', function (done) {
-        childProcess('issue62-sync.json', function (err, stderr, stdout) {
+        childProcess(this, 'issue62-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
           else if (stderr) assert.fail(stderr);
           else assertions.assertDoesNotExist(stdout);
