@@ -14,17 +14,14 @@ var
 // make sure that everything gets cleaned up
 tmp.setGracefulCleanup();
 
-
 describe('tmp', function () {
   describe('#dirSync()', function () {
     describe('when running inband standard tests', function () {
-
       inbandStandardTests(false, function before() {
         this.topic = tmp.dirSync(this.opts);
       });
 
       describe('with invalid tries', function () {
-
         it('should result in an error on negative tries', function () {
           try {
             tmp.dirSync({ tries: -1 });
@@ -33,6 +30,7 @@ describe('tmp', function () {
             assert.ok(err instanceof Error);
           }
         });
+
         it('should result in an error on non numeric tries', function () {
           try {
             tmp.dirSync({ tries: 'nan' });
@@ -57,6 +55,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on non graceful cleanup', function (done) {
         childProcess('non-graceful-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -68,6 +67,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on keep', function (done) {
         childProcess('keep-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -79,6 +79,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on unlink (keep == false)', function (done) {
         childProcess('unlink-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -87,6 +88,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on unsafe cleanup', function (done) {
         childProcess('unsafe-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -100,6 +102,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on non unsafe cleanup', function (done) {
         childProcess('non-unsafe-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);

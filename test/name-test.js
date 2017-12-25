@@ -10,7 +10,6 @@ var
 describe('tmp', function () {
   describe('#tmpName()', function () {
     describe('when running inband standard tests', function () {
-
       inbandStandardTests(function before(done) {
         var that = this;
         tmp.dir(this.opts, function (err, name) {
@@ -29,6 +28,7 @@ describe('tmp', function () {
             done();
           });
         });
+
         it('should result in an error on non numeric tries', function (done) {
           tmp.tmpName({ tries: 'nan' }, function (err) {
             assert.ok(err instanceof Error, 'should have failed');

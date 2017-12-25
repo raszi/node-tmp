@@ -10,7 +10,6 @@ var
 describe('tmp', function () {
   describe('#tmpNameSync()', function () {
     describe('when running inband standard tests', function () {
-
       inbandStandardTests(function before() {
         this.topic = tmp.tmpNameSync(this.opts);
       });

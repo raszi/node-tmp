@@ -18,7 +18,6 @@ tmp.setGracefulCleanup();
 describe('tmp', function () {
   describe('#dir()', function () {
     describe('when running inband standard tests', function () {
-
       inbandStandardTests(false, function before(done) {
         var that = this;
         tmp.dir(this.opts, function (err, name, removeCallback) {
@@ -37,6 +36,7 @@ describe('tmp', function () {
             done();
           });
         });
+
         it('should result in an error on non numeric tries', function (done) {
           tmp.dir({ tries: 'nan' }, function (err) {
             assert.ok(err instanceof Error, 'should have failed');
@@ -59,6 +59,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on non graceful cleanup', function (done) {
         childProcess('non-graceful-dir.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -70,6 +71,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on keep', function (done) {
         childProcess('keep-dir.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -81,6 +83,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on unlink (keep == false)', function (done) {
         childProcess('unlink-dir.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -89,6 +92,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on unsafe cleanup', function (done) {
         childProcess('unsafe.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -102,6 +106,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on non unsafe cleanup', function (done) {
         childProcess('non-unsafe.json', function (err, stderr, stdout) {
           if (err) return done(err);

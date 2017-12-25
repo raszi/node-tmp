@@ -17,7 +17,6 @@ tmp.setGracefulCleanup();
 describe('tmp', function () {
   describe('#fileSync()', function () {
     describe('when running inband standard tests', function () {
-
       inbandStandardTests(true, function before() {
         this.topic = tmp.fileSync(this.opts);
       });
@@ -31,6 +30,7 @@ describe('tmp', function () {
             assert.ok(err instanceof Error);
           }
         });
+
         it('should result in an error on non numeric tries', function () {
           try {
             tmp.fileSync({ tries: 'nan' });
@@ -54,6 +54,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on non graceful', function (done) {
         childProcess('non-graceful-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -65,6 +66,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on keep', function (done) {
         childProcess('keep-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -76,6 +78,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on unlink (keep == false)', function (done) {
         childProcess('unlink-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -98,4 +101,3 @@ describe('tmp', function () {
     });
   });
 });
-

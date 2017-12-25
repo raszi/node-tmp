@@ -13,13 +13,13 @@ var
 // make sure that everything gets cleaned up
 tmp.setGracefulCleanup();
 
-
 describe('tmp', function () {
   describe('#file()', function () {
     describe('when running inband standard tests', function () {
 
       inbandStandardTests(true, function before(done) {
         var that = this;
+
         tmp.file(this.opts, function (err, name, fd, removeCallback) {
           if (err) done(err);
           else {
@@ -36,6 +36,7 @@ describe('tmp', function () {
             done();
           });
         });
+
         it('should result in an error on non numeric tries', function (done) {
           tmp.file({ tries: 'nan' }, function (err) {
             assert.ok(err instanceof Error, 'should have failed');
@@ -57,6 +58,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on non graceful', function (done) {
         childProcess('non-graceful-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -68,6 +70,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on keep', function (done) {
         childProcess('keep-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
@@ -79,6 +82,7 @@ describe('tmp', function () {
           done();
         });
       });
+
       it('on unlink (keep == false)', function (done) {
         childProcess('unlink-file.json', function (err, stderr, stdout) {
           if (err) return done(err);
