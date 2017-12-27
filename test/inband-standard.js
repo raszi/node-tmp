@@ -7,6 +7,7 @@ var
   path = require('path'),
   existsSync = fs.existsSync || path.existsSync,
   assertions = require('./assertions'),
+  rimraf = require('rimraf'),
   tmp = require('../lib/tmp');
 
 
@@ -72,9 +73,18 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook) {
       }.bind(topic));
     }
 
-    it('should have a working removeCallback', function () {
-      this.topic.removeCallback();
-      assert.ok(!existsSync(this.topic.name));
+    it('should have a working removeCallback', function (done) {
+      const self = this;
+      this.topic.removeCallback(function (err) {
+        if (err) return done(err);
+        try {
+          assertions.assertDoesNotExist(self.topic.name);
+        } catch (err) {
+          rimraf.sync(self.topic.name);
+          return done(err);
+        }
+        done();
+      });
     }.bind(topic));
   };
 }
