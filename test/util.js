@@ -1,9 +1,9 @@
 // vim: expandtab:ts=2:sw=2
 
-const
+var
   fs = require('fs');
 
 module.exports.readJsonConfig = function readJsonConfig(path) {
-  const contents = fs.readFileSync(path);
+  var contents = fs.readFileSync(path);
   return JSON.parse(contents);
 };

@@ -10,7 +10,7 @@ const
 describe('tmp', function () {
   describe('issue121 - clean up on terminating signals', function () {
     for (var i=0; i < signals.length; i++) {
-      it(signals[i], issue121Tests(signals[i]));
+      issue121Tests(signals[i]);
     }
   });
 });

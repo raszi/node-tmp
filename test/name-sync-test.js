@@ -1,7 +1,7 @@
 /* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-const
+var
   assert = require('assert'),
   inbandStandardTests = require('./name-inband-standard'),
   tmp = require('../lib/tmp');

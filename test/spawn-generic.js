@@ -1,12 +1,12 @@
 // vim: expandtab:ts=2:sw=2
 
-const
+var
   path = require('path'),
   readJsonConfig = require('./util').readJsonConfig,
   spawn = require('./spawn'),
-  tmp = require('../lib/tmp'),
-  config = readJsonConfig(process.argv[2]);
+  tmp = require('../lib/tmp');
 
+var config = readJsonConfig(process.argv[2]);
 spawn.graceful = !!config.graceful;
 
 var fnUnderTest = null;
@@ -18,7 +18,7 @@ else fnUnderTest = (config.file) ? tmp.fileSync : tmp.dirSync;
 if (config.graceful) tmp.setGracefulCleanup();
 
 // import the test case function and execute it
-const fn = require(path.join(__dirname, 'outband', config.tc));
+var fn = require(path.join(__dirname, 'outband', config.tc));
 if (config.async)
   fnUnderTest(config.options, function (err, name, fdOrCallback, cb) {
     if (err) spawn.err(err);

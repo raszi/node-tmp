@@ -1,7 +1,7 @@
 /* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-const
+var
   assert = require('assert'),
   fs = require('fs'),
   path = require('path'),
@@ -12,7 +12,7 @@ const
 
 
 module.exports = function inbandStandard(isFile, beforeHook) {
-  const testMode = isFile ? 0600 : 0700;
+  var testMode = isFile ? 0600 : 0700;
   describe('without any parameters', inbandStandardTests({ mode: testMode, prefix: 'tmp-' }, null, isFile, beforeHook));
   describe('with prefix', inbandStandardTests({ mode: testMode }, { prefix: 'something' }, isFile, beforeHook));
   describe('with postfix', inbandStandardTests({ mode: testMode }, { postfix: '.txt' }, isFile, beforeHook));
