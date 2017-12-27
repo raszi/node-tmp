@@ -5,7 +5,6 @@ const
   assert = require('assert'),
   tmp = require('../lib/tmp');
 
-
 describe('tmp', function () {
   describe('dir()', function () {
     it('with invalid template', function (done) {
