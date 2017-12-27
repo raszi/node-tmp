@@ -5,7 +5,6 @@ const
   assert = require('assert'),
   tmp = require('../lib/tmp');
 
-
 describe('tmp', function () {
   describe('dirSync()', function () {
     it('with invalid template', function () {
@@ -16,6 +15,7 @@ describe('tmp', function () {
       }
     });
   });
+
   describe('fileSync()', function () {
     it('with invalid template', function () {
       try {
