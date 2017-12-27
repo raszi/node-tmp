@@ -3,7 +3,6 @@
 
 const
   assert = require('assert'),
-  inbandStandardTests = require('./name-inband-standard'),
   tmp = require('../lib/tmp');
 
 
