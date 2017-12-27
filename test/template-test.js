@@ -19,6 +19,7 @@ describe('tmp', function () {
       });
     });
   });
+
   describe('file()', function () {
     it('with invalid template', function (done) {
       tmp.file({template:'invalid'}, function (err) {
