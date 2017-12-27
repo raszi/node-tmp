@@ -10,7 +10,7 @@ const
 describe('tmp', function () {
   describe('dir()', function () {
     it('with invalid template', function (done) {
-      tmp.dir({template:'invalid'}, function (err, result) {
+      tmp.dir({template:'invalid'}, function (err) {
         if (!err) return done(new Error('err expected'));
         try {
           assert.equal(err.message, 'Invalid template provided', 'should have thrown the expected error');
@@ -23,7 +23,7 @@ describe('tmp', function () {
   });
   describe('file()', function () {
     it('with invalid template', function (done) {
-      tmp.file({template:'invalid'}, function (err, result) {
+      tmp.file({template:'invalid'}, function (err) {
         if (!err) return done(new Error('err expected'));
         try {
           assert.equal(err.message, 'Invalid template provided', 'should have thrown the expected error');
