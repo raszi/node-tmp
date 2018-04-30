@@ -25,7 +25,7 @@
     "os-tmpdir": "~1.0.2"
   },
   "devDependencies": {
-    "codeclimate-test-reporter": "~0.4.0",
+    "codeclimate-test-reporter": "~0.5.0",
     "eslint": "^4.19.1",
     "eslint-plugin-mocha": "^4.12.1",
     "istanbul": "~0.4.5",
