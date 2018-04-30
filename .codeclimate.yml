@@ -1,9 +1,7 @@
-engines: 
+version: "2"
+plugins:
   eslint:
     enabled: true
-    channel: "eslint-3"
-ratings:
-  paths:
-  - "lib/**/*.js"
-exclude_paths:
+exclude_patterns:
 - "docs/"
+- "test/"
