@@ -37,7 +37,7 @@
   "scripts": {
     "lint": "eslint lib --env mocha test",
     "clean": "rm -Rf ./coverage",
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report none --print none --dir ./coverage/json -- -u exports 'test/**/*-test.js' && istanbul report --root ./coverage/json html && istanbul report text-summary",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report none --print none --dir ./coverage/json -- -u exports test/*-test.js && istanbul report --root ./coverage/json html && istanbul report text-summary",
     "doc": "jsdoc -c .jsdoc.json"
   }
 }
