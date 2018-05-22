@@ -19,16 +19,14 @@
     "url": "http://github.com/raszi/node-tmp/issues"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=6"
   },
-  "dependencies": {
-    "os-tmpdir": "~1.0.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^4.19.1",
-    "eslint-plugin-mocha": "^4.12.1",
-    "istanbul": "~0.4.5",
-    "mocha": "~3.4.2"
+    "eslint-plugin-mocha": "^5.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.1.1"
   },
   "main": "lib/tmp.js",
   "files": [
