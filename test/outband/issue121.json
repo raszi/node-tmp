@@ -1,3 +1,4 @@
 {
+  "graceful": true,
   "tc": "issue121"
 }

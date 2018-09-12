@@ -1,20 +1,19 @@
 /* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-var
-  fs = require('fs'),
-  tmp = require('../../lib/tmp'),
-  // we reuse the fixtures from issue62 here
-  fixture = require('./issue62');
-
-tmp.setGracefulCleanup();
+const
+  tmp = require('../../lib/tmp');
 
 // https://github.com/raszi/node-tmp/issues/121
-module.exports = function (signal) {
-  fixture.apply(this, [tmp.dirSync({ unsafeCleanup: true }), tmp]);
+module.exports = function () {
 
-  // make sure that the process keeps running
-  setTimeout(function () {}, 1000000);
+  tmp.setGracefulCleanup();
 
-  this.kill(signal);
+  const result = tmp.dirSync({ unsafeCleanup: true });
+
+  this.out(result.name, function () { });
+
+  setTimeout(function () {
+    throw new Error('ran into timeout');
+  }, 10000);
 };

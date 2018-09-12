@@ -2,26 +2,53 @@
 // vim: expandtab:ts=2:sw=2
 
 const
-  assert = require('assert'),
   assertions = require('./assertions'),
   childProcess = require('./child-process').childProcess,
-  signals = ['SIGINT', 'SIGTERM'];
+  os = require('os'),
+  rimraf = require('rimraf'),
+  testCases = [
+    { signal: 'SIGINT', expectExists: false },
+    { signal: 'SIGTERM', expectExists: true }
+  ];
+
+// skip tests on win32
+const isWindows = os.platform() === 'win32';
+const tfunc = isWindows ? xit : it;
 
 describe('tmp', function () {
   describe('issue121 - clean up on terminating signals', function () {
-    for (var i=0; i < signals.length; i++) {
-      issue121Tests(signals[i]);
+    for (let tc of testCases) {
+      tfunc('for signal ' + tc.signal, function (done) {
+        // increase timeout so that the child process may fail
+        this.timeout(20000);
+        issue121Tests(tc.signal, tc.expectExists)(done);
+      });
     }
   });
 });
 
-function issue121Tests(signal) {
+function issue121Tests(signal, expectExists) {
   return function (done) {
-    childProcess('issue121.json', function (err, stderr, stdout) {
+    childProcess(this, 'issue121.json', function (err, stderr, stdout) {
       if (err) return done(err);
       else if (stderr) return done(new Error(stderr));
-      else assertions.assertDoesNotExist(stdout);
-      done();
-    }, true);
+
+      try {
+        if (expectExists) {
+          assertions.assertExists(stdout);
+        }
+        else {
+          assertions.assertDoesNotExist(stdout);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      } finally {
+        // cleanup
+        if (expectExists) {
+          rimraf.sync(stdout);
+        }
+      }
+    }, signal);
   };
 }

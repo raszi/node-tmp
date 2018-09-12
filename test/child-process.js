@@ -12,24 +12,25 @@ module.exports.genericChildProcess = _spawnProcess('spawn-generic.js');
 module.exports.childProcess = _spawnProcess('spawn-custom.js');
 
 function _spawnProcess(spawnFile) {
-  return function (testCase, configFile, cb) {
-    var
+  return function (testCase, configFile, cb, signal) {
+    const
       configFilePath = path.join(__dirname, 'outband', configFile),
       commandArgs = [path.join(__dirname, spawnFile), configFilePath];
 
     exists(configFilePath, function (configExists) {
-      if (configExists) return _doSpawn(commandArgs, cb);
+      if (configExists) return _doSpawn(commandArgs, cb, signal);
 
       cb(new Error('ENOENT: configFile ' + configFilePath + ' does not exist'));
     });
   };
 }
 
-function _doSpawn(commandArgs, cb) {
-  var
+function _doSpawn(commandArgs, cb, signal) {
+  const
     node_path = process.argv[0],
     stdoutBufs = [],
-    stderrBufs = [],
+    stderrBufs = [];
+  let
     child,
     done = false,
     stderrDone = false,
@@ -48,14 +49,11 @@ function _doSpawn(commandArgs, cb) {
   child = spawn(node_path, commandArgs);
   child.stdin.end();
 
-  // TODO we no longer support node 0.6
-  // Cannot use 'close' event because not on node-0.6.
   function _close() {
-    var
-      stderr = _bufferConcat(stderrBufs).toString(),
-      stdout = _bufferConcat(stdoutBufs).toString();
-
     if (stderrDone && stdoutDone && !done) {
+      const
+        stderr = _bufferConcat(stderrBufs).toString(),
+        stdout = _bufferConcat(stdoutBufs).toString();
       done = true;
       cb(null, stderr, stdout);
     }
@@ -81,6 +79,13 @@ function _doSpawn(commandArgs, cb) {
     stderrDone = true;
     _close();
   });
+
+  if (signal) {
+    setTimeout(function () {
+      // does not work on node 6
+      child.kill(signal);
+    }, 2000);
+  }
 }
 
 function _bufferConcat(buffers) {
@@ -89,10 +94,9 @@ function _bufferConcat(buffers) {
   }
 
   return new Buffer(buffers.reduce(function (acc, buf) {
-    for (var i = 0; i < buf.length; i++) {
+    for (let i = 0; i < buf.length; i++) {
       acc.push(buf[i]);
     }
     return acc;
   }, []));
 }
-

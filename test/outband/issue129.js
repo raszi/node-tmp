@@ -5,10 +5,10 @@
 module.exports = function () {
   // dup from lib/tmp.js
   function _is_legacy_listener(listener) {
-    return (listener.name == '_exit' || listener.name == '_uncaughtExceptionThrown')
-      && listener.toString().indexOf('_garbageCollector();') != -1;
+    return (listener.name === '_exit' || listener.name === '_uncaughtExceptionThrown')
+      && listener.toString().indexOf('_garbageCollector();') !== -1;
   }
-
+å
   function _garbageCollector() {}
 
   var callState = {
@@ -56,14 +56,14 @@ module.exports = function () {
   for (var i = 0; i < listeners.length; i++) {
     var listener = listeners[i];
     // the order here is important
-    if (listener.name == '_tmp$safe_listener') {
+    if (listener.name === '_tmp$safe_listener') {
       newStyleListeners.push(listener);
     }
     else if (_is_legacy_listener(listener)) {
-      if (listener.name == '_uncaughtExceptionThrown') legacyUncaughtListener = listener;
+      if (listener.name === '_uncaughtExceptionThrown') legacyUncaughtListener = listener;
       else legacyExitListener = listener;
     }
-  }
+  }å
 
   if (legacyExitListener) this.fail('EEXISTS:LEGACY:EXIT existing legacy exit listener was not removed', this.exit);
   if (legacyUncaughtListener) this.fail('EEXISTS:LEGACY:UNCAUGHT existing legacy uncaught exception thrown listener was not removed', this.exit);
