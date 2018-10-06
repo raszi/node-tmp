@@ -9,18 +9,28 @@ var
 describe('tmp', function () {
   describe('issue129: safely install listeners', function () {
     it('when simulating sandboxed behavior', function (done) {
-      childProcess(this, 'issue129.json', function (err, stderr) {
+      childProcess(this, 'issue129.json', function (err, stderr, stdout) {
         if (err) return done(err);
-        else if (stderr) {
-          assertions.assertDoesNotStartWith(stderr, 'EEXISTS:LEGACY:EXIT');
-          assertions.assertDoesNotStartWith(stderr, 'EEXISTS:LEGACY:UNCAUGHT');
-          assertions.assertDoesNotStartWith(stderr, 'EEXISTS:NEWSTYLE');
-          assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:LEGACY:EXIT');
-          assertions.assertDoesNotStartWith(stderr, 'EAVAIL:LEGACY:UNCAUGHT');
-          assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:NEWSTYLE');
-          assert.equal(stderr, 'EOK', 'existing listeners should have been removed and called');
+        if (!stdout && !stderr) return done(new Error('stderr or stdout expected'));
+        if (stderr) {
+          try {
+            assertions.assertDoesNotStartWith(stderr, 'EEXISTS:LEGACY:EXIT');
+            assertions.assertDoesNotStartWith(stderr, 'EEXISTS:LEGACY:UNCAUGHT');
+            assertions.assertDoesNotStartWith(stderr, 'EEXISTS:NEWSTYLE');
+            assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:LEGACY:EXIT');
+            assertions.assertDoesNotStartWith(stderr, 'EAVAIL:LEGACY:UNCAUGHT');
+            assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:NEWSTYLE');
+          } catch (err) {
+            return done(err);
+          }
         }
-
+        if (stdout) {
+          try {
+            assert.equal(stdout, 'EOK', 'existing listeners should have been removed and called');
+          } catch (err) {
+            return done(err);
+          }
+        }
         done();
       });
     });

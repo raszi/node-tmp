@@ -8,6 +8,7 @@ var
   inbandStandardTests = require('./inband-standard'),
   childProcess = require('./child-process').genericChildProcess,
   assertions = require('./assertions'),
+  rimraf = require('rimraf'),
   tmp = require('../lib/tmp');
 
 
@@ -50,8 +51,13 @@ describe('tmp', function () {
       it('on graceful cleanup', function (done) {
         childProcess(this, 'graceful-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (!stderr) assert.fail('stderr expected');
-          else assertions.assertDoesNotExist(stdout);
+          if (!stderr) return done(new Error('stderr expected'));
+          try {
+            assertions.assertDoesNotExist(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
+          }
           done();
         });
       });
@@ -59,10 +65,12 @@ describe('tmp', function () {
       it('on non graceful cleanup', function (done) {
         childProcess(this, 'non-graceful-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (!stderr) assert.fail('stderr expected');
-          else {
+          if (!stderr) return done(new Error('stderr expected'));
+          try {
             assertions.assertExists(stdout);
-            fs.rmdirSync(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
           }
           done();
         });
@@ -71,10 +79,12 @@ describe('tmp', function () {
       it('on keep', function (done) {
         childProcess(this, 'keep-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (stderr) assert.fail(stderr);
-          else {
+          if (stderr) return done(new Error(stderr));
+          try {
             assertions.assertExists(stdout);
-            fs.rmdirSync(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
           }
           done();
         });
@@ -83,8 +93,13 @@ describe('tmp', function () {
       it('on unlink (keep == false)', function (done) {
         childProcess(this, 'unlink-dir-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (stderr) assert.fail(stderr);
-          else assertions.assertDoesNotExist(stdout);
+          if (stderr) return done(new Error(stderr));
+          try {
+            assertions.assertDoesNotExist(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
+          }
           done();
         });
       });
@@ -92,12 +107,12 @@ describe('tmp', function () {
       it('on unsafe cleanup', function (done) {
         childProcess(this, 'unsafe-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (stderr) assert.fail(stderr);
-          else {
+          if (stderr) return done(new Error(stderr));
+          try {
             assertions.assertDoesNotExist(stdout);
-            var basepath = path.join(__dirname, 'outband', 'fixtures', 'symlinkme');
-            assertions.assertExists(basepath);
-            assertions.assertExists(path.join(basepath, 'file.js'), true);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
           }
           done();
         });
@@ -106,17 +121,17 @@ describe('tmp', function () {
       it('on non unsafe cleanup', function (done) {
         childProcess(this, 'non-unsafe-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (stderr) assert.fail(stderr);
-          else {
+          if (stderr) return done(new Error(stderr));
+          try {
             assertions.assertExists(stdout);
             assertions.assertExists(path.join(stdout, 'should-be-removed.file'), true);
             if (process.platform == 'win32')
               assertions.assertExists(path.join(stdout, 'symlinkme-target'), true);
             else
               assertions.assertExists(path.join(stdout, 'symlinkme-target'));
-            fs.unlinkSync(path.join(stdout, 'should-be-removed.file'));
-            fs.unlinkSync(path.join(stdout, 'symlinkme-target'));
-            fs.rmdirSync(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
           }
           done();
         });
@@ -127,8 +142,13 @@ describe('tmp', function () {
       it('on issue #62', function (done) {
         childProcess(this, 'issue62-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (stderr) assert.fail(stderr);
-          else assertions.assertDoesNotExist(stdout);
+          if (stderr) return done(new Error(stderr));
+          try {
+            assertions.assertDoesNotExist(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
+          }
           done();
         });
       });

@@ -7,6 +7,7 @@ var
   inbandStandardTests = require('./inband-standard'),
   assertions = require('./assertions'),
   childProcess = require('./child-process').genericChildProcess,
+  rimraf = require('rimraf'),
   tmp = require('../lib/tmp');
 
 
@@ -49,8 +50,13 @@ describe('tmp', function () {
       it('on graceful', function (done) {
         childProcess(this, 'graceful-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (!stderr) assert.fail('stderr expected');
-          else assertions.assertDoesNotExist(stdout);
+          if (!stderr) return done(new Error('stderr expected'));
+          try {
+            assertions.assertDoesNotExist(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
+          }
           done();
         });
       });
@@ -58,10 +64,12 @@ describe('tmp', function () {
       it('on non graceful', function (done) {
         childProcess(this, 'non-graceful-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (!stderr) assert.fail('stderr expected');
-          else {
+          if (!stderr) return done(new Error('stderr expected'));
+          try {
             assertions.assertExists(stdout, true);
-            fs.unlinkSync(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
           }
           done();
         });
@@ -70,10 +78,12 @@ describe('tmp', function () {
       it('on keep', function (done) {
         childProcess(this, 'keep-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (stderr) assert.fail(stderr);
-          else {
+          if (stderr) return done(new Error(stderr));
+          try {
             assertions.assertExists(stdout, true);
-            fs.unlinkSync(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
           }
           done();
         });
@@ -82,8 +92,13 @@ describe('tmp', function () {
       it('on unlink (keep == false)', function (done) {
         childProcess(this, 'unlink-file-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (stderr) assert.fail(stderr);
-          else assertions.assertDoesNotExist(stdout);
+          if (stderr) return done(new Error(stderr));
+          try {
+            assertions.assertDoesNotExist(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
+          }
           done();
         });
       });
@@ -93,8 +108,13 @@ describe('tmp', function () {
       it('on issue #115', function (done) {
         childProcess(this, 'issue115-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);
-          else if (stderr) assert.fail(stderr);
-          else assertions.assertDoesNotExist(stdout);
+          if (stderr) return done(new Error(stderr));
+          try {
+            assertions.assertDoesNotExist(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
+          }
           done();
         });
       });
