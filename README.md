@@ -22,7 +22,10 @@ a six letter random identifier. And just in case that you do not have that much
 entropy left on your system, Tmp will fall back to pseudo random numbers.
 
 You can set whether you want to remove the temporary file on process exit or
-not, and the destination directory can also be set.
+not.
+
+If you do not want to store your temporary directories and files in the
+standard OS temporary directory, then you are free to override that as well.
 
 ## An Important Note on Compatibility
 
@@ -285,12 +288,17 @@ console.log('Dir: ', tmpobj.name);
 
 ### Asynchronous filename generation
 
-The `tmpName()` function accepts the `prefix`, `postfix`, `dir`, etc. parameters also:
+Using `tmpName()` you can create temporary file names asynchronously.
+The function accepts all standard options, e.g. `prefix`, `postfix`, `dir`, and so on.
+
+You can also leave out the options altogether and just call the function with a callback as first parameter.
 
 ```javascript
 var tmp = require('tmp');
 
-tmp.tmpName({ template: '/tmp/tmp-XXXXXX' }, function _tempNameGenerated(err, path) {
+var options = {};
+
+tmp.tmpName(options, function _tempNameGenerated(err, path) {
     if (err) throw err;
 
     console.log('Created temporary filename: ', path);
@@ -300,10 +308,12 @@ tmp.tmpName({ template: '/tmp/tmp-XXXXXX' }, function _tempNameGenerated(err, pa
 ### Synchronous filename generation
 
 The `tmpNameSync()` function works similarly to `tmpName()`.
+Again, you can leave out the options altogether and just invoke the function without any parameters.
 
 ```javascript
 var tmp = require('tmp');
-var tmpname = tmp.tmpNameSync({ template: '/tmp/tmp-XXXXXX' });
+var options = {};
+var tmpname = tmp.tmpNameSync(options);
 console.log('Created temporary filename: ', tmpname);
 ```
 
@@ -328,8 +338,8 @@ All options are optional :)
   * `template`: [`mkstemp`][3] like filename template, no default
   * `dir`: the optional temporary directory, fallbacks to system default (guesses from environment)
   * `tries`: how many times should the function try to get a unique filename before giving up, default `3`
-  * `keep`: signals that the temporary file or directory should not be deleted on exit, default is `false`, means delete
-    * Please keep in mind that it is recommended in this case to call the provided `cleanupCallback` function manually.
+  * `keep`: signals that the temporary file or directory should not be deleted on exit, default is `false`
+    * In order to clean up, you will have to call the provided `cleanupCallback` function manually.
   * `unsafeCleanup`: recursively removes the created temporary directory, even when it's not empty. default is `false`
 
 [1]: http://nodejs.org/
