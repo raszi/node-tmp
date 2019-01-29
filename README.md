@@ -24,7 +24,7 @@ entropy left on your system, Tmp will fall back to pseudo random numbers.
 You can set whether you want to remove the temporary file on process exit or
 not.
 
-And if you do not want to store your temporary directories and files in the
+If you do not want to store your temporary directories and files in the
 standard OS temporary directory, then you are free to override that as well.
 
 ## An Important Note on Compatibility
@@ -290,7 +290,8 @@ console.log('Dir: ', tmpobj.name);
 
 Using `tmpName()` you can create temporary file names asynchronously.
 The function accepts all standard options, e.g. `prefix`, `postfix`, `dir`, and so on.
-And you can also leave out the options altogether and just call the function with a callback as first parameter.
+
+You can also leave out the options altogether and just call the function with a callback as first parameter.
 
 ```javascript
 var tmp = require('tmp');
