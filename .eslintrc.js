@@ -23,6 +23,7 @@ module.exports = {
     "semi": [
       "error",
       "always"
-    ]
+    ],
+    "no-extra-boolean-cast": 0
   }
 };

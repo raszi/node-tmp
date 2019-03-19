@@ -125,10 +125,11 @@ describe('tmp', function () {
           try {
             assertions.assertExists(stdout);
             assertions.assertExists(path.join(stdout, 'should-be-removed.file'), true);
-            if (process.platform == 'win32')
+            if (process.platform == 'win32') {
               assertions.assertExists(path.join(stdout, 'symlinkme-target'), true);
-            else
+            } else {
               assertions.assertExists(path.join(stdout, 'symlinkme-target'));
+            }
           } catch (err) {
             rimraf.sync(stdout);
             return done(err);

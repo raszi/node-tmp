@@ -23,7 +23,7 @@ if (config.async)
   fnUnderTest(config.options, function (err, name, fdOrCallback, cb) {
     if (err) spawn.err(err);
     else {
-      var result = null; 
+      var result = null;
       if (config.file) result = { name: name, fd: fdOrCallback, removeCallback: cb };
       else result = { name: name, removeCallback: fdOrCallback };
       fn.apply(spawn, [result, tmp]);
