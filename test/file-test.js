@@ -54,6 +54,16 @@ describe('tmp', function () {
     });
 
     describe('when running issue specific inband tests', function () {
+      it('on issue #182: should not replace empty postfix with ".tmp"', function (done) {
+        tmp.file({ postfix: '' }, function (err, path) {
+          try {
+            assert.ok(!path.endsWith('.tmp'));
+          } catch (err) {
+            return done(err);
+          }
+          done();
+        });
+      });
     });
 
     describe('when running standard outband tests', function () {

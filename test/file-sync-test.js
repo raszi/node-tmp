@@ -44,6 +44,10 @@ describe('tmp', function () {
     });
 
     describe('when running issue specific inband tests', function () {
+      it('on issue #182: should not replace empty postfix with ".tmp"', function () {
+        const tmpobj = tmp.fileSync({ postfix: '' });
+        assert.ok(!tmpobj.name.endsWith('.tmp'));
+      });
     });
 
     describe('when running standard outband tests', function () {
