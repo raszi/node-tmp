@@ -48,6 +48,15 @@ dependency to version 0.0.33.
 For node versions < 0.8 you must limit your node-tmp dependency to
 versions < 0.0.33.
 
+### Node Versions < 8.12.0
+
+The SIGINT handler will not work correctly with versions of NodeJS < 8.12.0.
+
+### Windows
+
+Signal handlers for SIGINT will not work. Pressing CTRL-C will leave behind
+temporary files and directories.
+
 ## How to install
 
 ```bash

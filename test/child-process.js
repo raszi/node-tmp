@@ -82,9 +82,9 @@ function _doSpawn(commandArgs, cb, signal) {
 
   if (signal) {
     setTimeout(function () {
-      // does not work on node 6
+      // SIGINT does not work on node <8.12.0
       child.kill(signal);
-    }, 2000);
+    }, 1000);
   }
 }
 
