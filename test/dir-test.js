@@ -54,7 +54,6 @@ describe('tmp', function () {
     });
 
     describe('when running issue specific inband tests', function () {
-      // add your issue specific tests here
     });
 
     describe('when running standard outband tests', function () {
