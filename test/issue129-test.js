@@ -13,23 +13,15 @@ describe('tmp', function () {
         if (err) return done(err);
         if (!stdout && !stderr) return done(new Error('stderr or stdout expected'));
         if (stderr) {
-          try {
-            assertions.assertDoesNotStartWith(stderr, 'EEXISTS:LEGACY:EXIT');
-            assertions.assertDoesNotStartWith(stderr, 'EEXISTS:LEGACY:UNCAUGHT');
-            assertions.assertDoesNotStartWith(stderr, 'EEXISTS:NEWSTYLE');
-            assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:LEGACY:EXIT');
-            assertions.assertDoesNotStartWith(stderr, 'EAVAIL:LEGACY:UNCAUGHT');
-            assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:NEWSTYLE');
-          } catch (err) {
-            return done(err);
-          }
+          assertions.assertDoesNotStartWith(stderr, 'EEXISTS:LEGACY:EXIT');
+          assertions.assertDoesNotStartWith(stderr, 'EEXISTS:LEGACY:UNCAUGHT');
+          assertions.assertDoesNotStartWith(stderr, 'EEXISTS:NEWSTYLE');
+          assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:LEGACY:EXIT');
+          assertions.assertDoesNotStartWith(stderr, 'EAVAIL:LEGACY:UNCAUGHT');
+          assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:NEWSTYLE');
         }
         if (stdout) {
-          try {
-            assert.equal(stdout, 'EOK', 'existing listeners should have been removed and called');
-          } catch (err) {
-            return done(err);
-          }
+          assert.equal(stdout, 'EOK', 'existing listeners should have been removed and called');
         }
         done();
       });

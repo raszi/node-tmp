@@ -11,23 +11,16 @@ describe('tmp', function () {
     it('when simulating sandboxed behavior', function (done) {
       childProcess(this, 'issue129-sigint.json', function (err, stderr, stdout) {
         if (err) return done(err);
-        if (!stdout && !stderr) return done(new Error('stderr or stdout expected'));
         if (stderr) {
-          try {
-            assertions.assertDoesNotStartWith(stderr, 'EEXISTS:MULTIPLE');
-            assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:EXISTING');
-          } catch (err) {
-            return done(err);
-          }
+          assertions.assertDoesNotStartWith(stderr, 'EEXISTS:MULTIPLE');
+          assertions.assertDoesNotStartWith(stderr, 'ENOAVAIL:');
+          return done();
         }
         if (stdout) {
-          try {
-            assert.equal(stdout, 'EOK', 'existing listeners should have been removed and called');
-          } catch (err) {
-            return done(err);
-          }
+          assert.equal(stdout, 'EOK');
+          return done();
         }
-        done();
+        done(new Error('existing listener has not been called'));
       });
     });
   });

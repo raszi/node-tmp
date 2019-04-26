@@ -8,7 +8,7 @@ module.exports = function () {
     return (listener.name === '_exit' || listener.name === '_uncaughtExceptionThrown')
       && listener.toString().indexOf('_garbageCollector();') !== -1;
   }
-å
+
   function _garbageCollector() {}
 
   var callState = {
@@ -63,7 +63,7 @@ module.exports = function () {
       if (listener.name === '_uncaughtExceptionThrown') legacyUncaughtListener = listener;
       else legacyExitListener = listener;
     }
-  }å
+  }
 
   if (legacyExitListener) this.fail('EEXISTS:LEGACY:EXIT existing legacy exit listener was not removed', this.exit);
   if (legacyUncaughtListener) this.fail('EEXISTS:LEGACY:UNCAUGHT existing legacy uncaught exception thrown listener was not removed', this.exit);

@@ -4,18 +4,13 @@
 // addendum to https://github.com/raszi/node-tmp/issues/129 so that with jest sandboxing we do not install our sigint
 // listener multiple times
 module.exports = function () {
-  var callState = {
-    existingListener : false,
-  };
+
+  var self = this;
 
   // simulate an existing SIGINT listener
-  var listener1 = (function (callState) {
-    return function _tmp$sigint_listener(doExit) {
-      callState.existingListener = !doExit;
-    };
-  })(callState);
-
-  process.addListener('SIGINT', listener1);
+  process.addListener('SIGINT', function _tmp$sigint_listener() {
+      self.out('EOK');
+  });
 
   // now let tmp install its listener safely
   require('../../lib/tmp');
@@ -30,9 +25,8 @@ module.exports = function () {
     }
   }
 
-  if (listeners.length > 1) this.fail('EEXISTS:MULTIPLE: existing SIGINT listener was not removed', this.exit);
-  listeners[0](false); // prevent listener from exiting the process
-  if (!callState.existingListener) this.fail('ENOAVAIL:EXISTING: existing listener was not called', this.exit);
-  this.out('EOK', this.exit);
-  process.exit(0);
+  if (sigintListeners.length > 1) this.fail('EEXISTS:MULTIPLE: existing SIGINT listener was not removed', this.exit);
+  if (sigintListeners.length != 1) this.fail('ENOAVAIL: no SIGINT listener was installed', this.exit);
+  // tmp will now exit the process as there are no custom user listeners installed
+  sigintListeners[0]();
 };
