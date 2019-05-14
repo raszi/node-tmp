@@ -12,9 +12,6 @@ var
   tmp = require('../lib/tmp');
 
 
-// make sure that everything gets cleaned up
-tmp.setGracefulCleanup();
-
 describe('tmp', function () {
   describe('#dirSync()', function () {
     describe('when running inband standard tests', function () {

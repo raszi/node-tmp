@@ -328,13 +328,13 @@ console.log('Created temporary filename: ', tmpname);
 
 ## Graceful cleanup
 
-One may want to cleanup the temporary files even when an uncaught exception
-occurs. To enforce this, you can call the `setGracefulCleanup()` method:
+By default, tmp will clean up all temporary files and empty directories on termination of the process.
+To change this behaviour, you can call `setGracefulCleanup(false)`:
 
 ```javascript
 var tmp = require('tmp');
 
-tmp.setGracefulCleanup();
+tmp.setGracefulCleanup(false);
 ```
 
 ## Options

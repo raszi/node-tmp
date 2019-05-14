@@ -15,7 +15,7 @@ if (config.async) fnUnderTest = (config.file) ? tmp.file : tmp.dir;
 else fnUnderTest = (config.file) ? tmp.fileSync : tmp.dirSync;
 
 // do we test against tmp doing a graceful cleanup?
-if (config.graceful) tmp.setGracefulCleanup();
+tmp.setGracefulCleanup(config.graceful)
 
 // import the test case function and execute it
 var fn = require(path.join(__dirname, 'outband', config.tc));
