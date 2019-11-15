@@ -4,6 +4,10 @@
 const
   tmp = require('../../lib/tmp');
 
+process.on('SIGTERM', function () {
+  process.exit(0);
+});
+
 // https://github.com/raszi/node-tmp/issues/121
 module.exports = function () {
 
