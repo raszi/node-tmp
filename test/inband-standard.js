@@ -73,9 +73,16 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook, sync = false) {
 
     if (sync) {
       it('should have a working removeCallback', function () {
-        assert.ok(typeof this.topic.removeCallback === 'function');
-        // important: remove file or dir unconditionally
-        rimraf.sync(this.topic.name);
+        try {
+          this.topic.removeCallback();
+        } catch (err) {
+          // important: remove file or dir unconditionally
+          try {
+            rimraf.sync(this.topic.name);
+          } catch (_ignored) {
+          }
+          throw err;
+        }
       }.bind(topic));
     } else {
       it('should have a working removeCallback', function (done) {
