@@ -341,6 +341,7 @@ tmp.setGracefulCleanup();
 
 All options are optional :)
 
+  * `name`: a fixed name that overrides random name generation
   * `mode`: the file mode to create with, it fallbacks to `0600` on file creation and `0700` on directory creation
   * `prefix`: the optional prefix, fallbacks to `tmp-` if not provided
   * `postfix`: the optional postfix, fallbacks to `.tmp` on file creation
