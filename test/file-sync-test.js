@@ -3,7 +3,6 @@
 
 var
   assert = require('assert'),
-  fs = require('fs'),
   inbandStandardTests = require('./inband-standard'),
   assertions = require('./assertions'),
   childProcess = require('./child-process').genericChildProcess,
@@ -20,7 +19,7 @@ describe('tmp', function () {
     describe('when running inband standard tests', function () {
       inbandStandardTests(true, function before() {
         this.topic = tmp.fileSync(this.opts);
-      });
+      }, true);
 
       describe('with invalid tries', function () {
         it('should result in an error on negative tries', function () {
@@ -71,8 +70,8 @@ describe('tmp', function () {
           if (!stderr) return done(new Error('stderr expected'));
           try {
             assertions.assertExists(stdout, true);
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
@@ -85,8 +84,8 @@ describe('tmp', function () {
           if (stderr) return done(new Error(stderr));
           try {
             assertions.assertExists(stdout, true);
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
@@ -109,6 +108,19 @@ describe('tmp', function () {
     });
 
     describe('when running issue specific outband tests', function () {
+      it('on issue #115', function (done) {
+        childProcess(this, 'issue115-sync.json', function (err, stderr, stdout) {
+          if (err) return done(err);
+          if (stderr) return done(new Error(stderr));
+          try {
+            assertions.assertDoesNotExist(stdout);
+          } catch (err) {
+            rimraf.sync(stdout);
+            return done(err);
+          }
+          done();
+        });
+      });
       it('on issue #115', function (done) {
         childProcess(this, 'issue115-sync.json', function (err, stderr, stdout) {
           if (err) return done(err);

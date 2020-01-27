@@ -3,32 +3,30 @@
 
 var
   assert = require('assert'),
-  fs = require('fs'),
   path = require('path'),
-  existsSync = fs.existsSync || path.existsSync,
   assertions = require('./assertions'),
   rimraf = require('rimraf'),
   tmp = require('../lib/tmp');
 
 
-module.exports = function inbandStandard(isFile, beforeHook) {
-  var testMode = isFile ? 0600 : 0700;
-  describe('without any parameters', inbandStandardTests({ mode: testMode, prefix: 'tmp-' }, null, isFile, beforeHook));
-  describe('with prefix', inbandStandardTests({ mode: testMode }, { prefix: 'something' }, isFile, beforeHook));
-  describe('with postfix', inbandStandardTests({ mode: testMode }, { postfix: '.txt' }, isFile, beforeHook));
-  describe('with template and no leading path', inbandStandardTests({ mode: testMode, prefix: 'clike-', postfix: '-postfix' }, { template: 'clike-XXXXXX-postfix' }, isFile, beforeHook));
-  describe('with template and leading path', inbandStandardTests({ mode: testMode, prefix: 'clike-', postfix: '-postfix' }, { template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix')}, isFile, beforeHook));
-  describe('with name', inbandStandardTests({ mode: testMode }, { name: 'using-name' }, isFile, beforeHook));
-  describe('with mode', inbandStandardTests(null, { mode: 0755 }, isFile, beforeHook));
-  describe('with multiple options', inbandStandardTests(null, { prefix: 'foo', postfix: 'bar', mode: 0750 }, isFile, beforeHook));
+module.exports = function inbandStandard(isFile, beforeHook, sync = false) {
+  var testMode = isFile ? 0o600 : 0o700;
+  describe('without any parameters', inbandStandardTests({ mode: testMode, prefix: 'tmp-' }, null, isFile, beforeHook, sync));
+  describe('with prefix', inbandStandardTests({ mode: testMode, prefix: 'tmp-' }, { prefix: 'tmp-something' }, isFile, beforeHook, sync));
+  describe('with postfix', inbandStandardTests({ mode: testMode, prefix: 'tmp-' }, { postfix: '.txt' }, isFile, beforeHook, sync));
+  describe('with template and no leading path', inbandStandardTests({ mode: testMode, prefix: 'tmp-clike-', postfix: '-postfix' }, { template: 'tmp-clike-XXXXXX-postfix' }, isFile, beforeHook, sync));
+  describe('with template and leading path', inbandStandardTests({ mode: testMode, prefix: 'tmp-clike-', postfix: '-postfix' }, { template: path.join(tmp.tmpdir, 'tmp-clike-XXXXXX-postfix')}, isFile, beforeHook, sync));
+  describe('with name', inbandStandardTests({ mode: testMode }, { name: 'tmp-using-name' }, isFile, beforeHook, sync));
+  describe('with mode', inbandStandardTests(null, { mode: 0o755 }, isFile, beforeHook, sync));
+  describe('with multiple options', inbandStandardTests(null, { prefix: 'tmp-multiple', postfix: 'bar', mode: 0o750 }, isFile, beforeHook, sync));
   if (isFile) {
-    describe('with discardDescriptor', inbandStandardTests(null, { mode: testMode, discardDescriptor: true }, isFile, beforeHook));
-    describe('with detachDescriptor', inbandStandardTests(null, { mode: testMode, detachDescriptor: true }, isFile, beforeHook));
+    describe('with discardDescriptor', inbandStandardTests(null, { mode: testMode, discardDescriptor: true }, isFile, beforeHook, sync));
+    describe('with detachDescriptor', inbandStandardTests(null, { mode: testMode, detachDescriptor: true }, isFile, beforeHook, sync));
   }
 };
 
 
-function inbandStandardTests(testOpts, opts, isFile, beforeHook) {
+function inbandStandardTests(testOpts, opts, isFile, beforeHook, sync = false) {
   return function () {
     opts = opts || {};
     testOpts = testOpts || {};
@@ -51,7 +49,7 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook) {
       assertions.assertMode(this.topic.name, testOpts.mode || opts.mode);
     }.bind(topic));
 
-    if (opts.prefix || testOpts.prefix) {
+    if(testOpts.prefix || opts.prefix) {
       it('should have the expected prefix', function () {
         assertions.assertPrefix(this.topic.name, testOpts.prefix || opts.prefix);
       }.bind(topic));
@@ -73,18 +71,33 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook) {
       }.bind(topic));
     }
 
-    it('should have a working removeCallback', function (done) {
-      const self = this;
-      this.topic.removeCallback(function (err) {
-        if (err) return done(err);
+    if (sync) {
+      it('should have a working removeCallback', function () {
         try {
-          assertions.assertDoesNotExist(self.topic.name);
+          this.topic.removeCallback();
         } catch (err) {
-          rimraf.sync(self.topic.name);
-          return done(err);
+          // important: remove file or dir unconditionally
+          try {
+            rimraf.sync(this.topic.name);
+          } catch (_ignored) {
+          }
+          throw err;
         }
-        done();
-      });
-    }.bind(topic));
+      }.bind(topic));
+    } else {
+      it('should have a working removeCallback', function (done) {
+        const self = this;
+        this.topic.removeCallback(function (err) {
+          if (err) return done(err);
+          try {
+            assertions.assertDoesNotExist(self.topic.name);
+          } catch (err) {
+            rimraf.sync(self.topic.name);
+            return done(err);
+          }
+          done();
+        });
+      }.bind(topic));
+    }
   };
 }

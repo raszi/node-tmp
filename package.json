@@ -19,7 +19,7 @@
     "url": "http://github.com/raszi/node-tmp/issues"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "dependencies": {
     "rimraf": "^3.0.0"
