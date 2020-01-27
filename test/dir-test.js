@@ -63,7 +63,7 @@ describe('tmp', function () {
           try {
             assertions.assertDoesNotExist(stdout);
           } catch (err) {
-            rimraf.sync(stdout);
+            //rimraf.sync(stdout);
             return done(err);
           }
           done();
@@ -76,8 +76,8 @@ describe('tmp', function () {
           if (!stderr) return done(new Error('stderr expected'));
           try {
             assertions.assertExists(stdout);
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
@@ -90,8 +90,8 @@ describe('tmp', function () {
           if (stderr) return done(new Error(stderr));
           try {
             assertions.assertExists(stdout);
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
@@ -137,8 +137,8 @@ describe('tmp', function () {
               assertions.assertExists(path.join(stdout, 'symlinkme-target'), true);
             else
               assertions.assertExists(path.join(stdout, 'symlinkme-target'));
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
