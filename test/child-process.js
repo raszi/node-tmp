@@ -50,6 +50,7 @@ function _doSpawn(commandArgs, cb, signal) {
   child.stdin.end();
 
   function _close() {
+    // prevent race conditions
     if (stderrDone && stdoutDone && !done) {
       const
         stderr = _bufferConcat(stderrBufs).toString(),

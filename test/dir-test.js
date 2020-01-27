@@ -3,7 +3,6 @@
 
 var
   assert = require('assert'),
-  fs = require('fs'),
   path = require('path'),
   inbandStandardTests = require('./inband-standard'),
   childProcess = require('./child-process').genericChildProcess,

@@ -9,7 +9,7 @@ module.exports = function () {
 
   // simulate an existing SIGINT listener
   process.addListener('SIGINT', function _tmp$sigint_listener() {
-      self.out('EOK');
+    self.out('EOK');
   });
 
   // now let tmp install its listener safely

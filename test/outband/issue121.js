@@ -1,8 +1,6 @@
-/* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-const
-  tmp = require('../../lib/tmp');
+const tmp = require('../../lib/tmp');
 
 process.on('SIGTERM', function () {
   process.exit(0);

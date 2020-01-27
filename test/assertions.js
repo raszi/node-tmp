@@ -24,9 +24,9 @@ module.exports.assertMode = function assertMode(name, mode) {
   // “other” bits then. Ignore execute bit on that platform because it
   // doesn’t exist—even for directories.
   if (process.platform == 'win32') {
-    assert.equal(stat.mode & 000600, mode & 000600);
+    assert.equal(stat.mode & 0o600, mode & 0o600);
   } else {
-    assert.equal(stat.mode & 000777, mode);
+    assert.equal(stat.mode & 0o777, mode);
   }
 };
 
