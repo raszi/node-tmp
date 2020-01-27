@@ -13,7 +13,7 @@ describe('tmp', function () {
     describe('when running inband standard tests', function () {
       inbandStandardTests(function before(done) {
         var that = this;
-        tmp.dir(this.opts, function (err, name) {
+        tmp.tmpName(this.opts, function (err, name) {
           if (err) return done(err);
           that.topic = name;
           done();
