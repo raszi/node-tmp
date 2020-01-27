@@ -14,6 +14,7 @@ module.exports = function inbandStandard(beforeHook) {
   describe('with template and no leading path', inbandStandardTests({ prefix: 'clike-', postfix: '-postfix' }, { template: 'clike-XXXXXX-postfix' }, beforeHook));
   describe('with template and leading path', inbandStandardTests({ prefix: 'clike-', postfix: '-postfix' }, { template: path.join(tmp.tmpdir, 'clike-XXXXXX-postfix')}, beforeHook));
   describe('with multiple options', inbandStandardTests(null, { prefix: 'foo', postfix: 'bar', tries: 5 }, beforeHook));
+  describe('with name', inbandStandardTests(null, { name: 'using-name' }, beforeHook));
 };
 
 
