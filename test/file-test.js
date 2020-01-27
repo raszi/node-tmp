@@ -86,8 +86,8 @@ describe('tmp', function () {
           if (!stderr) return done(new Error('stderr expected'));
           try {
             assertions.assertExists(stdout, true);
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
@@ -100,8 +100,8 @@ describe('tmp', function () {
           if (stderr) return done(new Error(stderr));
           try {
             assertions.assertExists(stdout, true);
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
@@ -140,4 +140,3 @@ describe('tmp', function () {
     });
   });
 });
-
