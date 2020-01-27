@@ -2,7 +2,6 @@
 // vim: expandtab:ts=2:sw=2
 
 var
-  assert = require('assert'),
   path = require('path'),
   assertions = require('./assertions'),
   rimraf = require('rimraf'),
@@ -80,6 +79,7 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook, sync = false) {
           try {
             rimraf.sync(this.topic.name);
           } catch (_ignored) {
+            // ignore
           }
           throw err;
         }

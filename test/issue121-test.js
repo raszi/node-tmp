@@ -5,7 +5,6 @@ const
   assertions = require('./assertions'),
   childProcess = require('./child-process').childProcess,
   os = require('os'),
-  rimraf = require('rimraf'),
   testCases = [
     'SIGINT',
     'SIGTERM'
@@ -27,7 +26,7 @@ describe('tmp', function () {
   });
 });
 
-function issue121Tests(signal, expectExists) {
+function issue121Tests(signal) {
   return function (done) {
     childProcess(this, 'issue121.json', function (err, stderr, stdout) {
       if (err) return done(err);
