@@ -3,7 +3,6 @@
 
 var
   assert = require('assert'),
-  fs = require('fs'),
   path = require('path'),
   inbandStandardTests = require('./inband-standard'),
   childProcess = require('./child-process').genericChildProcess,
@@ -20,7 +19,7 @@ describe('tmp', function () {
     describe('when running inband standard tests', function () {
       inbandStandardTests(false, function before() {
         this.topic = tmp.dirSync(this.opts);
-      });
+      }, true);
 
       describe('with invalid tries', function () {
         it('should result in an error on negative tries', function () {
@@ -68,8 +67,8 @@ describe('tmp', function () {
           if (!stderr) return done(new Error('stderr expected'));
           try {
             assertions.assertExists(stdout);
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
@@ -82,8 +81,8 @@ describe('tmp', function () {
           if (stderr) return done(new Error(stderr));
           try {
             assertions.assertExists(stdout);
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
@@ -130,8 +129,8 @@ describe('tmp', function () {
             } else {
               assertions.assertExists(path.join(stdout, 'symlinkme-target'));
             }
-          } catch (err) {
             rimraf.sync(stdout);
+          } catch (err) {
             return done(err);
           }
           done();
