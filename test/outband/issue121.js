@@ -2,6 +2,10 @@
 
 const tmp = require('../../lib/tmp');
 
+process.on('SIGINT', function () {
+  process.exit(0);
+});
+
 process.on('SIGTERM', function () {
   process.exit(0);
 });
