@@ -10,6 +10,12 @@
 
   Users must install their own SIGINT handler and call process.exit() so that tmp's process 
   exit handler can do the cleanup.
+  
+  The simplest handler possible would be
+  
+  ```
+  process.on('SIGINT', process.exit);
+  ```
 
 - [#206](https://github.com/raszi/node-tmp/issues/206)
 

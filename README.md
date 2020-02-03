@@ -29,6 +29,8 @@ standard OS temporary directory, then you are free to override that as well.
 
 ## An Important Note on Compatibility
 
+See the [CHANGELOG](./CHANGELOG.md) for more information.
+
 ### Version 0.1.0
 
 Since version 0.1.0, all support for node versions < 0.10.0 has been dropped.
