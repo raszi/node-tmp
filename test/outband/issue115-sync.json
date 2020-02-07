@@ -1,5 +1,5 @@
 {
-  "tc": "issue115",
+  "tc": "issue115-sync",
   "async": false,
   "file": true,
   "options": {},
