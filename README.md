@@ -343,16 +343,25 @@ tmp.setGracefulCleanup();
 
 All options are optional :)
 
-  * `name`: a fixed name that overrides random name generation
-  * `mode`: the file mode to create with, it fallbacks to `0600` on file creation and `0700` on directory creation
-  * `prefix`: the optional prefix, fallbacks to `tmp-` if not provided
-  * `postfix`: the optional postfix, fallbacks to `.tmp` on file creation
-  * `template`: [`mkstemp`][3] like filename template, no default
-  * `dir`: the optional temporary directory, fallbacks to system default (guesses from environment)
+  * `name`: a fixed name that overrides random name generation, the name must be relative and must not contain path segments
+  * `mode`: the file mode to create with, falls back to `0o600` on file creation and `0o700` on directory creation
+  * `prefix`: the optional prefix, defaults to `tmp`
+  * `postfix`: the optional postfix
+  * `template`: [`mkstemp`][3] like filename template, no default, can be either an absolute or a relative path that resolves 
+     to a relative path of the system's default temporary directory, must include `XXXXXX` once for random name generation, e.g.
+     'foo/bar/XXXXXX'. Absolute paths are also fine as long as they are relative to os.tmpdir().
+     Any directories along the so specified path must exist, otherwise a ENOENT error will be thrown upon access, 
+     as tmp will not check the availability of the path, nor will it establish the requested path for you. 
+  * `dir`: the optional temporary directory that must be relative to the system's default temporary directory.
+     absolute paths are fine as long as they point to a location under the system's default temporary directory.
+     Any directories along the so specified path must exist, otherwise a ENOENT error will be thrown upon access, 
+     as tmp will not check the availability of the path, nor will it establish the requested path for you.
   * `tries`: how many times should the function try to get a unique filename before giving up, default `3`
   * `keep`: signals that the temporary file or directory should not be deleted on exit, default is `false`
     * In order to clean up, you will have to call the provided `cleanupCallback` function manually.
   * `unsafeCleanup`: recursively removes the created temporary directory, even when it's not empty. default is `false`
+  * `detachDescriptor`: detaches the file descriptor, caller is responsible for closing the file, tmp will no longer try closing the file during garbage collection
+  * `discardDescriptor`: discards the file descriptor (closes file, fd is -1), tmp will no longer try closing the file during garbage collection
 
 [1]: http://nodejs.org/
 [2]: https://www.npmjs.com/browse/depended/tmp

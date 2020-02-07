@@ -11,7 +11,7 @@ describe('tmp', function () {
       try {
         tmp.dirSync({template:'invalid'});
       } catch (err) {
-        assert.equal(err.message, 'Invalid template provided', 'should have thrown the expected error');
+        assert.equal(err.message, 'Invalid template, found "invalid".', 'should have thrown the expected error');
       }
     });
   });
@@ -21,7 +21,7 @@ describe('tmp', function () {
       try {
         tmp.fileSync({template:'invalid'});
       } catch (err) {
-        assert.equal(err.message, 'Invalid template provided', 'should have thrown the expected error');
+        assert.equal(err.message, 'Invalid template, found "invalid".', 'should have thrown the expected error');
       }
     });
   });
