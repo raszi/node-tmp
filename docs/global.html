@@ -251,7 +251,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line390">line 390</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
@@ -388,7 +388,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line418">line 418</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -628,7 +628,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line325">line 325</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -765,7 +765,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line363">line 363</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -852,287 +852,6 @@
     
 
     
-    <h4 class="name" id="isEBADF"><span class="type-signature"></span>isEBADF<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Helper for testing against EBADF to compensate changes made to Node 7.x under Windows.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line586">line 586</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="isENOENT"><span class="type-signature"></span>isENOENT<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Helper for testing against ENOENT to compensate changes made to Node 7.x under Windows.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line593">line 593</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="isExpectedError"><span class="type-signature"></span>isExpectedError<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Helper to determine whether the expected error code matches the actual code and errno,
-which will differ between the supported node versions.
-
-- Node >= 7.0:
-  error.code {string}
-  error.errno {string|number} any numerical value will be negated
-
-- Node >= 6.0 < 7.0:
-  error.code {string}
-  error.errno {number} negated
-
-- Node >= 4.0 < 6.0: introduces SystemError
-  error.code {string}
-  error.errno {number} negated
-
-- Node >= 0.10 < 4.0:
-  error.code {number} negated
-  error.errno n/a
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line617">line 617</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="setGracefulCleanup"><span class="type-signature"></span>setGracefulCleanup<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -1142,6 +861,10 @@ which will differ between the supported node versions.
 
 <div class="description">
     Sets the graceful cleanup.
+
+If graceful cleanup is set, tmp will remove all controlled temporary objects on process exit, otherwise the
+temporary objects will remain in place, waiting to be cleaned up on system restart or otherwise scheduled temporary
+object removals.
 </div>
 
 
@@ -1185,7 +908,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line624">line 624</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line623">line 623</a>
     </li></ul></dd>
     
 
@@ -1368,7 +1091,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line257">line 257</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -1505,7 +1228,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line299">line 299</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -1711,7 +1434,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line707">line 707</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line706">line 706</a>
     </li></ul></dd>
     
 
@@ -1799,7 +1522,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line714">line 714</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line713">line 713</a>
     </li></ul></dd>
     
 
@@ -2006,7 +1729,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line693">line 693</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line692">line 692</a>
     </li></ul></dd>
     
 
@@ -2213,7 +1936,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line700">line 700</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line699">line 699</a>
     </li></ul></dd>
     
 
@@ -2370,7 +2093,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line665">line 665</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line664">line 664</a>
     </li></ul></dd>
     
 
@@ -2594,7 +2317,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line677">line 677</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line676">line 676</a>
     </li></ul></dd>
     
 
@@ -2832,7 +2555,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line685">line 685</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line684">line 684</a>
     </li></ul></dd>
     
 
@@ -3012,7 +2735,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line658">line 658</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line657">line 657</a>
     </li></ul></dd>
     
 
@@ -3449,7 +3172,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line641">line 641</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line640">line 640</a>
     </li></ul></dd>
     
 
@@ -3523,7 +3246,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line720">line 720</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line719">line 719</a>
     </li></ul></dd>
     
 
@@ -3706,7 +3429,7 @@ which will differ between the supported node versions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line671">line 671</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line670">line 670</a>
     </li></ul></dd>
     
 
@@ -3750,13 +3473,13 @@ which will differ between the supported node versions.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#dir">dir</a></li><li><a href="global.html#dirSync">dirSync</a></li><li><a href="global.html#file">file</a></li><li><a href="global.html#fileSync">fileSync</a></li><li><a href="global.html#isEBADF">isEBADF</a></li><li><a href="global.html#isENOENT">isENOENT</a></li><li><a href="global.html#isExpectedError">isExpectedError</a></li><li><a href="global.html#setGracefulCleanup">setGracefulCleanup</a></li><li><a href="global.html#tmpName">tmpName</a></li><li><a href="global.html#tmpNameSync">tmpNameSync</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#dir">dir</a></li><li><a href="global.html#dirSync">dirSync</a></li><li><a href="global.html#file">file</a></li><li><a href="global.html#fileSync">fileSync</a></li><li><a href="global.html#setGracefulCleanup">setGracefulCleanup</a></li><li><a href="global.html#tmpName">tmpName</a></li><li><a href="global.html#tmpNameSync">tmpNameSync</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Feb 07 2020 23:25:55 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Feb 08 2020 00:30:58 GMT+0100 (Mitteleuropäische Normalzeit)
 </footer>
 
 <script> prettyPrint(); </script>

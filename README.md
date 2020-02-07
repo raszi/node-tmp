@@ -50,15 +50,6 @@ dependency to version 0.0.33.
 For node versions < 0.8 you must limit your node-tmp dependency to
 versions < 0.0.33.
 
-### Node Versions < 8.12.0
-
-The SIGINT handler will not work correctly with versions of NodeJS < 8.12.0.
-
-### Windows
-
-Signal handlers for SIGINT will not work. Pressing CTRL-C will leave behind
-temporary files and directories.
-
 ## How to install
 
 ```bash
@@ -74,7 +65,7 @@ Please also check [API docs][4].
 Simple temporary file creation, the file will be closed and unlinked on process exit.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
 tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
   if (err) throw err;
@@ -94,9 +85,9 @@ tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
 A synchronous version of the above.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
-var tmpobj = tmp.fileSync();
+const tmpobj = tmp.fileSync();
 console.log('File: ', tmpobj.name);
 console.log('Filedescriptor: ', tmpobj.fd);
   
@@ -117,7 +108,7 @@ Simple temporary directory creation, it will be removed on process exit.
 If the directory still contains items on process exit, then it won't be removed.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
 tmp.dir(function _tempDirCreated(err, path, cleanupCallback) {
   if (err) throw err;
@@ -137,9 +128,9 @@ you can pass the `unsafeCleanup` option when creating it.
 A synchronous version of the above.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
-var tmpobj = tmp.dirSync();
+const tmpobj = tmp.dirSync();
 console.log('Dir: ', tmpobj.name);
 // Manual cleanup
 tmpobj.removeCallback();
@@ -155,7 +146,7 @@ It is possible with this library to generate a unique filename in the specified
 directory.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
 tmp.tmpName(function _tempNameGenerated(err, path) {
     if (err) throw err;
@@ -169,9 +160,9 @@ tmp.tmpName(function _tempNameGenerated(err, path) {
 A synchronous version of the above.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
-var name = tmp.tmpNameSync();
+const name = tmp.tmpNameSync();
 console.log('Created temporary filename: ', name);
 ```
 
@@ -182,9 +173,9 @@ console.log('Created temporary filename: ', name);
 Creates a file with mode `0644`, prefix will be `prefix-` and postfix will be `.txt`.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
-tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileCreated(err, path, fd) {
+tmp.file({ mode: 0o644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileCreated(err, path, fd) {
   if (err) throw err;
 
   console.log('File: ', path);
@@ -197,9 +188,9 @@ tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileC
 A synchronous version of the above.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
-var tmpobj = tmp.fileSync({ mode: 0644, prefix: 'prefix-', postfix: '.txt' });
+const tmpobj = tmp.fileSync({ mode: 0o644, prefix: 'prefix-', postfix: '.txt' });
 console.log('File: ', tmpobj.name);
 console.log('Filedescriptor: ', tmpobj.fd);
 ```
@@ -221,7 +212,7 @@ descriptor.  Two options control how the descriptor is managed:
   longer needed.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
 tmp.file({ discardDescriptor: true }, function _tempFileCreated(err, path, fd, cleanupCallback) {
   if (err) throw err;
@@ -231,7 +222,7 @@ tmp.file({ discardDescriptor: true }, function _tempFileCreated(err, path, fd, c
 ```
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
 tmp.file({ detachDescriptor: true }, function _tempFileCreated(err, path, fd, cleanupCallback) {
   if (err) throw err;
@@ -248,9 +239,9 @@ tmp.file({ detachDescriptor: true }, function _tempFileCreated(err, path, fd, cl
 Creates a directory with mode `0755`, prefix will be `myTmpDir_`.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
-tmp.dir({ mode: 0750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path) {
+tmp.dir({ mode: 0o750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path) {
   if (err) throw err;
 
   console.log('Dir: ', path);
@@ -262,9 +253,9 @@ tmp.dir({ mode: 0750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path)
 Again, a synchronous version of the above.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
-var tmpobj = tmp.dirSync({ mode: 0750, prefix: 'myTmpDir_' });
+const tmpobj = tmp.dirSync({ mode: 0750, prefix: 'myTmpDir_' });
 console.log('Dir: ', tmpobj.name);
 ```
 
@@ -277,7 +268,7 @@ require tmp to create your temporary filesystem object in a different place than
 default `tmp.tmpdir`.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
 tmp.dir({ template: 'tmp-XXXXXX' }, function _tempDirCreated(err, path) {
   if (err) throw err;
@@ -291,9 +282,9 @@ tmp.dir({ template: 'tmp-XXXXXX' }, function _tempDirCreated(err, path) {
 This will behave similarly to the asynchronous version.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
-var tmpobj = tmp.dirSync({ template: 'tmp-XXXXXX' });
+const tmpobj = tmp.dirSync({ template: 'tmp-XXXXXX' });
 console.log('Dir: ', tmpobj.name);
 ```
 
@@ -305,9 +296,9 @@ The function accepts all standard options, e.g. `prefix`, `postfix`, `dir`, and 
 You can also leave out the options altogether and just call the function with a callback as first parameter.
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
-var options = {};
+const options = {};
 
 tmp.tmpName(options, function _tempNameGenerated(err, path) {
     if (err) throw err;
@@ -322,19 +313,22 @@ The `tmpNameSync()` function works similarly to `tmpName()`.
 Again, you can leave out the options altogether and just invoke the function without any parameters.
 
 ```javascript
-var tmp = require('tmp');
-var options = {};
-var tmpname = tmp.tmpNameSync(options);
+const tmp = require('tmp');
+const options = {};
+const tmpname = tmp.tmpNameSync(options);
 console.log('Created temporary filename: ', tmpname);
 ```
 
 ## Graceful cleanup
 
-One may want to cleanup the temporary files even when an uncaught exception
-occurs. To enforce this, you can call the `setGracefulCleanup()` method:
+If graceful cleanup is set, tmp will remove all controlled temporary objects on process exit, otherwise the
+temporary objects will remain in place, waiting to be cleaned up on system restart or otherwise scheduled temporary
+object removal.
+
+To enforce this, you can call the `setGracefulCleanup()` method:
 
 ```javascript
-var tmp = require('tmp');
+const tmp = require('tmp');
 
 tmp.setGracefulCleanup();
 ```

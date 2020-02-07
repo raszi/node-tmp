@@ -2,11 +2,11 @@
 
 ## tmp v0.2.0
 
-- drop support for node version < v8
+- drop support for node version < v8.17.0
 
   ***BREAKING CHANGE***
   
-  node version < v8 are no longer supported. 
+  node versions < v8.17.0 are no longer supported. 
 
 - [#216](https://github.com/raszi/node-tmp/issues/216)
 
@@ -63,6 +63,12 @@
   
   now using rimraf for removing directory trees.
 
+- [#240](https://github.com/raszi/node-tmp/issues/240)
+
+  ***DOCUMENTATION***
+  
+  better documentation for `tmp.setGracefulCleanup()`.
+
 - [#206](https://github.com/raszi/node-tmp/issues/206)
 
   ***DOCUMENTATION***
@@ -92,6 +98,7 @@
   ***DOCUMENTATION***
 
   document unsafeCleanup option.
+
 
 ### Miscellaneous
 

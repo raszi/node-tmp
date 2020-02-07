@@ -76,11 +76,6 @@ dependency to versions below 0.1.0.</p>
 dependency to version 0.0.33.</p>
 <p>For node versions &lt; 0.8 you must limit your node-tmp dependency to
 versions &lt; 0.0.33.</p>
-<h3>Node Versions &lt; 8.12.0</h3>
-<p>The SIGINT handler will not work correctly with versions of NodeJS &lt; 8.12.0.</p>
-<h3>Windows</h3>
-<p>Signal handlers for SIGINT will not work. Pressing CTRL-C will leave behind
-temporary files and directories.</p>
 <h2>How to install</h2>
 <pre class="prettyprint source lang-bash"><code>npm install tmp
 </code></pre>
@@ -88,7 +83,7 @@ temporary files and directories.</p>
 <p>Please also check <a href="https://raszi.github.io/node-tmp/">API docs</a>.</p>
 <h3>Asynchronous file creation</h3>
 <p>Simple temporary file creation, the file will be closed and unlinked on process exit.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
 tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
   if (err) throw err;
@@ -104,9 +99,9 @@ tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
 </code></pre>
 <h3>Synchronous file creation</h3>
 <p>A synchronous version of the above.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
-var tmpobj = tmp.fileSync();
+const tmpobj = tmp.fileSync();
 console.log('File: ', tmpobj.name);
 console.log('Filedescriptor: ', tmpobj.fd);
   
@@ -121,7 +116,7 @@ to write to the directory where the temporary file should be created in.</p>
 <h3>Asynchronous directory creation</h3>
 <p>Simple temporary directory creation, it will be removed on process exit.</p>
 <p>If the directory still contains items on process exit, then it won't be removed.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
 tmp.dir(function _tempDirCreated(err, path, cleanupCallback) {
   if (err) throw err;
@@ -136,9 +131,9 @@ tmp.dir(function _tempDirCreated(err, path, cleanupCallback) {
 you can pass the <code>unsafeCleanup</code> option when creating it.</p>
 <h3>Synchronous directory creation</h3>
 <p>A synchronous version of the above.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
-var tmpobj = tmp.dirSync();
+const tmpobj = tmp.dirSync();
 console.log('Dir: ', tmpobj.name);
 // Manual cleanup
 tmpobj.removeCallback();
@@ -149,7 +144,7 @@ to write to the directory where the temporary directory should be created in.</p
 <h3>Asynchronous filename generation</h3>
 <p>It is possible with this library to generate a unique filename in the specified
 directory.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
 tmp.tmpName(function _tempNameGenerated(err, path) {
     if (err) throw err;
@@ -159,17 +154,17 @@ tmp.tmpName(function _tempNameGenerated(err, path) {
 </code></pre>
 <h3>Synchronous filename generation</h3>
 <p>A synchronous version of the above.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
-var name = tmp.tmpNameSync();
+const name = tmp.tmpNameSync();
 console.log('Created temporary filename: ', name);
 </code></pre>
 <h2>Advanced usage</h2>
 <h3>Asynchronous file creation</h3>
 <p>Creates a file with mode <code>0644</code>, prefix will be <code>prefix-</code> and postfix will be <code>.txt</code>.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
-tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileCreated(err, path, fd) {
+tmp.file({ mode: 0o644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileCreated(err, path, fd) {
   if (err) throw err;
 
   console.log('File: ', path);
@@ -178,9 +173,9 @@ tmp.file({ mode: 0644, prefix: 'prefix-', postfix: '.txt' }, function _tempFileC
 </code></pre>
 <h3>Synchronous file creation</h3>
 <p>A synchronous version of the above.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
-var tmpobj = tmp.fileSync({ mode: 0644, prefix: 'prefix-', postfix: '.txt' });
+const tmpobj = tmp.fileSync({ mode: 0o644, prefix: 'prefix-', postfix: '.txt' });
 console.log('File: ', tmpobj.name);
 console.log('Filedescriptor: ', tmpobj.fd);
 </code></pre>
@@ -198,7 +193,7 @@ is created.  In this case the <code>fd</code> parameter is undefined.</li>
 parameter, but it is the application's responsibility to close it when it is no
 longer needed.</li>
 </ul>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
 tmp.file({ discardDescriptor: true }, function _tempFileCreated(err, path, fd, cleanupCallback) {
   if (err) throw err;
@@ -206,7 +201,7 @@ tmp.file({ discardDescriptor: true }, function _tempFileCreated(err, path, fd, c
   // without holding an unused descriptor open.
 });
 </code></pre>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
 tmp.file({ detachDescriptor: true }, function _tempFileCreated(err, path, fd, cleanupCallback) {
   if (err) throw err;
@@ -219,9 +214,9 @@ tmp.file({ detachDescriptor: true }, function _tempFileCreated(err, path, fd, cl
 </code></pre>
 <h3>Asynchronous directory creation</h3>
 <p>Creates a directory with mode <code>0755</code>, prefix will be <code>myTmpDir_</code>.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
-tmp.dir({ mode: 0750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path) {
+tmp.dir({ mode: 0o750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path) {
   if (err) throw err;
 
   console.log('Dir: ', path);
@@ -229,9 +224,9 @@ tmp.dir({ mode: 0750, prefix: 'myTmpDir_' }, function _tempDirCreated(err, path)
 </code></pre>
 <h3>Synchronous directory creation</h3>
 <p>Again, a synchronous version of the above.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
-var tmpobj = tmp.dirSync({ mode: 0750, prefix: 'myTmpDir_' });
+const tmpobj = tmp.dirSync({ mode: 0750, prefix: 'myTmpDir_' });
 console.log('Dir: ', tmpobj.name);
 </code></pre>
 <h3>mkstemp like, asynchronously</h3>
@@ -239,7 +234,7 @@ console.log('Dir: ', tmpobj.name);
 <p>IMPORTANT NOTE: template no longer accepts a path. Use the dir option instead if you
 require tmp to create your temporary filesystem object in a different place than the
 default <code>tmp.tmpdir</code>.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
 tmp.dir({ template: 'tmp-XXXXXX' }, function _tempDirCreated(err, path) {
   if (err) throw err;
@@ -249,18 +244,18 @@ tmp.dir({ template: 'tmp-XXXXXX' }, function _tempDirCreated(err, path) {
 </code></pre>
 <h3>mkstemp like, synchronously</h3>
 <p>This will behave similarly to the asynchronous version.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
-var tmpobj = tmp.dirSync({ template: 'tmp-XXXXXX' });
+const tmpobj = tmp.dirSync({ template: 'tmp-XXXXXX' });
 console.log('Dir: ', tmpobj.name);
 </code></pre>
 <h3>Asynchronous filename generation</h3>
 <p>Using <code>tmpName()</code> you can create temporary file names asynchronously.
 The function accepts all standard options, e.g. <code>prefix</code>, <code>postfix</code>, <code>dir</code>, and so on.</p>
 <p>You can also leave out the options altogether and just call the function with a callback as first parameter.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
-var options = {};
+const options = {};
 
 tmp.tmpName(options, function _tempNameGenerated(err, path) {
     if (err) throw err;
@@ -271,15 +266,17 @@ tmp.tmpName(options, function _tempNameGenerated(err, path) {
 <h3>Synchronous filename generation</h3>
 <p>The <code>tmpNameSync()</code> function works similarly to <code>tmpName()</code>.
 Again, you can leave out the options altogether and just invoke the function without any parameters.</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
-var options = {};
-var tmpname = tmp.tmpNameSync(options);
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
+const options = {};
+const tmpname = tmp.tmpNameSync(options);
 console.log('Created temporary filename: ', tmpname);
 </code></pre>
 <h2>Graceful cleanup</h2>
-<p>One may want to cleanup the temporary files even when an uncaught exception
-occurs. To enforce this, you can call the <code>setGracefulCleanup()</code> method:</p>
-<pre class="prettyprint source lang-javascript"><code>var tmp = require('tmp');
+<p>If graceful cleanup is set, tmp will remove all controlled temporary objects on process exit, otherwise the
+temporary objects will remain in place, waiting to be cleaned up on system restart or otherwise scheduled temporary
+object removal.</p>
+<p>To enforce this, you can call the <code>setGracefulCleanup()</code> method:</p>
+<pre class="prettyprint source lang-javascript"><code>const tmp = require('tmp');
 
 tmp.setGracefulCleanup();
 </code></pre>
@@ -319,13 +316,13 @@ as tmp will not check the availability of the path, nor will it establish the re
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#dir">dir</a></li><li><a href="global.html#dirSync">dirSync</a></li><li><a href="global.html#file">file</a></li><li><a href="global.html#fileSync">fileSync</a></li><li><a href="global.html#isEBADF">isEBADF</a></li><li><a href="global.html#isENOENT">isENOENT</a></li><li><a href="global.html#isExpectedError">isExpectedError</a></li><li><a href="global.html#setGracefulCleanup">setGracefulCleanup</a></li><li><a href="global.html#tmpName">tmpName</a></li><li><a href="global.html#tmpNameSync">tmpNameSync</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#dir">dir</a></li><li><a href="global.html#dirSync">dirSync</a></li><li><a href="global.html#file">file</a></li><li><a href="global.html#fileSync">fileSync</a></li><li><a href="global.html#setGracefulCleanup">setGracefulCleanup</a></li><li><a href="global.html#tmpName">tmpName</a></li><li><a href="global.html#tmpNameSync">tmpNameSync</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Feb 07 2020 23:25:55 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Feb 08 2020 00:30:58 GMT+0100 (Mitteleuropäische Normalzeit)
 </footer>
 
 <script> prettyPrint(); </script>
