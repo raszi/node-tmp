@@ -15,7 +15,7 @@ module.exports = function (result) {
   // symlink that should be removed but the contents should be preserved.
   // Skip on Windows because symlinks require elevated privileges (instead just
   // create the file)
-  if (process.platform == 'win32') {
+  if (process.platform === 'win32') {
     fs.writeFileSync(symlinkTarget);
   } else {
     fs.symlinkSync(symlinkSource, symlinkTarget, 'dir');
@@ -23,4 +23,3 @@ module.exports = function (result) {
 
   this.out(result.name);
 };
-
