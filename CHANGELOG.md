@@ -63,6 +63,13 @@
   
   now using rimraf for removing directory trees.
 
+- [#246](https://github.com/raszi/node-tmp/issues/246)
+
+  ***BUG FIX***
+
+  os.tmpdir() might return a value that includes single or double quotes,
+  similarly so the dir option, the template option and the name option
+
 - [#240](https://github.com/raszi/node-tmp/issues/240)
 
   ***DOCUMENTATION***
