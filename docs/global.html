@@ -87,86 +87,12 @@
 
     
 
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="tmpDir"><span class="type-signature">(constant) </span>tmpDir<span class="type-signature"> :string</span></h4>
-
-
-
-
-<div class="description">
-    The temporary directory.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">string</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
     
 
     
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line26">line 26</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
     
 
     
@@ -177,7 +103,9 @@
 
     
 
+    
     <h4 class="name" id="dir"><span class="type-signature"></span>dir<span class="signature">(options, callback<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -323,7 +251,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line319">line 319</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -349,12 +277,18 @@
 
 
 
+
+
+
+
         
             
 
     
 
+    
     <h4 class="name" id="dirSync"><span class="type-signature"></span>dirSync<span class="signature">(options)</span><span class="type-signature"> &rarr; {<a href="global.html#DirSyncObject">DirSyncObject</a>}</span></h4>
+    
 
     
 
@@ -454,7 +388,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line345">line 345</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line219">line 219</a>
     </li></ul></dd>
     
 
@@ -464,6 +398,8 @@
 
     
 </dl>
+
+
 
 
 
@@ -531,12 +467,16 @@
 
 
 
+
+
         
             
 
     
 
+    
     <h4 class="name" id="file"><span class="type-signature"></span>file<span class="signature">(options, callback<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -590,6 +530,12 @@
 <span class="param-type"><a href="global.html#Options">Options</a></span>
 |
 
+<span class="param-type">null</span>
+|
+
+<span class="param-type">undefined</span>
+|
+
 <span class="param-type"><a href="global.html#fileCallback">fileCallback</a></span>
 
 
@@ -608,7 +554,7 @@
 
             
 
-            <td class="description last">the config options or the callback function</td>
+            <td class="description last">the config options or the callback function or null or undefined</td>
         </tr>
 
     
@@ -682,7 +628,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line211">line 211</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -708,12 +654,18 @@
 
 
 
+
+
+
+
         
             
 
     
 
+    
     <h4 class="name" id="fileSync"><span class="type-signature"></span>fileSync<span class="signature">(options)</span><span class="type-signature"> &rarr; {<a href="global.html#FileSyncObject">FileSyncObject</a>}</span></h4>
+    
 
     
 
@@ -813,7 +765,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line259">line 259</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line164">line 164</a>
     </li></ul></dd>
     
 
@@ -823,6 +775,8 @@
 
     
 </dl>
+
+
 
 
 
@@ -890,12 +844,16 @@
 
 
 
+
+
         
             
 
     
 
+    
     <h4 class="name" id="setGracefulCleanup"><span class="type-signature"></span>setGracefulCleanup<span class="signature">()</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -904,7 +862,9 @@
 <div class="description">
     Sets the graceful cleanup.
 
-Also removes the created files and directories when an uncaught exception occurs.
+If graceful cleanup is set, tmp will remove all controlled temporary objects on process exit, otherwise the
+temporary objects will remain in place, waiting to be cleaned up on system restart or otherwise scheduled temporary
+object removals.
 </div>
 
 
@@ -948,7 +908,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line465">line 465</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line630">line 630</a>
     </li></ul></dd>
     
 
@@ -974,12 +934,18 @@ Also removes the created files and directories when an uncaught exception occurs
 
 
 
+
+
+
+
         
             
 
     
 
+    
     <h4 class="name" id="tmpName"><span class="type-signature"></span>tmpName<span class="signature">(options, callback<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -1125,7 +1091,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line145">line 145</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -1151,12 +1117,18 @@ Also removes the created files and directories when an uncaught exception occurs
 
 
 
+
+
+
+
         
             
 
     
 
+    
     <h4 class="name" id="tmpNameSync"><span class="type-signature"></span>tmpNameSync<span class="signature">(options)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
 
     
 
@@ -1256,7 +1228,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line181">line 181</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line100">line 100</a>
     </li></ul></dd>
     
 
@@ -1266,6 +1238,8 @@ Also removes the created files and directories when an uncaught exception occurs
 
     
 </dl>
+
+
 
 
 
@@ -1333,6 +1307,8 @@ Also removes the created files and directories when an uncaught exception occurs
 
 
 
+
+
         
     
 
@@ -1344,7 +1320,9 @@ Also removes the created files and directories when an uncaught exception occurs
 
     
 
+    
     <h4 class="name" id="cleanupCallback"><span class="type-signature"></span>cleanupCallback<span class="signature">(next<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -1415,7 +1393,7 @@ Also removes the created files and directories when an uncaught exception occurs
 
             
 
-            <td class="description last">function to call after entry was removed</td>
+            <td class="description last">function to call whenever the tmp object needs to be removed</td>
         </tr>
 
     
@@ -1456,7 +1434,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line533">line 533</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line713">line 713</a>
     </li></ul></dd>
     
 
@@ -1482,12 +1460,106 @@ Also removes the created files and directories when an uncaught exception occurs
 
 
 
+
+
+
+
             
                 
 
     
 
+    
+    <h4 class="name" id="cleanupCallbackSync"><span class="type-signature"></span>cleanupCallbackSync<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Removes the temporary created file or directory.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line720">line 720</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    
     <h4 class="name" id="dirCallback"><span class="type-signature"></span>dirCallback<span class="signature">(err<span class="signature-attributes">nullable</span>, name, fn)</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -1657,7 +1729,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line526">line 526</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line699">line 699</a>
     </li></ul></dd>
     
 
@@ -1667,6 +1739,217 @@ Also removes the created files and directories when an uncaught exception occurs
 
     
 </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    
+    <h4 class="name" id="dirCallbackSync"><span class="type-signature"></span>dirCallbackSync<span class="signature">(err<span class="signature-attributes">nullable</span>, name, fn)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the error object if anything goes wrong</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the temporary file name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#cleanupCallbackSync">cleanupCallbackSync</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the cleanup callback function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line706">line 706</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
 
 
 
@@ -1810,7 +2093,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line506">line 506</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line671">line 671</a>
     </li></ul></dd>
     
 
@@ -1831,7 +2114,9 @@ Also removes the created files and directories when an uncaught exception occurs
 
     
 
+    
     <h4 class="name" id="fileCallback"><span class="type-signature"></span>fileCallback<span class="signature">(err<span class="signature-attributes">nullable</span>, name, fd, fn)</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -1960,7 +2245,7 @@ Also removes the created files and directories when an uncaught exception occurs
 
             
 
-            <td class="description last">the file descriptor</td>
+            <td class="description last">the file descriptor or -1 if the fd had been discarded</td>
         </tr>
 
     
@@ -2032,7 +2317,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line518">line 518</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line683">line 683</a>
     </li></ul></dd>
     
 
@@ -2042,6 +2327,248 @@ Also removes the created files and directories when an uncaught exception occurs
 
     
 </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    
+    <h4 class="name" id="fileCallbackSync"><span class="type-signature"></span>fileCallbackSync<span class="signature">(err<span class="signature-attributes">nullable</span>, name, fd, fn)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the error object if anything goes wrong</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the temporary file name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the file descriptor or -1 if the fd had been discarded</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#cleanupCallbackSync">cleanupCallbackSync</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the cleanup callback function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line691">line 691</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
 
 
 
@@ -2146,7 +2673,7 @@ Also removes the created files and directories when an uncaught exception occurs
 
             
 
-            <td class="description last">the file descriptor</td>
+            <td class="description last">the file descriptor or -1 if the fd has been discarded</td>
         </tr>
 
     
@@ -2208,7 +2735,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line499">line 499</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line664">line 664</a>
     </li></ul></dd>
     
 
@@ -2279,6 +2806,37 @@ Also removes the created files and directories when an uncaught exception occurs
 
         <tr>
             
+                <td class="name"><code>keep</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the temporary object (file or dir) will not be garbage collected</td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>tries</code></td>
             
 
@@ -2304,6 +2862,30 @@ Also removes the created files and directories when an uncaught exception occurs
             
 
             <td class="description last">the number of tries before give up the name generation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>(?int)</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">mode the access mode, defaults are 0o700 for directories and 0o600 for files</td>
         </tr>
 
     
@@ -2365,7 +2947,7 @@ Also removes the created files and directories when an uncaught exception occurs
 
             
 
-            <td class="description last">fix name</td>
+            <td class="description last">fixed name relative to tmpdir or the specified dir option</td>
         </tr>
 
     
@@ -2396,7 +2978,7 @@ Also removes the created files and directories when an uncaught exception occurs
 
             
 
-            <td class="description last">the tmp directory to use</td>
+            <td class="description last">tmp directory relative to the system tmp directory to use</td>
         </tr>
 
     
@@ -2462,6 +3044,99 @@ Also removes the created files and directories when an uncaught exception occurs
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>unsafeCleanup</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">recursively removes the created temporary directory, even when it's not empty</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>detachDescriptor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">detaches the file descriptor, caller is responsible for closing the file, tmp will no longer try closing the file during garbage collection</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>discardDescriptor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last">discards the file descriptor (closes file, fd is -1), tmp will no longer try closing the file during garbage collection</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -2497,7 +3172,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line487">line 487</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line647">line 647</a>
     </li></ul></dd>
     
 
@@ -2518,7 +3193,9 @@ Also removes the created files and directories when an uncaught exception occurs
 
     
 
+    
     <h4 class="name" id="simpleCallback"><span class="type-signature"></span>simpleCallback<span class="signature">()</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -2569,7 +3246,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line540">line 540</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line726">line 726</a>
     </li></ul></dd>
     
 
@@ -2602,12 +3279,18 @@ Also removes the created files and directories when an uncaught exception occurs
 
 
 
+
+
+
+
             
                 
 
     
 
+    
     <h4 class="name" id="tmpNameCallback"><span class="type-signature"></span>tmpNameCallback<span class="signature">(err<span class="signature-attributes">nullable</span>, name)</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -2746,7 +3429,7 @@ Also removes the created files and directories when an uncaught exception occurs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line512">line 512</a>
+        <a href="tmp.js.html">tmp.js</a>, <a href="tmp.js.html#line677">line 677</a>
     </li></ul></dd>
     
 
@@ -2756,6 +3439,10 @@ Also removes the created files and directories when an uncaught exception occurs
 
     
 </dl>
+
+
+
+
 
 
 
@@ -2786,13 +3473,13 @@ Also removes the created files and directories when an uncaught exception occurs
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#dir">dir</a></li><li><a href="global.html#dirSync">dirSync</a></li><li><a href="global.html#file">file</a></li><li><a href="global.html#fileSync">fileSync</a></li><li><a href="global.html#setGracefulCleanup">setGracefulCleanup</a></li><li><a href="global.html#tmpDir">tmpDir</a></li><li><a href="global.html#tmpName">tmpName</a></li><li><a href="global.html#tmpNameSync">tmpNameSync</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#dir">dir</a></li><li><a href="global.html#dirSync">dirSync</a></li><li><a href="global.html#file">file</a></li><li><a href="global.html#fileSync">fileSync</a></li><li><a href="global.html#setGracefulCleanup">setGracefulCleanup</a></li><li><a href="global.html#tmpName">tmpName</a></li><li><a href="global.html#tmpNameSync">tmpNameSync</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Nov 26 2016 21:53:28 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Feb 08 2020 01:04:48 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

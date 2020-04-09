@@ -7,6 +7,7 @@ const
   inbandStandardTests = require('./name-inband-standard'),
   tmp = require('../lib/tmp');
 
+const isWindows = os.platform() === 'win32';
 
 describe('tmp', function () {
   describe('#tmpName()', function () {
@@ -48,75 +49,51 @@ describe('tmp', function () {
     describe('when running issue specific inband tests', function () {
       describe('on issue #176', function () {
         const origfn = os.tmpdir;
-
-        function _generateSpecName(optsDir, osTmpDir) {
-          return 'opts.dir = "$1", os.tmpdir() = "$2"'.replace('$1', optsDir).replace('$2', osTmpDir);  
-        }
-
-        const failing = ['', '  ', undefined, null];
-        const nonFailing = ['tmp']; // the origfn cannot be trusted as the os may or may not have a valid tmp dir
-
-        describe('must fail on invalid os.tmpdir() and invalid opts.dir', function () {
-          // test all failing permutations
-          for (let oidx = 0; oidx < failing.length; oidx++) {
-            for (let iidx = 0; iidx < failing.length; iidx++) {
-              it(_generateSpecName(failing[iidx], failing[oidx]), function (done) {
-                os.tmpdir = function () { return failing[oidx]; };
-                tmp.tmpName({ dir: failing[iidx] }, function (err) {
-                  try {
-                    assert.ok(err instanceof Error, 'should have failed');
-                  } catch (err) {
-                    return done(err);
-                  } finally {
-                    os.tmpdir = origfn;
-                  }
-                  done();
-                });
-              });
+        it('must fail on invalid os.tmpdir()', function (done) {
+          os.tmpdir = function () { return undefined; };
+          tmp.tmpName(function (err) {
+            try {
+              assert.ok(err instanceof Error, 'should have failed');
+            } catch (err) {
+              return done(err);
+            } finally {
+              os.tmpdir = origfn;
             }
-          }
+            done();
+          });
         });
-          
-        describe('must not fail on invalid os.tmpdir() and valid opts.dir', function () {
-          // test all non failing permutations for non failing opts.dir and failing osTmpDir
-          for (let oidx = 0; oidx < failing.length; oidx++) {
-            for (let iidx = 0; iidx < nonFailing.length; iidx++) {
-              it(_generateSpecName(nonFailing[iidx], failing[oidx]), function (done) {
-                os.tmpdir = function () { return failing[oidx]; };
-                tmp.tmpName({ dir: nonFailing[iidx] }, function (err) {
-                  try {
-                    assert.ok(err === null || err === undefined, 'should not have failed');
-                  } catch (err) {
-                    return done(err);
-                  } finally {
-                    os.tmpdir = origfn;
-                  }
-                  done();
-                });
-              });
+      });
+      describe('on issue #246', function () {
+        const origfn = os.tmpdir;
+        it('must produce correct name on os.tmpdir() returning path that includes double quotes', function (done) {
+          const tmpdir = isWindows ? '"C:\\Temp With Spaces"' : '"/tmp with spaces"';
+          os.tmpdir = function () { return tmpdir; };
+          tmp.tmpName(function (err, name) {
+            try {
+              assert.ok(name.indexOf('"') === -1);
+              assert.ok(name.startsWith(tmpdir.replace(/["']/g, '')));
+            } catch (err) {
+              return done(err);
+            } finally {
+              os.tmpdir = origfn;
             }
-          }
+            done();
+          });
         });
-
-        describe('must not fail on valid os.tmpdir() and invalid opts.dir', function () {
-          // test all non failing permutations for failing opts.dir and non failing osTmpDir
-          for (let oidx = 0; oidx < nonFailing.length; oidx++) {
-            for (let iidx = 0; iidx < failing.length; iidx++) {
-              it(_generateSpecName(failing[iidx], nonFailing[oidx]), function (done) {
-                os.tmpdir = function () { return nonFailing[oidx]; };
-                tmp.tmpName({ dir: failing[iidx] }, function (err) {
-                  try {
-                    assert.ok(err === null || err === undefined, 'should not have failed');
-                  } catch (err) {
-                    return done(err);
-                  } finally {
-                    os.tmpdir = origfn;
-                  }
-                  done();
-                });
-              });
+        it('must produce correct name on os.tmpdir() returning path that includes single quotes', function (done) {
+          const tmpdir = isWindows ? '\'C:\\Temp With Spaces\'' : '\'/tmp with spaces\'';
+          os.tmpdir = function () { return tmpdir; };
+          tmp.tmpName(function (err, name) {
+            try {
+              assert.ok(name.indexOf('\'') === -1);
+              assert.ok(name.startsWith(tmpdir.replace(/["']/g, '')));
+            } catch (err) {
+              return done(err);
+            } finally {
+              os.tmpdir = origfn;
             }
-          }
+            done();
+          });
         });
       });
     });
@@ -128,4 +105,3 @@ describe('tmp', function () {
     });
   });
 });
-

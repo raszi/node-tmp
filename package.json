@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Temporary file and directory creator",
   "author": "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
+  "contributors": [
+    "Carsten Klein <trancesilken@gmail.com> (https://github.com/silkentrance)"
+  ],
   "keywords": [
     "temporary",
     "tmp",
@@ -19,7 +22,7 @@
     "url": "http://github.com/raszi/node-tmp/issues"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=8.17.0"
   },
   "dependencies": {
     "rimraf": "^3.0.0"

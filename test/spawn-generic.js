@@ -14,6 +14,10 @@ var fnUnderTest = null;
 if (config.async) fnUnderTest = (config.file) ? tmp.file : tmp.dir;
 else fnUnderTest = (config.file) ? tmp.fileSync : tmp.dirSync;
 
+// make sure that we have a SIGINT handler so CTRL-C the test suite
+// will not leave anything behing
+process.on('SIGINT', process.exit);
+
 // do we test against tmp doing a graceful cleanup?
 if (config.graceful) tmp.setGracefulCleanup();
 

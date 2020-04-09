@@ -11,9 +11,9 @@ describe('tmp', function () {
       tmp.dir({template:'invalid'}, function (err) {
         if (!err) return done(new Error('err expected'));
         try {
-          assert.equal(err.message, 'Invalid template provided', 'should have thrown the expected error');
+          assert.equal(err.message, 'Invalid template, found "invalid".', 'should have thrown the expected error');
         } catch (err2) {
-          done(err);
+          return done(err2);
         }
         done();
       });
@@ -25,9 +25,9 @@ describe('tmp', function () {
       tmp.file({template:'invalid'}, function (err) {
         if (!err) return done(new Error('err expected'));
         try {
-          assert.equal(err.message, 'Invalid template provided', 'should have thrown the expected error');
+          assert.equal(err.message, 'Invalid template, found "invalid".', 'should have thrown the expected error');
         } catch (err2) {
-          done(err);
+          return done(err2);
         }
         done();
       });
