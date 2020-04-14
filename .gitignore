@@ -7,3 +7,5 @@ package-lock.json
 CHANGELOG.new.md
 CHANGELOG.add.md
 CHANGELOG.new.md.tmp
+dist
+docs

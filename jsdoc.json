@@ -1,0 +1,24 @@
+{
+  "opts": {
+    "readme": "./README.md",
+    "destination": "docs",
+    "tutorials": "./tutorials"
+  },
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "source": {
+    "include": ["dist"],
+    "includePattern": ".+\\.js$",
+    "excludePattern": ""
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "templates": {
+    "default": {
+      "outputSourceFiles": false,
+      "readme": "README.md"
+    }
+  }
+}
