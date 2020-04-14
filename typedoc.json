@@ -1,0 +1,10 @@
+{
+  "inputFiles": ["./src"],
+  "out": "tdocs",
+  "mode": "file",
+  "media": "tutorials",
+  "exclude": ["./src/internal/*", "./test/**/*"],
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeNotExported": true
+}

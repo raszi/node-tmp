@@ -22,21 +22,31 @@
     "url": "http://github.com/raszi/node-tmp/issues"
   },
   "engines": {
-    "node": ">=8.17.0"
+    "node": ">=10.0.0"
   },
   "dependencies": {
-    "rimraf": "^3.0.0"
+    "rimraf": "latest",
+    "rmfr": "latest"
   },
   "devDependencies": {
-    "eslint": "^6.3.0",
-    "eslint-plugin-mocha": "^6.1.1",
-    "istanbul": "^0.4.5",
-    "lerna-changelog": "^1.0.1",
-    "mocha": "^6.2.0"
+    "@testdeck/jest": "latest",
+    "@types/jest": "latest",
+    "@types/node": "latest",
+    "@types/rimraf": "latest",
+    "@types/rmfr": "latest",
+    "jest": "latest",
+    "jsdoc": "latest",
+    "ts-jest": "latest",
+    "tslint": "latest",
+    "typedoc": "latest",
+    "typescript": "latest"
   },
-  "main": "lib/tmp.js",
+  "main": "dist/index.js",
   "files": [
-    "lib/"
+    "dist/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "changelog": {
     "labels": {
@@ -50,9 +60,12 @@
   },
   "scripts": {
     "changelog": "lerna-changelog",
-    "lint": "eslint lib --env mocha test",
-    "clean": "rm -Rf ./coverage",
-    "test": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha --report none --print none --dir ./coverage/json -u exports -R test/*-test.js && istanbul report --root ./coverage/json html && istanbul report text-summary",
-    "doc": "jsdoc -c .jsdoc.json"
+    "lint": "tslint --project .",
+    "clean": "rimraf ./coverage ./dist ./docs ./tdocs",
+    "dist": "npm run test && tsc --project ./tsconfig-dist.json",
+    "test": "npm run lint && jest",
+    "watch": "jest --watch",
+    "jsdoc": "npm run clean && tsc --project ./tsconfig-dist.json && jsdoc -c jsdoc.json",
+    "typedoc": "npm run clean && tsc --project ./tsconfig-dist.json && typedoc"
   }
 }

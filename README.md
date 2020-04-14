@@ -76,6 +76,7 @@ dependency to version 0.0.33.
 For node versions < 0.8 you must limit your node-tmp dependency to
 versions < 0.0.33.
 
+<<<<<<< HEAD
 ## How to install
 
 ```bash
@@ -379,8 +380,8 @@ All options are optional :)
   * `detachDescriptor`: detaches the file descriptor, caller is responsible for closing the file, tmp will no longer try closing the file during garbage collection
   * `discardDescriptor`: discards the file descriptor (closes file, fd is -1), tmp will no longer try closing the file during garbage collection
 
+=======
+>>>>>>> e7a729c (WIP: refactoring typescript, import existing sources)
 [1]: http://nodejs.org/
 [2]: https://www.npmjs.com/browse/depended/tmp
 [3]: http://www.kernel.org/doc/man-pages/online/pages/man3/mkstemp.3.html
-[4]: https://raszi.github.io/node-tmp/
-[5]: https://github.com/benjamingr/tmp-promise
