@@ -380,7 +380,7 @@ function _prepareRemoveCallback(removeFunction, fileOrDirName, sync, cleanupCall
       if (index >= 0) _removeObjects.splice(index, 1);
 
       called = true;
-      if (sync || removeFunction === FN_RMDIR_SYNC || removeFunction == FN_RIMRAF_SYNC) {
+      if (sync || removeFunction === FN_RMDIR_SYNC || removeFunction === FN_RIMRAF_SYNC) {
         return removeFunction(fileOrDirName);
       } else {
         return removeFunction(fileOrDirName, next || function() {});
@@ -479,7 +479,13 @@ function _parseArguments(options, callback) {
     return [{}, callback];
   }
 
-  return [options, callback];
+  // copy options so we do not leak the changes we make internally
+  const actualOptions = {};
+  for (const key of Object.getOwnPropertyNames(options)) {
+    actualOptions[key] = options[key];
+  }
+
+  return [actualOptions, callback];
 }
 
 /**
@@ -491,7 +497,7 @@ function _parseArguments(options, callback) {
  */
 function _generateTmpName(opts) {
 
-  const tmpDir = _getTmpDir();
+  const tmpDir = opts.tmpdir;
 
   /* istanbul ignore else */
   if (!_isUndefined(opts.name))
@@ -508,8 +514,7 @@ function _generateTmpName(opts) {
     process.pid,
     '-',
     _randomChars(12),
-    '-',
-    opts.postfix ? opts.postfix : ''
+    opts.postfix ? '-' + opts.postfix : ''
   ].join('');
 
   return path.join(tmpDir, opts.dir, name);
@@ -523,7 +528,11 @@ function _generateTmpName(opts) {
  * @private
  */
 function _assertAndSanitizeOptions(options) {
-  const tmpDir = _getTmpDir();
+
+  options.tmpdir = _getTmpDir(options);
+
+  const tmpDir = options.tmpdir;
+
   /* istanbul ignore else */
   if (!_isUndefined(options.name))
     _assertIsRelative(options.name, 'name', tmpDir);
@@ -554,7 +563,7 @@ function _assertAndSanitizeOptions(options) {
   options.template = _isBlank(options.template) ? undefined : path.relative(options.dir, options.template);
 
   // for completeness' sake only, also keep (multiple) blanks if the user, purportedly sane, requests us to
-  options.name = _isUndefined(options.name) ? undefined : options.name;
+  options.name = _isUndefined(options.name) ? undefined : _sanitizeName(options.name);
   options.prefix = _isUndefined(options.prefix) ? '' : options.prefix;
   options.postfix = _isUndefined(options.postfix) ? '' : options.postfix;
 }
@@ -571,11 +580,26 @@ function _assertAndSanitizeOptions(options) {
  * @private
  */
 function _resolvePath(name, tmpDir) {
-  if (name.startsWith(tmpDir)) {
-    return path.resolve(name);
+  const sanitizedName = _sanitizeName(name);
+  if (sanitizedName.startsWith(tmpDir)) {
+    return path.resolve(sanitizedName);
   } else {
-    return path.resolve(path.join(tmpDir, name));
+    return path.resolve(path.join(tmpDir, sanitizedName));
   }
+}
+
+/**
+ * Sanitize the specified path name by removing all quote characters.
+ *
+ * @param name
+ * @returns {string}
+ * @private
+ */
+function _sanitizeName(name) {
+  if (_isBlank(name)) {
+    return name;
+  }
+  return name.replace(/["']/g, '');
 }
 
 /**
@@ -663,10 +687,11 @@ function setGracefulCleanup() {
  * Returns the currently configured tmp dir from os.tmpdir().
  *
  * @private
+ * @param {?Options} options
  * @returns {string} the currently configured tmp dir
  */
-function _getTmpDir() {
-  return path.resolve(os.tmpdir());
+function _getTmpDir(options) {
+  return path.resolve(_sanitizeName(options &amp;&amp; options.tmpdir || os.tmpdir()));
 }
 
 // Install process exit listener
@@ -681,9 +706,10 @@ process.addListener(EXIT, _garbageCollector);
  * @property (?int) mode the access mode, defaults are 0o700 for directories and 0o600 for files
  * @property {?string} template the "mkstemp" like filename template
  * @property {?string} name fixed name relative to tmpdir or the specified dir option
- * @property {?string} dir tmp directory relative to the system tmp directory to use
+ * @property {?string} dir tmp directory relative to the root tmp directory in use
  * @property {?string} prefix prefix for the generated name
  * @property {?string} postfix postfix for the generated name
+ * @property {?string} tmpdir the root tmp directory which overrides the os tmpdir
  * @property {?boolean} unsafeCleanup recursively removes the created temporary directory, even when it's not empty
  * @property {?boolean} detachDescriptor detaches the file descriptor, caller is responsible for closing the file, tmp will no longer try closing the file during garbage collection
  * @property {?boolean} discardDescriptor discards the file descriptor (closes file, fd is -1), tmp will no longer try closing the file during garbage collection
@@ -760,7 +786,7 @@ process.addListener(EXIT, _garbageCollector);
 
 // exporting all the needed methods
 
-// evaluate os.tmpdir() lazily, mainly for simplifying testing but it also will
+// evaluate _getTmpDir() lazily, mainly for simplifying testing but it also will
 // allow users to reconfigure the temporary directory
 Object.defineProperty(module.exports, 'tmpdir', {
   enumerable: true,
@@ -796,7 +822,7 @@ module.exports.setGracefulCleanup = setGracefulCleanup;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Feb 08 2020 01:04:48 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Apr 28 2020 21:12:13 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

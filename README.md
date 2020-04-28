@@ -350,6 +350,7 @@ All options are optional :)
      absolute paths are fine as long as they point to a location under the system's default temporary directory.
      Any directories along the so specified path must exist, otherwise a ENOENT error will be thrown upon access, 
      as tmp will not check the availability of the path, nor will it establish the requested path for you.
+  * `tmpdir`: allows you to override the system's root tmp directory
   * `tries`: how many times should the function try to get a unique filename before giving up, default `3`
   * `keep`: signals that the temporary file or directory should not be deleted on exit, default is `false`
     * In order to clean up, you will have to call the provided `cleanupCallback` function manually.

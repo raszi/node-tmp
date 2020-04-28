@@ -2,11 +2,11 @@
 // vim: expandtab:ts=2:sw=2
 
 var
+  fs = require('fs'),
   path = require('path'),
   assertions = require('./assertions'),
   rimraf = require('rimraf'),
   tmp = require('../lib/tmp');
-
 
 module.exports = function inbandStandard(isFile, beforeHook, sync = false) {
   var testMode = isFile ? 0o600 : 0o700;
@@ -18,6 +18,7 @@ module.exports = function inbandStandard(isFile, beforeHook, sync = false) {
   describe('with name', inbandStandardTests({ mode: testMode }, { name: 'tmp-using-name' }, isFile, beforeHook, sync));
   describe('with mode', inbandStandardTests(null, { mode: 0o755 }, isFile, beforeHook, sync));
   describe('with multiple options', inbandStandardTests(null, { prefix: 'tmp-multiple', postfix: 'bar', mode: 0o750 }, isFile, beforeHook, sync));
+  describe('with tmpdir option', inbandStandardTests(null, { tmpdir: path.join(tmp.tmpdir, 'tmp-external'), mode: 0o750 }, isFile, beforeHook, sync));
   if (isFile) {
     describe('with discardDescriptor', inbandStandardTests(null, { mode: testMode, discardDescriptor: true }, isFile, beforeHook, sync));
     describe('with detachDescriptor', inbandStandardTests(null, { mode: testMode, detachDescriptor: true }, isFile, beforeHook, sync));
@@ -32,6 +33,14 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook, sync = false) {
 
     // topic reference will be created by the beforeHook
     const topic = { topic: null, opts: opts };
+
+    // hack for tmpdir option, otherwise the whole test shebang would have to be refactored
+    if (opts.tmpdir) {
+      if (!fs.existsSync(opts.tmpdir)) {
+        // let tmp cleanup the dir on process exit, also we do not care if it is left over
+        tmp.dirSync({name: path.relative(tmp.tmpdir, opts.tmpdir), unsafeCleanup: true});
+      }
+    }
 
     // bind everything to topic so we avoid global
     before(beforeHook.bind(topic));
@@ -61,7 +70,7 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook, sync = false) {
     }
 
     it('should have been created in the expected directory', function () {
-      assertions.assertDir(this.topic.name, testOpts.dir || opts.dir || tmp.tmpdir);
+      assertions.assertDir(this.topic.name, testOpts.dir || opts.dir || opts.tmpdir || tmp.tmpdir);
     }.bind(topic));
 
     if (opts.name) {
