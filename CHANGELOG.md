@@ -1,5 +1,17 @@
 
 
+## v0.2.1 (2020-04-28)
+
+#### :rocket: Enhancement
+* [#252](https://github.com/raszi/node-tmp/pull/252) Closes [#250](https://github.com/raszi/node-tmp/issues/250): introduce tmpdir option for overriding the system tmp dir ([@silkentrance](https://github.com/silkentrance))
+
+#### :house: Internal
+* [#253](https://github.com/raszi/node-tmp/pull/253) Closes [#191](https://github.com/raszi/node-tmp/issues/191): generate changelog from pull requests using lerna-changelog ([@silkentrance](https://github.com/silkentrance))
+
+#### Committers: 1
+- Carsten Klein ([@silkentrance](https://github.com/silkentrance))
+
+
 ## v0.2.0 (2020-04-25)
 
 #### :rocket: Enhancement
