@@ -86,9 +86,6 @@ class ConfigurationTestSuite {
         });
     }
 
-	// it seems this tests usecase is to make sure, access to dirs outside of temp dir is rejected??
-	// "TryingToEscape" is misleading, could also be escaped slashes. Fixed name.
-	// TODO: Better function name
     @test
     public validationMustFailOnDirTryingToLeaveRootTmpDir() {
         assert.throws(() => {
