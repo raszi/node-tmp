@@ -40,6 +40,7 @@ class TestUtils {
     }
     static createTempFile(name) {
         if (!fs.existsSync(name)) {
+            // FIXME: Fails SOMETIMES on windows with error ENOENT: no such file or directory
             const fd = fs.openSync(this.qualifiedPath(name), Configuration_1.default.DEFAULT_FILE_FLAGS, Configuration_1.default.DEFAULT_FILE_MODE);
             fs.closeSync(fd);
         }

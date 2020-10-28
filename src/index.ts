@@ -341,7 +341,6 @@ export interface AsyncInterface {
  *
  * @public
  * @interface
- * 
  * @category Interfaces / Sync
  */
 export interface SyncInterface {

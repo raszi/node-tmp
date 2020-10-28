@@ -33,7 +33,7 @@ export default class Configuration {
     public readonly tries: number;
     public readonly length: number;
 
-    private readonly _resolvedDir: string;
+    public readonly _resolvedDir: string;
 
     public readonly fileFlags: string = Configuration.DEFAULT_FILE_FLAGS;
 
@@ -43,7 +43,9 @@ export default class Configuration {
         const dir = PathUtils.normalize(options.dir);
         if (!StringUtils.isBlank(dir)) {
             this._resolvedDir = PathUtils.resolvePath(dir, this.tmpdir);
-            this.dir = PathUtils.makeRelative(this._resolvedDir, this.tmpdir);
+            const relativeDir = PathUtils.makeRelative(this._resolvedDir, this.tmpdir);
+            if(typeof relativeDir==='string') this.dir = relativeDir;
+            else throw new Error(`configured dir '${this._resolvedDir}' must be relative to '${this.tmpdir}'.`);
         } else {
             this.dir = '';
         }
@@ -75,9 +77,6 @@ export default class Configuration {
         const dirIsNotBlank = !StringUtils.isBlank(this.dir);
         if (dirIsNotBlank && !PathUtils.exists(PathUtils.resolvePath(this.dir, this.tmpdir))) {
             throw new Error(`configured dir '${this.dir}' does not exist.`);
-        }
-        if (dirIsNotBlank && !PathUtils.isRelative(this.dir, this.tmpdir)) {
-            throw new Error(`configured dir '${this.dir}' must be relative to '${this.tmpdir}'.`);
         }
         // TODO: assert is dir is actually a directory
         if (PathUtils.containsPathSeparator(this.template)) {

@@ -3,6 +3,7 @@ import PathUtils from '../../src/internal/PathUtils';
 import TestUtils from '../TestUtils';
 
 import * as os from 'os';
+import * as path from 'path';
 
 import {suite, test} from '@testdeck/jest';
 import * as assert from 'assert';
@@ -35,14 +36,16 @@ class PathUtilsTestSuite {
 
     @test
     public normalize() {
+        // normalize uses path.sep so comparing to static values will fail depending on platform.
+        // expect slashes to be converted to correct ones platform-specific.
         assert.equal(PathUtils.normalize(undefined), '');
         assert.equal(PathUtils.normalize(null), '');
         assert.equal(PathUtils.normalize(''), '');
         assert.equal(PathUtils.normalize(' '), '');
         assert.equal(PathUtils.normalize('\'foo\''), 'foo');
         assert.equal(PathUtils.normalize('\"foo\"'), 'foo');
-        assert.equal(PathUtils.normalize('\\\\foo\\\\bar'), '\\foo\\bar');
-        assert.equal(PathUtils.normalize('//foo//bar'), '/foo/bar');
+        assert.equal(PathUtils.normalize('\\\\foo\\\\bar'), path.sep+'foo'+path.sep+'bar');
+        assert.equal(PathUtils.normalize('//foo//bar'), path.sep+'foo'+path.sep+'bar');
     }
 
     @test

@@ -5,6 +5,8 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
+const IS_WIN32 = os.platform() === 'win32';
+
 export default class PathUtils {
 
     public static isRelative(name: string, root: string): boolean {
@@ -29,15 +31,20 @@ export default class PathUtils {
         }
 
         const result = [];
-        const components = name.replace(/[/]+/g, '/')
+        const sanitizedPath = name.replace(/[/]+/g, '/')
             .replace(/[\\]+/g, '\\')
             .replace(/["]/g, '')
-            .replace(/[']/g, '')
-            .split(path.sep);
+            .replace(/[']/g, '');
 
-        // FIXME: absolute path under cpmderivative C:\Windows\Temp\custom-dir
-        // make sure that we have a leading path separator
-        if (components.length > 1) {
+        const components = sanitizedPath.split(/[\\\/]/);
+
+        const isAbsoluteWinPath = sanitizedPath.substr(1,2) === ':\\'; // absolute path on Windows begins with [X]:\
+        const isAbsoluteNonWinPath = sanitizedPath.substr(0,1) === '\\' || sanitizedPath.substr(0,1) === '/';
+
+        // absolute path on non-windows platforms must begin with /. Do this by pushing an empty first segment to result.
+        if (isAbsoluteWinPath) {
+            // dont add an empty segment in this case
+        } else if(isAbsoluteNonWinPath) {
             result.push('');
         }
         // eliminate all whitespace only components and trim whitespace around components
@@ -63,14 +70,15 @@ export default class PathUtils {
         return path.resolve(root, name);
     }
 
-    public static makeRelative(name: string, root: string): string {
-        let result = '';
+    public static makeRelative(name: string, root: string): string|false {
         if (this.isRelative(name, root)) {
+            let result = '';
             result = name.substr(root.length);
             if (result.startsWith(path.sep)) {
                 result = result.substr(path.sep.length);
             }
+            return result;
         }
-        return result;
+        return false;
     }
 }

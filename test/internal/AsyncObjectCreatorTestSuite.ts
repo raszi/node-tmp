@@ -33,6 +33,7 @@ class AsyncObjectCreatorTestSuite {
         this.sut.createFile(oname, oconfiguration, (err, result) => {
             try {
                 assert.equal(result.name, oname);
+                // FIXME: Results of TestUtils.fileExists are inconsistent in windows env. Maybe an async issue?
                 assert.ok(TestUtils.fileExists(result.name));
                 assert.ok(typeof result.dispose === 'function');
                 return result.dispose(() => {
