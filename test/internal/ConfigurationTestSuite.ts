@@ -6,7 +6,6 @@ import * as os from 'os';
 
 import {suite, test} from '@testdeck/jest';
 import * as assert from 'assert';
-import PathUtils from '../../src/internal/PathUtils';
 
 @suite
 class ConfigurationTestSuite {
@@ -92,12 +91,6 @@ class ConfigurationTestSuite {
             const _ = new Configuration({
                 dir: TestUtils.nativePath(['..', 'etc'])
             });
-            const normalizedDir = PathUtils.normalize(TestUtils.nativePath(['..', 'etc']));
-            console.log(TestUtils.nativePath(['..', 'etc']));
-            console.log('normalizedDir',normalizedDir);
-            console.log('tmpDir',_.tmpdir);
-            console.log('resolvedDir',_._resolvedDir);
-            console.log('dir',_.dir);
         });
     }
 
