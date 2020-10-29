@@ -93,11 +93,6 @@ class ConfigurationTestSuite {
                 dir: TestUtils.nativePath(['..', 'etc'])
             });
             const normalizedDir = PathUtils.normalize(TestUtils.nativePath(['..', 'etc']));
-            console.log(TestUtils.nativePath(['..', 'etc']));
-            console.log('normalizedDir',normalizedDir);
-            console.log('tmpDir',_.tmpdir);
-            console.log('resolvedDir',_._resolvedDir);
-            console.log('dir',_.dir);
         });
     }
 
