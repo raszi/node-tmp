@@ -5,8 +5,6 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
-const IS_WIN32 = os.platform() === 'win32';
-
 export default class PathUtils {
 
     public static isRelative(name: string, root: string): boolean {

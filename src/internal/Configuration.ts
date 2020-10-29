@@ -33,7 +33,7 @@ export default class Configuration {
     public readonly tries: number;
     public readonly length: number;
 
-    public readonly _resolvedDir: string;
+    private readonly _resolvedDir: string;
 
     public readonly fileFlags: string = Configuration.DEFAULT_FILE_FLAGS;
 
