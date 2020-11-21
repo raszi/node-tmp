@@ -17,8 +17,20 @@ export default abstract class AbstractInterface {
         return PathUtils.normalizedOsTmpDir;
     }
 
-    protected configure(options: Options, defaultMode: number = 0o000): Configuration {
-        return new Configuration(options, defaultMode);
+    public set defaultFileOptions(options: Options) {
+        Configuration.defaultFileOptions = options;
+    }
+
+    public get defaultFileOptions(): Options {
+        return Configuration.defaultFileOptions;
+    }
+
+    public set defaultDirOptions(options: Options) {
+        Configuration.defaultDirOptions = options;
+    }
+
+    public get defaultDirOptions(): Options {
+        return Configuration.defaultDirOptions;
     }
 
     protected generateName(configuration: Configuration): string {
