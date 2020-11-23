@@ -16,13 +16,13 @@ class SyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<SyncInterfac
 
     public before() {
         this.sut = new SyncInterfaceImpl();
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     public after() {
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     @test

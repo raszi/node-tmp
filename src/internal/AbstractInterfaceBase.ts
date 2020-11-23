@@ -1,11 +1,11 @@
-import {Options} from '..';
+import {BaseInterface, Options} from '..';
 
 import Configuration from './Configuration';
 import GarbageCollector from './GarbageCollector';
 import PathUtils from './PathUtils';
 import TempNameGenerator from './TempNameGenerator';
 
-export default abstract class AbstractInterface {
+export default abstract class AbstractInterfaceBase implements BaseInterface {
 
     private _nameGenerator = new TempNameGenerator();
 
@@ -17,20 +17,12 @@ export default abstract class AbstractInterface {
         return PathUtils.normalizedOsTmpDir;
     }
 
-    public set defaultFileOptions(options: Options) {
-        Configuration.defaultFileOptions = options;
+    public set defaultOptions(options: Options) {
+        Configuration.defaultOptions = options;
     }
 
-    public get defaultFileOptions(): Options {
-        return Configuration.defaultFileOptions;
-    }
-
-    public set defaultDirOptions(options: Options) {
-        Configuration.defaultDirOptions = options;
-    }
-
-    public get defaultDirOptions(): Options {
-        return Configuration.defaultDirOptions;
+    public get defaultOptions(): Options {
+        return Configuration.defaultOptions;
     }
 
     protected generateName(configuration: Configuration): string {

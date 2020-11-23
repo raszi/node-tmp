@@ -16,13 +16,13 @@ class PromiseInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<PromiseIn
 
     public before() {
         this.sut = new PromiseInterfaceImpl();
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     public after() {
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     @test
@@ -51,7 +51,7 @@ class PromiseInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<PromiseIn
 
     @test
     public async fileMustWorkAsExpected() {
-        return this.sut.file(TestUtils.fileOptions({name:this.FILE}))
+        return this.sut.file({name:this.FILE})
             .then((result) => {
                 assert.equal(result.name, TestUtils.qualifiedPath(this.FILE));
                 assert.ok(typeof result.dispose === 'function');
@@ -97,7 +97,7 @@ class PromiseInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<PromiseIn
 
     @test
     public async dirMustWorkAsExpected() {
-        return this.sut.dir(TestUtils.dirOptions({name:this.DIR}))
+        return this.sut.dir({name:this.DIR})
             .then((result) => {
                 assert.equal(result.name, TestUtils.qualifiedPath(this.DIR));
                 assert.ok(typeof result.dispose === 'function');

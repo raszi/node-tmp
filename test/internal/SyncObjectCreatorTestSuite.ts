@@ -1,3 +1,4 @@
+import Configuration from '../../src/internal/Configuration';
 import GarbageCollector from '../../src/internal/GarbageCollector';
 import SyncObjectCreator from '../../src/internal/SyncObjectCreator';
 
@@ -15,18 +16,18 @@ class SyncObjectCreatorTestSuite {
     private sut: SyncObjectCreator = new SyncObjectCreator();
 
     public before() {
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     public after() {
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     @test
     public createFileMustReturnExpectedResult() {
-        const configuration = TestUtils.fileConfiguration({ name: this.FILE });
+        const configuration = new Configuration({ name: this.FILE });
         const name = TestUtils.qualifiedPath(configuration.name);
         const result = this.sut.createFile(name, configuration);
         assert.equal(result.name, name);
@@ -40,7 +41,7 @@ class SyncObjectCreatorTestSuite {
 
     @test
     public createDirMustReturnExpectedResult() {
-        const configuration = TestUtils.dirConfiguration({ name: this.DIR });
+        const configuration = new Configuration({ name: this.DIR });
         const name = TestUtils.qualifiedPath(configuration.name);
         const result = this.sut.createDir(name, configuration);
         assert.equal(result.name, name);
@@ -57,7 +58,7 @@ class SyncObjectCreatorTestSuite {
 
     @test
     public createDirDisposeMustForceCleanOnGlobalSetting() {
-        const configuration = TestUtils.dirConfiguration({ name: this.DIR });
+        const configuration = new Configuration({ name: this.DIR });
         const name = TestUtils.qualifiedPath(configuration.name);
         try {
             const result = this.sut.createDir(name, configuration);
@@ -72,7 +73,7 @@ class SyncObjectCreatorTestSuite {
 
     @test
     public createDirDisposeMustForceCleanOnConfigurationSetting() {
-        const configuration = TestUtils.dirConfiguration({ name: this.DIR, forceClean: true });
+        const configuration = new Configuration({ name: this.DIR, forceClean: true });
         const name = TestUtils.qualifiedPath(configuration.name);
         const result = this.sut.createDir(name, configuration);
         TestUtils.createTempFile(TestUtils.qualifiedSubPath(this.FILE, result.name));
@@ -82,7 +83,7 @@ class SyncObjectCreatorTestSuite {
 
     @test
     public createDirDisposeMustFailOnNonEmptyDir() {
-        const configuration = TestUtils.dirConfiguration({name:this.DIR});
+        const configuration = new Configuration({name:this.DIR});
         const name = TestUtils.qualifiedPath(configuration.name);
         try {
             const result = this.sut.createDir(name, configuration);

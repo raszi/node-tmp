@@ -12,17 +12,17 @@ import * as assert from 'assert';
 class TmpInterfaceTestSuite {
 
     @test
-    public asyncMustExist() {
+    public asyncInterfaceMustExist() {
         assert.ok(tmp.async instanceof AsyncInterfaceImpl);
     }
 
     @test
-    public syncMustExist() {
+    public syncInterfaceMustExist() {
         assert.ok(tmp.sync instanceof SyncInterfaceImpl);
     }
 
     @test
-    public promiseMustExist() {
+    public promiseInterfaceMustExist() {
         assert.ok(tmp.promise instanceof PromiseInterfaceImpl);
     }
 }

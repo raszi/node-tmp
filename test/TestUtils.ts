@@ -1,10 +1,7 @@
-import {Options} from '../src/';
-
 import Configuration from '../src/internal/Configuration';
 import PathUtils from '../src/internal/PathUtils';
 
 import * as fs from 'fs';
-import * as os from 'os';
 import * as path from 'path';
 import rimraf = require('rimraf');
 
@@ -28,32 +25,16 @@ export default class TestUtils {
     }
 
     public static createTempDir(name: string): void {
-        if (!fs.existsSync(name)) {
-            fs.mkdirSync(this.qualifiedPath(name), Configuration.DEFAULT_DIR_MODE);
-        }
+        fs.mkdirSync(this.qualifiedPath(name), Configuration.DEFAULT_DIR_MODE);
     }
 
-    public static discardTempDir(name: string): void {
-        try {
-            rimraf.sync(this.qualifiedPath(name));
-        } catch (_) {
-            // this might fail on cpm derivatives if the specified file does not exist
-        }
+    public static discard(name: string): void {
+        rimraf.sync(this.qualifiedPath(name));
     }
 
-    public static createTempFile(name: string) {
-        if (!fs.existsSync(name)) {
-            const fd: number = fs.openSync(this.qualifiedPath(name), Configuration.DEFAULT_FILE_FLAGS, Configuration.DEFAULT_FILE_MODE);
-            fs.closeSync(fd);
-        }
-    }
-
-    public static discardTempFile(name: string): void {
-        try {
-            rimraf.sync(this.qualifiedPath(name));
-        } catch (_) {
-            // this might fail on cpm derivatives if the specified file does not exist
-        }
+    public static createTempFile(name: string): void {
+        const fd: number = fs.openSync(this.qualifiedPath(name), Configuration.DEFAULT_FILE_FLAGS, Configuration.DEFAULT_FILE_MODE);
+        fs.closeSync(fd);
     }
 
     public static qualifiedSubPath(name: string, root: string): string {
@@ -61,44 +42,16 @@ export default class TestUtils {
     }
 
     public static qualifiedPath(name: string): string {
-        return PathUtils.resolvePath(name, new Configuration({}).tmpdir);
-    }
-
-    public static dirOptions(options: Options = {}): Options {
-        return {
-            ...options,
-            mode: Configuration.DEFAULT_DIR_MODE
-        };
-    }
-
-    public static fileOptions(options: Options = {}): Options {
-        return {
-            ...options,
-            mode: Configuration.DEFAULT_FILE_MODE
-        };
-    }
-
-    public static dirConfiguration(options: Options = {}): Configuration {
-        return new Configuration(this.dirOptions(options));
-    }
-
-    public static fileConfiguration(options: Options = {}): Configuration {
-        return new Configuration(this.fileOptions(options));
-    }
-
-    public static nativePath(components: string[]): string {
-        return components.join(path.sep);
+        return PathUtils.resolvePath(name, PathUtils.normalizedOsTmpDir);
     }
 
     public static nativeRootPath(components: string[]): string {
-        if (this.isCpmDerivative) {
+        if (PathUtils.isWin32) {
+            // FIXME this must not be fixed to C:
             return [ 'C:', ...components ].join(path.sep);
         } else {
+            // FIXME this must not be fixed to /
             return [ '', ...components ].join(path.sep);
         }
-    }
-
-    public static get isCpmDerivative(): boolean {
-        return os.platform() === 'win32';
     }
 }

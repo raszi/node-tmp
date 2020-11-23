@@ -5,24 +5,6 @@ import SyncInterfaceImpl from './internal/SyncInterfaceImpl';
 import GarbageCollector from './internal/GarbageCollector';
 import PathUtils from './internal/PathUtils';
 
-/**
- * The interface Options represents an object that is used for passing in options to either of the available methods
- * of the public API.
- *
- * Please consult the tutorial on {@tutorial 15-configuration} for more information on how this can be applied.
- *
- * @see {@link sync}
- * @see {@link async}
- * @see {@link promise}
- * @see {@link file}
- * @see {@link fileSync}
- * @see {@link dir}
- * @see {@link dirSync}
- * @see {@link tmpName}
- * @see {@link tmpNameSync}
- *
- * @category Common
- */
 export interface Options {
     /**
      * Instructs the name generator to append this to the root tmp dir.
@@ -44,57 +26,6 @@ export interface Options {
      */
     dir?: string;
     /**
-     * Instructs the garbage collector to forcefully clean a non empty directory.
-     *
-     * This is overridden by the [keep](#keep) option.
-     *
-     * Keep in mind that the disposal of a directory may still fail, especially if the temporary directory or any
-     * child resources were locked by the same or a different process or thread, also depending on the operating
-     * system being used.
-     *
-     * @default false
-     *
-     * @see [keep](#keep)
-     */
-    forceClean?: boolean;
-    /**
-     * Instructs the garbage collector to keep the temporary file or directory.
-     *
-     * This overrides the [forceClean](#forceClean) option.
-     *
-     * If the temporary file or directory is a child of another temporary directory that was configured to be
-     * [forceClean](#forceClean)ed or if either {@link AsyncInterface#forceClean}, {@link SyncInterface#forceClean},
-     * or {@link PromiseInterface#forceClean} has been called, that file or directory will still be disposed off on
-     * {@link $tmp_exit_listener|process exit}. Similarly, all objects configured for keeping will be disposed of,
-     * whenever their associated dispose method is called, see {@link AsyncResult#dispose}, {@link SyncResult#dispose}
-     * or {@link AsyncResult#dispose}.
-     *
-     * Also note that if the process' configured temporary directory is under control of either the operating
-     * system or similar processes, then these so kept directories and files might be disposed off on next
-     * system reboot or process restart.
-     *
-     * If the temporary data is valuable to you, move it out of the way and into a different location of the filesystem,
-     * that is being controlled by your application.
-     *
-     * @default false
-     *
-     * @see [forceClean](#forceClean)
-     */
-    keep?: boolean;
-    /**
-     * Instructs the random name generator to generate the specified length of random names.
-     * The provided value will be clamped to `[6, 24]`.
-     *
-     * @default 12
-     */
-    length?: number;
-    /**
-     * Instructs the temporary object creator to create files and directories with the specified access mode.
-     *
-     * The default mode for files is `0o700` and the default mode for directories is `0o600`.
-     */
-    mode?: number;
-    /**
      * Instructs the name generator to always generate the same fixed name, with no process pid, prefix or postfix
      * applied.
      *
@@ -107,6 +38,29 @@ export interface Options {
      * console.log(tmp.sync.name({name: 'fixed-name'})); // <tmpdir>[/<dir>]/fixed-name
      */
     name?: string;
+    /**
+     * Instructs the system to override the standard tmpdir returned by os.tmpdir().
+     *
+     * @example
+     * console.log(tmp.sync.name({tmpdir: '/other-tmp'})); // /other-tmp[/<dir>]/tmp-234-a75xkVzj43Ac
+     */
+    tmpdir?: string;
+    /**
+     * Instructs the name generator to try at most the configured number of times to generate a unique name, before that
+     * it will fail with an `Error`. The provided value will be clamped to `[1, 10]`.
+     *
+     * This will be ignored when using a fixed [name](#name).
+     *
+     * @default 3
+     */
+    tries?: number;
+    /**
+     * Instructs the random name generator to generate the specified length of random names.
+     * The provided value will be clamped to `[6, 24]`.
+     *
+     * @default 12
+     */
+    length?: number;
     /**
      * Instructs the name generator to postfix the generated name by this.
      *
@@ -159,21 +113,61 @@ export interface Options {
      */
     template?: string;
     /**
-     * Instructs the system to override the standard tmpdir returned by os.tmpdir().
+     * Instructs the garbage collector to keep the temporary file or directory.
      *
-     * @example
-     * console.log(tmp.sync.name({tmpdir: '/other-tmp'})); // /other-tmp[/<dir>]/tmp-234-a75xkVzj43Ac
+     * This overrides the [forceClean](#forceClean) option.
+     *
+     * If the temporary file or directory is a child of another temporary directory that was configured to be
+     * [forceClean](#forceClean)ed or if either {@link AsyncInterface#forceClean}, {@link SyncInterface#forceClean},
+     * or {@link PromiseInterface#forceClean} has been called, that file or directory will still be disposed off on
+     * {@link $tmp_exit_listener|process exit}. Similarly, all objects configured for keeping will be disposed of,
+     * whenever their associated dispose method is called, see {@link AsyncResult#dispose}, {@link SyncResult#dispose}
+     * or {@link AsyncResult#dispose}.
+     *
+     * Also note that if the process' configured temporary directory is under control of either the operating
+     * system or similar processes, then these so kept directories and files might be disposed off on next
+     * system reboot or process restart.
+     *
+     * If the temporary data is valuable to you, move it out of the way and into a different location of the filesystem,
+     * that is being controlled by your application.
+     *
+     * @default false
+     *
+     * @see [forceClean](#forceClean)
      */
-    tmpdir?: string;
+    keep?: boolean;
     /**
-     * Instructs the name generator to try at most the configured number of times to generate a unique name, before that
-     * it will fail with an `Error`. The provided value will be clamped to `[1, 10]`.
+     * Instructs the temporary object creator to create files and directories with the specified access mode.
      *
-     * This will be ignored when using a fixed [name](#name).
-     *
-     * @default 3
+     * The default mode for files is `0o700` and the default mode for directories is `0o600`.
      */
-    tries?: number;
+    fileMode?: number;
+    /**
+     * The file creation flags.
+     *
+     * Defaults to `wx+`.
+     */
+    fileFlags?: string;
+    /**
+     * Instructs the temporary object creator to create files and directories with the specified access mode.
+     *
+     * The default mode for directories is `0o600` and the default mode for directories is `0o600`.
+     */
+    dirMode?: number;
+    /**
+     * Instructs the garbage collector to forcefully clean a non empty directory.
+     *
+     * This is overridden by the [keep](#keep) option.
+     *
+     * Keep in mind that the disposal of a directory may still fail, especially if the temporary directory or any
+     * child resources were locked by the same or a different process or thread, also depending on the operating
+     * system being used.
+     *
+     * @default false
+     *
+     * @see [BaseFsObjectOptions](#keep)
+     */
+    forceClean?: boolean;
     /**
      * Alias for [forceClean](#forceClean).
      *
@@ -268,11 +262,13 @@ export interface PromiseResult {
 }
 
 /**
- * The promise based version of the API.
- *
- * @category Interfaces / Promise
+ * The base interface.
  */
-export interface PromiseInterface {
+export interface BaseInterface {
+    /**
+     * @property {Options}
+     */
+    defaultOptions: Options;
     /**
      * @property {string}
      * @readonly
@@ -282,6 +278,14 @@ export interface PromiseInterface {
      * @method
      */
     forceClean(): void;
+}
+
+/**
+ * The promise based version of the API.
+ *
+ * @category Interfaces / Promise
+ */
+export interface PromiseInterface extends BaseInterface {
     /**
      * @method
      * @param {Options?} [options={}] the options
@@ -304,16 +308,7 @@ export interface PromiseInterface {
  *
  * @category Interfaces / Async
  */
-export interface AsyncInterface {
-    /**
-     * @property {string}
-     * @readonly
-     */
-    readonly tmpdir: string;
-    /**
-     * @method
-     */
-    forceClean(): void;
+export interface AsyncInterface extends BaseInterface {
     /**
      * @method
      * @param {AsyncNamingCallback} callback
@@ -344,16 +339,7 @@ export interface AsyncInterface {
  *
  * @category Interfaces / Sync
  */
-export interface SyncInterface {
-    /**
-     * @property {string}
-     * @readonly
-     */
-    readonly tmpdir: string;
-    /**
-     * @method
-     */
-    forceClean(): void;
+export interface SyncInterface extends BaseInterface {
     /**
      * Creates a temporary directory.
      *
@@ -391,6 +377,7 @@ export interface SyncInterface {
  * @category Interfaces / Sync
  */
 export const sync = new SyncInterfaceImpl();
+
 /**
  * This is the singleton instance of the {@link AsyncInterface}.
  *
@@ -403,6 +390,7 @@ export const sync = new SyncInterfaceImpl();
  * @category Interfaces / Async
  */
 export const async = new AsyncInterfaceImpl();
+
 /**
  * This is the singleton instance of the {@link PromiseInterface}.
  *

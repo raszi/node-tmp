@@ -5,16 +5,18 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
-const IS_WIN32 = os.platform() === 'win32';
-
 export default class PathUtils {
+
+    public static get isWin32() : boolean {
+        return os.platform() === 'win32';
+    }
 
     public static isRelative(name: string, root: string): boolean {
         return name.startsWith(root);
     }
 
     public static containsPathSeparator(name: string): boolean {
-        return name.indexOf('\\') !== -1 && name.indexOf('/') !== -1;
+        return name.indexOf('\\') !== -1 || name.indexOf('/') !== -1;
     }
 
     public static exists(name: string): boolean {
@@ -30,6 +32,7 @@ export default class PathUtils {
             return '';
         }
 
+        // TODO do we require support for UNC paths such as \\server\path or //server/path?
         // replace all occurrences of '/' and '\' by a single '/'
         const result = [];
         const components = name.replace(/[/]+/g, '/')
@@ -38,13 +41,13 @@ export default class PathUtils {
             .replace(/[']/g, '')
             .split('/');
 
+        // TODO do we require this?
         // make sure that we have a leading path separator on Un*x derivates
-        if (!IS_WIN32 && !name.startsWith('/')) {
+        if (!this.isWin32 && !name.startsWith('/')) {
             result.push('');
         }
 
-        // TODO SECURITY eliminate all whitespace only components and trim whitespace around components
-        // TODO SECURITY prevent whitespace only components
+        // SECURITY eliminate all whitespace only components and trim whitespace around components
         for (const component of components) {
             const trimmed = component.trim();
             if (trimmed) {
@@ -53,7 +56,11 @@ export default class PathUtils {
         }
 
         // rejoin with the native path separator
-        return result.join(path.sep);
+        return this.join(...result);
+    }
+
+    public static join(...components : string[]) {
+        return path.join(...components);
     }
 
     public static get osTmpDir(): string {
@@ -66,16 +73,5 @@ export default class PathUtils {
 
     public static resolvePath(name: string, root: string): string {
         return path.resolve(root, name);
-    }
-
-    public static makeRelative(name: string, root: string): string {
-        let result = '';
-        if (this.isRelative(name, root)) {
-            result = name.substr(root.length);
-            if (result.startsWith(path.sep)) {
-                result = result.substr(path.sep.length);
-            }
-        }
-        return result;
     }
 }

@@ -1,4 +1,16 @@
+## v0.3.0 ()
 
+#### :rocket: Enhancement
+- `tmp.async` interface introduced, `import {async as TmpASync} from 'tmp'`
+- `tmp.sync` interface introduced, `import {sync as TmpSync} from 'tmp'`
+- `tmp.promise` interface introduced, `import {promise as TmpPromise} from 'tmp'`
+- `fileMode` option introduced
+- `dirMode` option introduced
+
+#### :bomb: Breaking
+- `mode` option replaced by `fileMode` and `dirMode`
+- `discardDescriptor` option removed, the file descriptor will always be closed
+- `detachDescriptor` option removed, the file descriptor will always be closed
 
 ## v0.2.2 (2022-08-26)
 

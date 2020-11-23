@@ -20,7 +20,7 @@ export default class TempNameGenerator {
             let tries: number = configuration.tries;
             while (tries-- > 0) {
                 const result = PathUtils.resolvePath(StringUtils.nameFromTemplate(
-                    Configuration.TEMPLATE_PATTERN, configuration.template,
+                    Configuration.TEMPLATE_REGEXP, configuration.template,
                     this._nameGenerator.generate(configuration.length)), root);
                 if (!PathUtils.exists(result)) {
                     return result;

@@ -66,10 +66,6 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Common Interfaces</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface"><a href="interfaces/options.html" class="tsd-kind-icon">Options</a></li>
-							</ul>
 							<h3>Interfaces / Async Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface"><a href="interfaces/asyncinterface.html" class="tsd-kind-icon">Async<wbr>Interface</a></li>
@@ -84,6 +80,11 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface"><a href="interfaces/syncinterface.html" class="tsd-kind-icon">Sync<wbr>Interface</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/syncresult.html" class="tsd-kind-icon">Sync<wbr>Result</a></li>
+							</ul>
+							<h3>Other Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface"><a href="interfaces/baseinterface.html" class="tsd-kind-icon">Base<wbr>Interface</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/options.html" class="tsd-kind-icon">Options</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -137,7 +138,7 @@
 					<div class="tsd-signature tsd-kind-icon">Async<wbr>Creation<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, result<span class="tsd-signature-symbol">?: </span><a href="interfaces/asyncresult.html" class="tsd-signature-type">AsyncResult</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L195">index.ts:195</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L189">index.ts:189</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -173,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">Async<wbr>Naming<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L190">index.ts:190</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L184">index.ts:184</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -209,7 +210,7 @@
 					<div class="tsd-signature tsd-kind-icon">Chained<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L214">index.ts:214</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L208">index.ts:208</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -242,7 +243,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dir<wbr>OrFile<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dispose<span class="tsd-signature-symbol">: </span><a href="globals.html#disposecallback" class="tsd-signature-type">DisposeCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L202">index.ts:202</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L196">index.ts:196</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -286,7 +287,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dispose<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>next<span class="tsd-signature-symbol">?: </span><a href="globals.html#chainedcallback" class="tsd-signature-type">ChainedCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L209">index.ts:209</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L203">index.ts:203</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -327,7 +328,7 @@
 					<div class="tsd-signature tsd-kind-icon">async<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AsyncInterfaceImpl</span><span class="tsd-signature-symbol"> = new AsyncInterfaceImpl()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L405">index.ts:405</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L392">index.ts:392</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -353,7 +354,7 @@
 					<div class="tsd-signature tsd-kind-icon">promise<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PromiseInterfaceImpl</span><span class="tsd-signature-symbol"> = new PromiseInterfaceImpl()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L417">index.ts:417</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L405">index.ts:405</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -379,7 +380,7 @@
 					<div class="tsd-signature tsd-kind-icon">sync<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SyncInterfaceImpl</span><span class="tsd-signature-symbol"> = new SyncInterfaceImpl()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L393">index.ts:393</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L379">index.ts:379</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -405,7 +406,7 @@
 					<div class="tsd-signature tsd-kind-icon">tmpdir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = PathUtils.normalizedOsTmpDir</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L437">index.ts:437</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L425">index.ts:425</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -432,7 +433,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L521">index.ts:521</a></li>
+									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L509">index.ts:509</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -469,7 +470,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L474">index.ts:474</a></li>
+									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L462">index.ts:462</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -501,7 +502,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L501">index.ts:501</a></li>
+									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L489">index.ts:489</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -538,7 +539,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L461">index.ts:461</a></li>
+									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L449">index.ts:449</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -570,7 +571,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L426">index.ts:426</a></li>
+									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L414">index.ts:414</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -596,7 +597,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L487">index.ts:487</a></li>
+									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L475">index.ts:475</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -633,7 +634,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L448">index.ts:448</a></li>
+									<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L436">index.ts:436</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -672,6 +673,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/asyncresult.html" class="tsd-kind-icon">Async<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/baseinterface.html" class="tsd-kind-icon">Base<wbr>Interface</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/options.html" class="tsd-kind-icon">Options</a>
@@ -757,6 +761,5 @@
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

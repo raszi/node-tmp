@@ -13,7 +13,7 @@ export default class AsyncObjectCreator {
         // either case we must try to unregister the object first
         GarbageCollector.INSTANCE.unregisterObject(name);
 
-        fs.open(name, configuration.fileFlags, configuration.mode, function(err, fd) {
+        fs.open(name, configuration.fileFlags, configuration.fileMode, function(err, fd) {
             if (err) {
                 return callback(err);
             } else {
@@ -51,7 +51,7 @@ export default class AsyncObjectCreator {
         // either case we must try to unregister the object first
         GarbageCollector.INSTANCE.unregisterObject(name);
 
-        fs.mkdir(name, configuration.mode, function(err, _) {
+        fs.mkdir(name, configuration.dirMode, function(err, _) {
             if (err) {
                 return callback(err);
             } else {

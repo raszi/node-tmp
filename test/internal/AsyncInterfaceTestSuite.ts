@@ -3,6 +3,7 @@ import {AsyncInterface} from '../../src';
 import AsyncInterfaceImpl from '../../src/internal/AsyncInterfaceImpl';
 
 import TestUtils from '../TestUtils';
+
 import AbstractInterfaceTestSuiteBase from './AbstractInterfaceTestSuiteBase';
 
 import {suite, test} from '@testdeck/jest';
@@ -16,13 +17,13 @@ class AsyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<AsyncInterf
 
     before() {
         this.sut = new AsyncInterfaceImpl();
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     public after() {
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     @test

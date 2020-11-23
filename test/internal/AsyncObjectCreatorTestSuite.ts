@@ -1,4 +1,5 @@
 import AsyncObjectCreator from '../../src/internal/AsyncObjectCreator';
+import Configuration from '../../src/internal/Configuration';
 import GarbageCollector from '../../src/internal/GarbageCollector';
 
 import TestUtils from '../TestUtils';
@@ -14,21 +15,22 @@ class AsyncObjectCreatorTestSuite {
     private readonly DIR: string = 'async_object_dir';
     private readonly FILE: string = 'async_object_file';
 
-    private sut: AsyncObjectCreator = new AsyncObjectCreator();
+    private sut: AsyncObjectCreator;
 
     public before() {
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        this.sut = new AsyncObjectCreator();
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     public after() {
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     @test
     public createFileMustReturnExpectedResult(done) {
-        const oconfiguration = TestUtils.fileConfiguration({ name: this.FILE });
+        const oconfiguration = new Configuration({ name: this.FILE });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createFile(oname, oconfiguration, (err, result) => {
             try {
@@ -54,7 +56,7 @@ class AsyncObjectCreatorTestSuite {
     public createFileMustHandleErrorOnOpen(done) {
         const fsopenfn = fs.open;
         (fs as any).open = function (name, flags, mode, cb) { return cb(new Error()); };
-        const oconfiguration = TestUtils.fileConfiguration({ name: this.FILE });
+        const oconfiguration = new Configuration({ name: this.FILE });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createFile(oname, oconfiguration, (err) => {
             try {
@@ -74,7 +76,7 @@ class AsyncObjectCreatorTestSuite {
         (fs as any).close = function (fd, cb) {
             return fsclosefn(fd, function () { cb(new Error()); });
         };
-        const oconfiguration = TestUtils.fileConfiguration({ name: this.FILE });
+        const oconfiguration = new Configuration({ name: this.FILE });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createFile(oname, oconfiguration, (err) => {
             try {
@@ -90,11 +92,11 @@ class AsyncObjectCreatorTestSuite {
 
     @test
     public createFileDisposeMustNotTryToUnlinkNonExistingObject(done) {
-        const oconfiguration = TestUtils.fileConfiguration({ name: this.FILE });
+        const oconfiguration = new Configuration({ name: this.FILE });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createFile(oname, oconfiguration, (err, result) => {
             try {
-                TestUtils.discardTempFile(result.name);
+                TestUtils.discard(result.name);
                 return result.dispose((err) => {
                     assert.ok(!err);
                     assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(result.name));
@@ -108,7 +110,7 @@ class AsyncObjectCreatorTestSuite {
 
     @test
     public createDirMustReturnExpectedResult(done) {
-        const oconfiguration = TestUtils.dirConfiguration({ name: this.DIR });
+        const oconfiguration = new Configuration({ name: this.DIR });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
             try {
@@ -134,7 +136,7 @@ class AsyncObjectCreatorTestSuite {
     public createDirMustHandleErrorOnMkdir(done) {
         const fsmkdirfn = fs.mkdir;
         (fs as any).mkdir = function (name, mode, cb) { return cb(new Error()); };
-        const oconfiguration = TestUtils.dirConfiguration({ name: this.DIR });
+        const oconfiguration = new Configuration({ name: this.DIR });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err) => {
             try {
@@ -150,7 +152,7 @@ class AsyncObjectCreatorTestSuite {
 
     @test
     public createDirDisposeMustForceCleanOnGlobalSetting(done) {
-        const oconfiguration = TestUtils.dirConfiguration({ name: this.DIR });
+        const oconfiguration = new Configuration({ name: this.DIR });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
             try {
@@ -179,7 +181,7 @@ class AsyncObjectCreatorTestSuite {
 
     @test
     public createDirDisposeMustForceCleanOnConfigurationSetting(done) {
-        const oconfiguration = TestUtils.dirConfiguration({ name: this.DIR, forceClean: true });
+        const oconfiguration = new Configuration({ name: this.DIR, forceClean: true });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
             try {
@@ -203,11 +205,11 @@ class AsyncObjectCreatorTestSuite {
 
     @test
     public createDirDisposeMustNotTryToUnlinkNonExistingObject(done) {
-        const oconfiguration = TestUtils.dirConfiguration({ name: this.DIR });
+        const oconfiguration = new Configuration({ name: this.DIR });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
             try {
-                TestUtils.discardTempDir(result.name);
+                TestUtils.discard(result.name);
                 return result.dispose((err) => {
                     try {
                         assert.ok(!err);
@@ -225,7 +227,7 @@ class AsyncObjectCreatorTestSuite {
 
     @test
     public createDirDisposeMustFailOnNonEmptyDir(done) {
-        const oconfiguration = TestUtils.dirConfiguration({ name: this.DIR });
+        const oconfiguration = new Configuration({ name: this.DIR });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
             try {

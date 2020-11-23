@@ -1,5 +1,6 @@
 import {PromiseResult} from '../../src/';
 
+import Configuration from '../../src/internal/Configuration';
 import GarbageCollector from '../../src/internal/GarbageCollector';
 import PromiseObjectCreator from '../../src/internal/PromiseObjectCreator';
 
@@ -17,18 +18,18 @@ class PromiseObjectCreatorTestSuite {
     private sut: PromiseObjectCreator = new PromiseObjectCreator();
 
     public before() {
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     public after() {
-        TestUtils.discardTempFile(this.FILE);
-        TestUtils.discardTempDir(this.DIR);
+        TestUtils.discard(this.FILE);
+        TestUtils.discard(this.DIR);
     }
 
     @test
     public async createFileMustReturnExpectedResult() {
-        const configuration = TestUtils.fileConfiguration({name:this.FILE});
+        const configuration = new Configuration({name:this.FILE});
         const name = TestUtils.qualifiedPath(configuration.name);
         // TODO:refactor
         const promise: Promise<PromiseResult> = this.sut.createFile(name, configuration);
@@ -43,11 +44,15 @@ class PromiseObjectCreatorTestSuite {
 
     @test
     public async createFileDisposeMustNotTryToUnlinkNonExistingObject() {
-        const configuration = TestUtils.fileConfiguration({name:this.FILE});
+        const configuration = new Configuration({name:this.FILE});
         const name = TestUtils.qualifiedPath(configuration.name);
         // TODO:refactor
         const result = await this.sut.createFile(name, configuration);
-        TestUtils.discardTempFile(name);
+        // TODO add more assertions here
+        // assert.ok(TestUtils.fileExists(name));
+        TestUtils.discard(name);
+        // TODO add more assertions here
+        // assert.ok(!TestUtils.fileExists(name));
         assert.ok(GarbageCollector.INSTANCE.isRegisteredObject(name));
         await result.dispose();
         assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(name));
@@ -55,7 +60,7 @@ class PromiseObjectCreatorTestSuite {
 
     @test
     public async createDirMustReturnExpectedResult() {
-        const configuration = TestUtils.dirConfiguration({name:this.DIR});
+        const configuration = new Configuration({name:this.DIR});
         const name = TestUtils.qualifiedPath(configuration.name);
         // TODO:refactor
         const promise: Promise<PromiseResult> = this.sut.createDir(name, configuration);
@@ -70,11 +75,11 @@ class PromiseObjectCreatorTestSuite {
 
     @test
     public async createDirDisposeMustNotTryToUnlinkNonExistingObject() {
-        const configuration = TestUtils.dirConfiguration({name:this.DIR});
+        const configuration = new Configuration({name:this.DIR});
         const name = TestUtils.qualifiedPath(configuration.name);
         // TODO:refactor
         const result = await this.sut.createDir(name, configuration);
-        TestUtils.discardTempDir(name);
+        TestUtils.discard(name);
         assert.ok(GarbageCollector.INSTANCE.isRegisteredObject(name));
         await result.dispose();
         assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(name));
@@ -82,7 +87,7 @@ class PromiseObjectCreatorTestSuite {
 
     @test
     public async createDirDisposeMustForceCleanOnGlobalSetting() {
-        const configuration = TestUtils.dirConfiguration({name:this.DIR});
+        const configuration = new Configuration({name:this.DIR});
         const name = TestUtils.qualifiedPath(configuration.name);
         // TODO:refactor
         try {
@@ -98,7 +103,7 @@ class PromiseObjectCreatorTestSuite {
 
     @test
     public async createDirDisposeMustForceCleanOnConfigurationSetting() {
-        const configuration = TestUtils.dirConfiguration({name:this.DIR, forceClean: true});
+        const configuration = new Configuration({name:this.DIR, forceClean: true});
         const name = TestUtils.qualifiedPath(configuration.name);
         // TODO:refactor
         const result = await this.sut.createDir(name, configuration);
@@ -109,7 +114,7 @@ class PromiseObjectCreatorTestSuite {
 
     @test
     public async createDirDisposeMustFailOnNonEmptyDir() {
-        const configuration = TestUtils.dirConfiguration({name:this.DIR});
+        const configuration = new Configuration({name:this.DIR});
         const name = TestUtils.qualifiedPath(configuration.name);
         // TODO:refactor
         try {

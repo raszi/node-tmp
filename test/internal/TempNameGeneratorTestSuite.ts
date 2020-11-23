@@ -12,7 +12,24 @@ import * as assert from 'assert';
 @suite
 class TempNameGeneratorTestSuite {
 
-    private sut: TempNameGenerator = new TempNameGenerator();
+    private sut: TempNameGenerator;
+
+    private static NONEXISTENT = 'nonexistent';
+    private static EXISTING = 'existing';
+    private static TEMPLATEDUPLICATE = 'templateduplicate';
+
+    public before() {
+        this.sut = new TempNameGenerator();
+        TestUtils.discard(TempNameGeneratorTestSuite.NONEXISTENT);
+        TestUtils.discard(TempNameGeneratorTestSuite.EXISTING);
+        TestUtils.discard(TempNameGeneratorTestSuite.TEMPLATEDUPLICATE);
+    }
+
+    public after() {
+        TestUtils.discard(TempNameGeneratorTestSuite.NONEXISTENT);
+        TestUtils.discard(TempNameGeneratorTestSuite.EXISTING);
+        TestUtils.discard(TempNameGeneratorTestSuite.TEMPLATEDUPLICATE);
+    }
 
     @test
     public generateMustNotFailOnEmptyConfiguration() {
@@ -22,52 +39,35 @@ class TempNameGeneratorTestSuite {
 
     @test
     public generateMustNotFailOnNonExistingUserProvidedName() {
-        const configuration = new Configuration({
-            name: 'nonexistent'
-        });
-        const name = this.sut.generate(configuration);
-        assert.equal(name, path.join(configuration.tmpdir, configuration.name));
+        const configuration = new Configuration({ name: TempNameGeneratorTestSuite.NONEXISTENT });
+        assert.doesNotThrow(() => this.sut.generate(configuration));
     }
 
     @test
     public generateMustFailOnExistingUserProvidedName() {
-        const configuration = new Configuration({
-            name: 'existingname'
-        });
+        const configuration = new Configuration({ name: TempNameGeneratorTestSuite.EXISTING });
         TestUtils.createTempFile(configuration.name);
-        try {
-            assert.throws(() => { this.sut.generate(configuration); });
-        } finally {
-            TestUtils.discardTempFile(configuration.name);
-        }
+        assert.throws(() => { this.sut.generate(configuration); });
     }
 
     @test
     public generateMustGenerateExpectedNameFromTemplate() {
-        const configuration = new Configuration({
-            template: 'templateXXXXXX'
-        });
+        const configuration = new Configuration({ template: 'templateXXXXXX' });
         const name = this.sut.generate(configuration);
         assert.ok(name.match(/template.{6}$/));
     }
 
     @test
     public generateMustFailOnExistingNameUsingTemplate() {
-        const configuration = new Configuration({
-            template: 'templateXXXXXX'
-        });
+        const configuration = new Configuration({ template: 'templateXXXXXX' });
         (this.sut as any)._nameGenerator = {
             generate: (length: number) => {
                 return 'duplicate';
             }
         };
-        const name = StringUtils.nameFromTemplate(Configuration.TEMPLATE_PATTERN, configuration.template, 'duplicate');
+        const name = StringUtils.nameFromTemplate(Configuration.TEMPLATE_REGEXP, configuration.template, 'duplicate');
         TestUtils.createTempFile(name);
-        try {
-            assert.throws(() => { this.sut.generate(configuration); });
-        } finally {
-            TestUtils.discardTempFile(name);
-        }
+        assert.throws(() => { this.sut.generate(configuration); });
     }
 
     @test
@@ -81,17 +81,17 @@ class TempNameGeneratorTestSuite {
         const name = StringUtils.nameFromComponents(configuration.prefix, 'duplicate');
         TestUtils.createTempFile(name);
         try {
-            assert.throws(() => { this.sut.generate(configuration); });
+            assert.throws(() => {
+                this.sut.generate(configuration);
+            });
         } finally {
-            TestUtils.discardTempFile(name);
+            TestUtils.discard(name);
         }
     }
 
     @test
     public generateMustFailOnExistingNameWithPostfix() {
-        const configuration = new Configuration({
-            postfix: 'postfix'
-        });
+        const configuration = new Configuration({ postfix: 'postfix' });
         (this.sut as any)._nameGenerator = {
             generate: (length: number) => {
                 return 'duplicate';
@@ -102,7 +102,7 @@ class TempNameGeneratorTestSuite {
         try {
             assert.throws(() => { this.sut.generate(configuration); });
         } finally {
-            TestUtils.discardTempFile(name);
+            TestUtils.discard(name);
         }
     }
 }

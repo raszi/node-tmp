@@ -64,44 +64,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The interface Options represents an object that is used for passing in options to either of the available methods
-						of the public API.</p>
-					</div>
-					<p>Please consult the tutorial on {@tutorial 15-configuration} for more information on how this can be applied.</p>
-					<dl class="tsd-comment-tags">
-						<dt>see</dt>
-						<dd><p><a href="../globals.html#sync">sync</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="../globals.html#async">async</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="../globals.html#promise">promise</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="promiseinterface.html#file">file</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="../globals.html#filesync">fileSync</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="options.html#dir">dir</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="../globals.html#dirsync">dirSync</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="../globals.html#tmpname">tmpName</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="../globals.html#tmpnamesync">tmpNameSync</a></p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -118,10 +80,12 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#dir" class="tsd-kind-icon">dir</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#dirmode" class="tsd-kind-icon">dir<wbr>Mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#fileflags" class="tsd-kind-icon">file<wbr>Flags</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#filemode" class="tsd-kind-icon">file<wbr>Mode</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#forceclean" class="tsd-kind-icon">force<wbr>Clean</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#keep" class="tsd-kind-icon">keep</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#length" class="tsd-kind-icon">length</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#mode" class="tsd-kind-icon">mode</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#postfix" class="tsd-kind-icon">postfix</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#prefix" class="tsd-kind-icon">prefix</a></li>
@@ -142,7 +106,7 @@
 					<div class="tsd-signature tsd-kind-icon">dir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L45">index.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L27">index.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -162,10 +126,59 @@
 						</ul>
 						<dl class="tsd-comment-tags">
 							<dt>example</dt>
-							<dd><pre><code>console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir'</span>})); <span class="hljs-regexp">//</span> &lt;tmpdir&gt;<span class="hljs-regexp">/custom-dir/</span>tmp-<span class="hljs-number">234</span>-a75xkVzj43Ac
-console.log(tmp.sync.name({dir: <span class="hljs-string">'   /hidden-no'</span>})); <span class="hljs-regexp">//</span> &lt;tmpdir&gt;<span class="hljs-regexp">/hidden-no/</span>tmp-<span class="hljs-number">234</span>-a75xkVzj43Ac
-console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  yes'</span>})); <span class="hljs-regexp">//</span> &lt;tmpdir&gt;<span class="hljs-regexp">/custom-dir/</span>.hidden  yes/tmp-<span class="hljs-number">234</span>-a75xkVzj43Ac</code></pre></dd>
+							<dd><pre><code><span class="hljs-selector-tag">console</span><span class="hljs-selector-class">.log</span>(<span class="hljs-selector-tag">tmp</span><span class="hljs-selector-class">.sync</span><span class="hljs-selector-class">.name</span>({<span class="hljs-attribute">dir</span>: <span class="hljs-string">&#x27;custom-dir&#x27;</span>})); // &lt;<span class="hljs-selector-tag">tmpdir</span>&gt;/<span class="hljs-selector-tag">custom-dir</span>/<span class="hljs-selector-tag">tmp-234-a75xkVzj43Ac</span>
+<span class="hljs-selector-tag">console</span><span class="hljs-selector-class">.log</span>(<span class="hljs-selector-tag">tmp</span><span class="hljs-selector-class">.sync</span><span class="hljs-selector-class">.name</span>({<span class="hljs-attribute">dir</span>: <span class="hljs-string">&#x27;   /hidden-no&#x27;</span>})); // &lt;<span class="hljs-selector-tag">tmpdir</span>&gt;/<span class="hljs-selector-tag">hidden-no</span>/<span class="hljs-selector-tag">tmp-234-a75xkVzj43Ac</span>
+<span class="hljs-selector-tag">console</span><span class="hljs-selector-class">.log</span>(<span class="hljs-selector-tag">tmp</span><span class="hljs-selector-class">.sync</span><span class="hljs-selector-class">.name</span>({<span class="hljs-attribute">dir</span>: <span class="hljs-string">&#x27;custom-dir/.hidden  yes&#x27;</span>})); // &lt;<span class="hljs-selector-tag">tmpdir</span>&gt;/<span class="hljs-selector-tag">custom-dir</span>/<span class="hljs-selector-class">.hidden</span>  <span class="hljs-selector-tag">yes</span>/<span class="hljs-selector-tag">tmp-234-a75xkVzj43Ac</span></code></pre>
+							</dd>
 						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="dirmode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> dir<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">dir<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L156">index.ts:156</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Instructs the temporary object creator to create files and directories with the specified access mode.</p>
+						</div>
+						<p>The default mode for directories is <code>0o600</code> and the default mode for directories is <code>0o600</code>.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="fileflags" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Flags</h3>
+					<div class="tsd-signature tsd-kind-icon">file<wbr>Flags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L150">index.ts:150</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The file creation flags.</p>
+						</div>
+						<p>Defaults to <code>wx+</code>.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="filemode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">file<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L144">index.ts:144</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Instructs the temporary object creator to create files and directories with the specified access mode.</p>
+						</div>
+						<p>The default mode for files is <code>0o700</code> and the default mode for directories is <code>0o600</code>.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -174,7 +187,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<div class="tsd-signature tsd-kind-icon">force<wbr>Clean<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L59">index.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L170">index.ts:170</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -190,7 +203,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 							<dd><p>false</p>
 							</dd>
 							<dt>see</dt>
-							<dd><p><a href="#keep">keep</a></p>
+							<dd><p><a href="#keep">BaseFsObjectOptions</a></p>
 							</dd>
 						</dl>
 					</div>
@@ -201,7 +214,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<div class="tsd-signature tsd-kind-icon">keep<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L83">index.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L138">index.ts:138</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -236,7 +249,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<div class="tsd-signature tsd-kind-icon">length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L90">index.ts:90</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L63">index.ts:63</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -252,28 +265,12 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="mode" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> mode</h3>
-					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L96">index.ts:96</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Instructs the temporary object creator to create files and directories with the specified access mode.</p>
-						</div>
-						<p>The default mode for files is <code>0o700</code> and the default mode for directories is <code>0o600</code>.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="name" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> name</h3>
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L109">index.ts:109</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L40">index.ts:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -302,7 +299,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<div class="tsd-signature tsd-kind-icon">postfix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L123">index.ts:123</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L77">index.ts:77</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -333,7 +330,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<div class="tsd-signature tsd-kind-icon">prefix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L139">index.ts:139</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L93">index.ts:93</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -367,7 +364,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<div class="tsd-signature tsd-kind-icon">template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L160">index.ts:160</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L114">index.ts:114</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -410,7 +407,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<div class="tsd-signature tsd-kind-icon">tmpdir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L167">index.ts:167</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L47">index.ts:47</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -430,7 +427,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<div class="tsd-signature tsd-kind-icon">tries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L176">index.ts:176</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L56">index.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -452,7 +449,7 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<div class="tsd-signature tsd-kind-icon">unsafe<wbr>Cleanup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/4c152c3/src/index.ts#L184">index.ts:184</a></li>
+							<li>Defined in <a href="https://github.com/raszi/node-tmp/blob/d4a0287/src/index.ts#L178">index.ts:178</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -487,6 +484,9 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 					<li class=" tsd-kind-interface">
 						<a href="asyncresult.html" class="tsd-kind-icon">Async<wbr>Result</a>
 					</li>
+					<li class=" tsd-kind-interface">
+						<a href="baseinterface.html" class="tsd-kind-icon">Base<wbr>Interface</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
@@ -496,6 +496,15 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 								<a href="options.html#dir" class="tsd-kind-icon">dir</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="options.html#dirmode" class="tsd-kind-icon">dir<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="options.html#fileflags" class="tsd-kind-icon">file<wbr>Flags</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="options.html#filemode" class="tsd-kind-icon">file<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="options.html#forceclean" class="tsd-kind-icon">force<wbr>Clean</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -503,9 +512,6 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="options.html#length" class="tsd-kind-icon">length</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="options.html#mode" class="tsd-kind-icon">mode</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="options.html#name" class="tsd-kind-icon">name</a>
@@ -613,6 +619,5 @@ console.log(tmp.sync.name({dir: <span class="hljs-string">'custom-dir/.hidden  y
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

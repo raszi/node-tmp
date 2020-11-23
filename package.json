@@ -63,8 +63,8 @@
     "lint": "tslint --project .",
     "clean": "rimraf ./coverage ./dist ./docs ./tdocs",
     "dist": "npm run test && tsc --project ./tsconfig-dist.json",
-    "pretest": "tsc",
-    "test": "npm run lint && jest",
+    "pretest": "npm run lint && tsc",
+    "test": "jest",
     "watch": "jest --watch",
     "jsdoc": "npm run clean && tsc --project ./tsconfig-dist.json && jsdoc -c jsdoc.json",
     "typedoc": "npm run clean && tsc --project ./tsconfig-dist.json && typedoc"

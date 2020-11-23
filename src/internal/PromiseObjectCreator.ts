@@ -14,7 +14,7 @@ export default class PromiseObjectCreator {
         // either case we must try to unregister the object first
         GarbageCollector.INSTANCE.unregisterObject(name);
 
-        return pfs.open(name, configuration.fileFlags, configuration.mode)
+        return pfs.open(name, configuration.fileFlags, configuration.fileMode)
             .then((fileHandle) => {
                 return fileHandle.close();
             })
@@ -42,7 +42,7 @@ export default class PromiseObjectCreator {
         // either case we must try to unregister the object first
         GarbageCollector.INSTANCE.unregisterObject(name);
 
-        return pfs.mkdir(name, configuration.mode)
+        return pfs.mkdir(name, configuration.dirMode)
             .then(() => {
                 GarbageCollector.INSTANCE.registerDir(name, configuration);
 

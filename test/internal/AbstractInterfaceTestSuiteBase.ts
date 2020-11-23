@@ -1,7 +1,7 @@
 import {AsyncInterface, PromiseInterface, SyncInterface} from '../../src';
 
-import Configuration from '../../src/internal/Configuration';
 import GarbageCollector from '../../src/internal/GarbageCollector';
+import PathUtils from '../../src/internal/PathUtils';
 
 import {test} from '@testdeck/jest';
 import * as assert from 'assert';
@@ -12,7 +12,7 @@ export default abstract class AbstractInterfaceTestSuiteBase<T extends AsyncInte
 
     @test
     public tmpdir() {
-        assert.equal(this.sut.tmpdir, new Configuration().tmpdir);
+        assert.equal(this.sut.tmpdir, PathUtils.normalizedOsTmpDir);
     }
 
     @test

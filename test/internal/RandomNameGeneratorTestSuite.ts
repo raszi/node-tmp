@@ -12,17 +12,17 @@ class RandomNameGeneratorTestSuite {
 
     @test
     public mustFallbackOnPseudoRandom() {
-        const origRandomBytesfn = crypto.randomBytes;
-        const origPseudoRandomBytesfn = crypto.pseudoRandomBytes;
+        const fnOrigRandomBytes = crypto.randomBytes;
+        const fnOrigPseudoRandomBytes = crypto.pseudoRandomBytes;
         let called = false;
         (crypto as any).randomBytes = (length) => { throw new Error(); };
-        (crypto as any).pseudoRandomBytes = (length) => { called = true; return origPseudoRandomBytesfn(length); };
+        (crypto as any).pseudoRandomBytes = (length) => { called = true; return fnOrigPseudoRandomBytes(length); };
         try {
             this.sut.generate(1);
             assert.ok(called);
         } finally {
-            (crypto as any).randomBytes = origRandomBytesfn;
-            (crypto as any).pseudoRandomBytes = origPseudoRandomBytesfn;
+            (crypto as any).randomBytes = fnOrigRandomBytes;
+            (crypto as any).pseudoRandomBytes = fnOrigPseudoRandomBytes;
         }
     }
 }

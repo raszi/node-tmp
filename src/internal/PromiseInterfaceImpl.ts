@@ -1,11 +1,11 @@
 
 import {Options, PromiseResult, PromiseInterface} from '..';
 
-import AbstractInterface from './AbstractInterface';
+import AbstractInterfaceBase from './AbstractInterfaceBase';
 import Configuration from './Configuration';
 import PromiseObjectCreator from './PromiseObjectCreator';
 
-export default class PromiseInterfaceImpl extends AbstractInterface implements PromiseInterface {
+export default class PromiseInterfaceImpl extends AbstractInterfaceBase implements PromiseInterface {
 
     private _creator: PromiseObjectCreator = new PromiseObjectCreator();
 

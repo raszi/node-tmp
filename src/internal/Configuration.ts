@@ -1,6 +1,7 @@
 
 import {Options} from '..';
 
+import MathUtils from './MathUtils';
 import PathUtils from './PathUtils';
 import StringUtils from './StringUtils';
 
@@ -10,7 +11,8 @@ export default class Configuration {
     public static readonly MIN_TRIES: number = 1;
     public static readonly MAX_TRIES: number = 10;
 
-    public static readonly TEMPLATE_PATTERN: RegExp = /XXXXXX/;
+    public static readonly TEMPLATE_PATTERN: string = 'XXXXXX';
+    public static readonly TEMPLATE_REGEXP: RegExp = new RegExp(Configuration.TEMPLATE_PATTERN);
 
     public static readonly MIN_LENGTH: number = 6;
     public static readonly MAX_LENGTH: number = 24;
@@ -21,44 +23,49 @@ export default class Configuration {
     public static readonly DEFAULT_FILE_MODE: number = 0o600 /* 384 */;
     public static readonly DEFAULT_FILE_FLAGS: string = 'wx+';
 
+    public static defaultOptions: Options = {
+        prefix: Configuration.DEFAULT_PREFIX, length: Configuration.DEFAULT_LENGTH, tries: Configuration.DEFAULT_TRIES,
+        fileMode: Configuration.DEFAULT_FILE_MODE, fileFlags: Configuration.DEFAULT_FILE_FLAGS,
+        dirMode: Configuration.DEFAULT_DIR_MODE, forceClean: false,
+        // TODO 1.0.0 remove
+        unsafeCleanup: false,
+        dir: ''
+    };
+
     public readonly tmpdir: string;
     public readonly name: string;
     public readonly prefix: string;
     public readonly postfix: string;
     public readonly dir: string;
+    /**
+     * @deprecated will be removed in 1.0.0
+     */
     public readonly template: string;
     public readonly keep: boolean;
     public readonly forceClean: boolean;
-    public readonly mode: number;
+    public readonly fileMode: number;
+    public readonly fileFlags: string;
+    public readonly dirMode: number;
     public readonly tries: number;
     public readonly length: number;
 
-    private readonly _resolvedDir: string;
-
-    public readonly fileFlags: string = Configuration.DEFAULT_FILE_FLAGS;
-
-    public constructor(options: Options = {}, defaultMode: number = 0o000) {
-        this.tmpdir = PathUtils.normalizedOsTmpDir;
-        this.name = PathUtils.normalize(options.name);
-        const dir = PathUtils.normalize(options.dir);
-        if (!StringUtils.isBlank(dir)) {
-            this._resolvedDir = PathUtils.resolvePath(dir, this.tmpdir);
-            this.dir = PathUtils.makeRelative(this._resolvedDir, this.tmpdir);
-        } else {
-            this.dir = '';
-        }
-        this.template = PathUtils.normalize(options.template);
-        this.prefix = PathUtils.normalize(options.prefix) || Configuration.DEFAULT_PREFIX;
-        this.postfix = PathUtils.normalize(options.postfix);
-        this.keep = !!options.keep;
-        // clamp to MIN_TRIES..MAX_TRIES
-        this.tries = Math.min(Math.max(Math.abs(options.tries) || Configuration.DEFAULT_TRIES, Configuration.MIN_TRIES), Configuration.MAX_TRIES);
-        // TODO:1.0.0 remove support for unsafeCleanup
-        this.forceClean = !!options.unsafeCleanup || !!options.forceClean;
-        this.mode = options.mode || defaultMode;
-        // TODO why clamp length?
-        const length = StringUtils.isBlank(this.template) ? Math.abs(options.length) || Configuration.DEFAULT_LENGTH : Configuration.MIN_LENGTH;
-        this.length = Math.min(Math.max(length, Configuration.MIN_LENGTH), Configuration.MAX_LENGTH);
+    public constructor(options : Options = {}) {
+        const mergedOptions: Options = {...Configuration.defaultOptions, ...options};
+        this.tmpdir = StringUtils.isBlank(mergedOptions.tmpdir) ? PathUtils.normalizedOsTmpDir : PathUtils.normalize(mergedOptions.tmpdir);
+        this.name = PathUtils.normalize(mergedOptions.name);
+        this.dir = PathUtils.normalize(mergedOptions.dir);
+        this.prefix = PathUtils.normalize(mergedOptions.prefix);
+        this.postfix = PathUtils.normalize(mergedOptions.postfix);
+        this.keep = !!mergedOptions.keep;
+        this.tries = MathUtils.clamp(mergedOptions.tries, Configuration.MIN_TRIES, Configuration.MAX_TRIES);
+        this.fileMode = mergedOptions.fileMode;
+        this.fileFlags = mergedOptions.fileFlags;
+        this.dirMode = mergedOptions.dirMode;
+        // TODO 1.0.0 remove support for template and unsafeCleanup
+        this.template = PathUtils.normalize(mergedOptions.template);
+        this.forceClean = !!mergedOptions.unsafeCleanup || !!mergedOptions.forceClean;
+        const length = StringUtils.isBlank(this.template) ? mergedOptions.length : Configuration.MIN_LENGTH;
+        this.length = MathUtils.clamp(length, Configuration.MIN_LENGTH, Configuration.MAX_LENGTH);
 
         this.validate();
     }
@@ -70,7 +77,7 @@ export default class Configuration {
      */
     private validate(): void {
         if (!PathUtils.exists(this.tmpdir)) {
-            throw new Error(`configured system tmp dir '${this.tmpdir}' does not exist.`);
+            throw new Error(`configured tmpdir '${this.tmpdir}' does not exist.`);
         }
         const dirIsNotBlank = !StringUtils.isBlank(this.dir);
         if (dirIsNotBlank && !PathUtils.exists(PathUtils.resolvePath(this.dir, this.tmpdir))) {
@@ -84,7 +91,7 @@ export default class Configuration {
         if (PathUtils.containsPathSeparator(this.template)) {
             throw new Error(`Invalid template, must not contain path separator, got '${this.template}'.`);
         }
-        if (!StringUtils.isBlank(this.template) && !this.template.match(Configuration.TEMPLATE_PATTERN)) {
+        if (!StringUtils.isBlank(this.template) && !this.template.match(Configuration.TEMPLATE_REGEXP)) {
             throw new Error(`Invalid template, got '${this.template}'.`);
         }
         if (PathUtils.containsPathSeparator(this.name)) {

@@ -13,7 +13,7 @@ export default class SyncObjectCreator {
         // either case we must try to unregister the object first
         GarbageCollector.INSTANCE.unregisterObject(name);
 
-        const fd: number = fs.openSync(name, configuration.fileFlags, configuration.mode);
+        const fd: number = fs.openSync(name, configuration.fileFlags, configuration.fileMode);
         fs.closeSync(fd);
 
         function disposeFunction() {
@@ -41,7 +41,7 @@ export default class SyncObjectCreator {
         // either case we must try to unregister the object first
         GarbageCollector.INSTANCE.unregisterObject(name);
 
-        fs.mkdirSync(name, configuration.mode);
+        fs.mkdirSync(name, configuration.dirMode);
 
         function disposeFunction() {
             try {
