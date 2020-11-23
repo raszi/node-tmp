@@ -41,9 +41,8 @@ export default class PathUtils {
             .replace(/[']/g, '')
             .split('/');
 
-        // TODO do we require this?
-        // make sure that we have a leading path separator on Un*x derivates
-        if (!this.isWin32 && !name.startsWith('/')) {
+        // make sure that we retain the leading path separator on Un*x derivates
+        if (!this.isWin32 && name.startsWith('/')) {
             result.push('');
         }
 
