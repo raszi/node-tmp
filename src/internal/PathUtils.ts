@@ -42,7 +42,7 @@ export default class PathUtils {
 
         // make sure that we retain the leading path separator on Un*x derivates
         if (!this.isWin32 && name.startsWith('/')) {
-            result.push('');
+            result.push('/');
         }
 
         // SECURITY eliminate all whitespace only components and trim whitespace around components
