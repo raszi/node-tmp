@@ -21,11 +21,13 @@ class AsyncObjectCreatorTestSuite {
         this.sut = new AsyncObjectCreator();
         TestUtils.discard(this.FILE);
         TestUtils.discard(this.DIR);
+        GarbageCollector.INSTANCE.forceClean = false;
     }
 
     public after() {
         TestUtils.discard(this.FILE);
         TestUtils.discard(this.DIR);
+        GarbageCollector.INSTANCE.forceClean = false;
     }
 
     @test
@@ -33,14 +35,16 @@ class AsyncObjectCreatorTestSuite {
         const oconfiguration = new Configuration({ name: this.FILE });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createFile(oname, oconfiguration, (err, result) => {
+            if (err) { return done(err); }
             try {
-                assert.equal(result.name, oname);
+                assert.strictEqual(result.name, oname);
                 assert.ok(TestUtils.fileExists(result.name));
                 assert.ok(typeof result.dispose === 'function');
-                return result.dispose(() => {
+                return result.dispose((err) => {
+                    if (err) { return done(err); }
                     try {
                         assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(result.name));
-                        assert.ok(!TestUtils.fileExists(result.name));
+                        assert.ok(TestUtils.notExists(result.name));
                         return done();
                     } catch (err) {
                         return done(err);
@@ -95,6 +99,7 @@ class AsyncObjectCreatorTestSuite {
         const oconfiguration = new Configuration({ name: this.FILE });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createFile(oname, oconfiguration, (err, result) => {
+            if (err) { return done(err); }
             try {
                 TestUtils.discard(result.name);
                 return result.dispose((err) => {
@@ -113,14 +118,16 @@ class AsyncObjectCreatorTestSuite {
         const oconfiguration = new Configuration({ name: this.DIR });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
+            if (err) { return done(err); }
             try {
-                assert.equal(result.name, oname);
+                assert.strictEqual(result.name, oname);
                 assert.ok(TestUtils.dirExists(result.name));
                 assert.ok(typeof result.dispose === 'function');
-                return result.dispose(() => {
+                return result.dispose((err) => {
+                    if (err) { return done(err); }
                     try {
                         assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(result.name));
-                        assert.ok(!TestUtils.dirExists(result.name));
+                        assert.ok(TestUtils.notExists(result.name));
                         return done();
                     } catch (err) {
                         return done(err);
@@ -155,26 +162,25 @@ class AsyncObjectCreatorTestSuite {
         const oconfiguration = new Configuration({ name: this.DIR });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
+            if (err) { return done(err); }
             try {
+                assert.ok(TestUtils.dirExists(result.name));
                 const fname = TestUtils.qualifiedSubPath('file', result.name);
                 TestUtils.createTempFile(fname);
                 GarbageCollector.INSTANCE.forceClean = true;
-                return result.dispose(() => {
+                return result.dispose((err) => {
+                    if (err) { return done(err); }
                     try {
                         assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(result.name));
-                        assert.ok(!TestUtils.fileExists(fname));
-                        assert.ok(!TestUtils.dirExists(result.name));
+                        assert.ok(TestUtils.notExists(fname));
+                        assert.ok(TestUtils.notExists(result.name));
                         return done();
                     } catch (err) {
                         return done(err);
-                    } finally {
-                        GarbageCollector.INSTANCE.forceClean = false;
                     }
                 });
             } catch (err) {
                 return done(err);
-            } finally {
-                GarbageCollector.INSTANCE.forceClean = false;
             }
         });
     }
@@ -184,14 +190,17 @@ class AsyncObjectCreatorTestSuite {
         const oconfiguration = new Configuration({ name: this.DIR, forceClean: true });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
+            if (err) { return done(err); }
             try {
+                assert.ok(TestUtils.dirExists(result.name));
                 const fname = TestUtils.qualifiedSubPath('file', result.name);
                 TestUtils.createTempFile(fname);
                 return result.dispose((err) => {
+                    if (err) { return done(err); }
                     try {
                         assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(result.name));
-                        assert.ok(!TestUtils.fileExists(fname));
-                        assert.ok(!TestUtils.dirExists(result.name));
+                        assert.ok(TestUtils.notExists(fname));
+                        assert.ok(TestUtils.notExists(result.name));
                         return done();
                     } catch (err) {
                         return done(err);
@@ -208,7 +217,9 @@ class AsyncObjectCreatorTestSuite {
         const oconfiguration = new Configuration({ name: this.DIR });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
+            if (err) { return done(err); }
             try {
+                assert.ok(TestUtils.dirExists(result.name));
                 TestUtils.discard(result.name);
                 return result.dispose((err) => {
                     try {
@@ -230,11 +241,14 @@ class AsyncObjectCreatorTestSuite {
         const oconfiguration = new Configuration({ name: this.DIR });
         const oname = TestUtils.qualifiedPath(oconfiguration.name);
         this.sut.createDir(oname, oconfiguration, (err, result) => {
+            if (err) { return done(err); }
             try {
+                assert.ok(TestUtils.dirExists(result.name));
                 const fname = TestUtils.qualifiedSubPath(this.FILE, result.name);
                 TestUtils.createTempFile(fname);
-                return result.dispose((err? : Error) => {
+                return result.dispose((err) => {
                     try {
+                        // assert.ok(err instanceof Error); // is not an instance of Error?
                         assert.ok(err.toString().indexOf('ENOTEMPTY') !== -1);
                         assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(result.name));
                         assert.ok(TestUtils.fileExists(fname));

@@ -1,4 +1,4 @@
-import {AsyncInterface, PromiseInterface, SyncInterface} from '../../src';
+import {AsyncInterface, PromiseInterface, SyncInterface} from '../../src/types';
 
 import GarbageCollector from '../../src/internal/GarbageCollector';
 import PathUtils from '../../src/internal/PathUtils';
@@ -12,11 +12,12 @@ export default abstract class AbstractInterfaceTestSuiteBase<T extends AsyncInte
 
     @test
     public tmpdir() {
-        assert.equal(this.sut.tmpdir, PathUtils.normalizedOsTmpDir);
+        assert.strictEqual(this.sut.tmpdir, PathUtils.normalizedOsTmpDir);
     }
 
     @test
     public forceClean() {
+        assert.ok(!GarbageCollector.INSTANCE.forceClean);
         this.sut.forceClean();
         try {
             assert.ok(GarbageCollector.INSTANCE.forceClean);

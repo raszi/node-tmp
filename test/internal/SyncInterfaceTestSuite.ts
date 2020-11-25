@@ -1,4 +1,4 @@
-import {SyncInterface} from '../../src';
+import {SyncInterface} from '../../src/types';
 
 import SyncInterfaceImpl from '../../src/internal/SyncInterfaceImpl';
 
@@ -27,7 +27,7 @@ class SyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<SyncInterfac
 
     @test
     public nameMustWorkAsExpected() {
-        assert.equal(this.sut.name({name:this.FILE}), TestUtils.qualifiedPath(this.FILE));
+        assert.strictEqual(this.sut.name({name:this.FILE}), TestUtils.qualifiedPath(this.FILE));
     }
 
     @test
@@ -45,18 +45,16 @@ class SyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<SyncInterfac
     @test
     public fileMustWorkAsExpected() {
         const result = this.sut.file({name: this.FILE});
-        assert.equal(result.name, TestUtils.qualifiedPath(this.FILE));
+        assert.strictEqual(result.name, TestUtils.qualifiedPath(this.FILE));
         assert.ok(typeof result.dispose === 'function');
         assert.ok(TestUtils.fileExists(result.name));
         result.dispose();
-        assert.ok(!TestUtils.fileExists(TestUtils.qualifiedPath(this.FILE)));
+        assert.ok(TestUtils.notExists(TestUtils.qualifiedPath(this.FILE)));
     }
 
     @test
     public fileMustHandleNameErrorsAsExpected() {
-        (this.sut as any)._nameGenerator = { generate: (configuration) => {
-                throw new Error();
-            }};
+        (this.sut as any)._nameGenerator = { generate: (configuration) => { throw new Error(); }};
         try {
             this.sut.file({name:this.FILE});
         } catch (err) {
@@ -66,9 +64,7 @@ class SyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<SyncInterfac
 
     @test
     public fileMustHandleObjectCreationErrorsAsExpected() {
-        (this.sut as any)._creator = { createFile: (configuration) => {
-                throw new Error();
-            }};
+        (this.sut as any)._creator = { createFile: (configuration) => { throw new Error(); }};
         try {
             this.sut.file({name:this.FILE});
         } catch (err) {
@@ -79,18 +75,16 @@ class SyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<SyncInterfac
     @test
     public dirMustWorkAsExpected() {
         const result = this.sut.dir({name: this.DIR});
-        assert.equal(result.name, TestUtils.qualifiedPath(this.DIR));
+        assert.strictEqual(result.name, TestUtils.qualifiedPath(this.DIR));
         assert.ok(typeof result.dispose === 'function');
         assert.ok(TestUtils.dirExists(result.name));
         result.dispose();
-        assert.ok(!TestUtils.dirExists(TestUtils.qualifiedPath(this.DIR)));
+        assert.ok(TestUtils.notExists(TestUtils.qualifiedPath(this.DIR)));
     }
 
     @test
     public dirMustHandleNameErrorsAsExpected() {
-        (this.sut as any)._nameGenerator = { generate: (configuration) => {
-                throw new Error();
-            }};
+        (this.sut as any)._nameGenerator = { generate: (configuration) => { throw new Error(); }};
         try {
             this.sut.dir({name:this.DIR});
         } catch (err) {
@@ -100,9 +94,7 @@ class SyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<SyncInterfac
 
     @test
     public dirMustHandleObjectCreationErrorsAsExpected() {
-        (this.sut as any)._creator = { createDir: (configuration) => {
-                throw new Error();
-            }};
+        (this.sut as any)._creator = { createDir: (configuration) => { throw new Error(); }};
         try {
             this.sut.dir({name:this.DIR});
         } catch (err) {

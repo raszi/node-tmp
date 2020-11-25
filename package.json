@@ -34,6 +34,7 @@
     "@types/node": "latest",
     "@types/rimraf": "latest",
     "@types/rmfr": "latest",
+    "copyfiles": "latest",
     "jest": "latest",
     "jsdoc": "latest",
     "ts-jest": "latest",
@@ -41,7 +42,6 @@
     "typedoc": "latest",
     "typescript": "latest"
   },
-  "main": "dist/index.js",
   "files": [
     "dist/",
     "README.md",
@@ -60,13 +60,16 @@
   },
   "scripts": {
     "changelog": "lerna-changelog",
+    "clean": "rimraf ./coverage ./dist ./docs src/**/*.js",
+    "predist": "npm run clean && npm run test",
+    "dist": "tsc --project ./tsconfig-dist.json",
+    "postdist": "cp src/types.d.ts dist/lib/index.d.ts && cp -f README.md CHANGELOG.md package.json dist/",
+    "predocs": "rimraf docs",
+    "docs": "typedoc",
+    "postdocs": "cp CHANGELOG.md docs/",
     "lint": "tslint --project .",
-    "clean": "rimraf ./coverage ./dist ./docs ./tdocs",
-    "dist": "npm run test && tsc --project ./tsconfig-dist.json",
     "pretest": "npm run lint && tsc",
     "test": "jest",
-    "watch": "jest --watch",
-    "jsdoc": "npm run clean && tsc --project ./tsconfig-dist.json && jsdoc -c jsdoc.json",
-    "typedoc": "npm run clean && tsc --project ./tsconfig-dist.json && typedoc"
+    "watch": "jest --watch"
   }
 }

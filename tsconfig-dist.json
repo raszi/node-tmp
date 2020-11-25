@@ -2,21 +2,21 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "removeComments": false,
+    "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "inlineSources": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "declaration": true,
-    "outDir": "dist"
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": false,
+    "declaration": false,
+    "newLine": "lf",
+    "outDir": "dist/lib"
   },
   "compileOnSave": false,
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "test/**/*"
-  ],
-  "file": [ "src/types.d.ts", "src/internal/gc_types.d.ts" ]
+    "node_modules", "test/**/*"
+  ]
 }

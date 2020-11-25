@@ -13,7 +13,7 @@ class LegacyInterfaceSupportTestSuite {
 
     @test
     public tmpdirMustExit() {
-        assert.equal(tmp.tmpdir, PathUtils.normalizedOsTmpDir);
+        assert.strictEqual(tmp.tmpdir, PathUtils.normalizedOsTmpDir);
     }
 
     @test

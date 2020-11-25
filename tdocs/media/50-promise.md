@@ -1,3 +1,0 @@
-# Promise Interface
-
-TODO

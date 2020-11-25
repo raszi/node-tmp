@@ -1,8 +1,7 @@
 {
-  "inputFiles": ["./src"],
-  "out": "tdocs",
+  "inputFiles": ["./src", "tutorials"],
+  "out": "docs",
   "mode": "file",
-  "media": "tutorials",
   "exclude": ["./src/internal/*", "./test/**/*"],
   "includeVersion": true,
   "excludePrivate": true,

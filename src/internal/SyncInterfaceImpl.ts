@@ -1,4 +1,4 @@
-import {Options, SyncInterface, SyncResult} from '..';
+import {Options, SyncInterface, SyncResult} from '../types';
 
 import AbstractInterfaceBase from './AbstractInterfaceBase';
 import Configuration from './Configuration';

@@ -8,4 +8,7 @@ CHANGELOG.add.md
 CHANGELOG.new.md.tmp
 dist
 docs
-*.js
+tdocs
+src/**/*.js
+test/**/*.js
+*.js.map

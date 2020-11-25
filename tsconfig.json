@@ -8,11 +8,11 @@
     "inlineSources": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "newLine": "lf",
     "declaration": false
   },
   "compileOnSave": false,
   "include": [
     "src/**/*", "test/**/*"
-  ],
-  "file": [ "src/types.d.ts", "src/internal/gc_types.d.ts" ]
+  ]
 }

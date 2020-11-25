@@ -1,4 +1,4 @@
-import {AsyncCreationCallback, AsyncInterface, AsyncNamingCallback, Options} from '..';
+import {AsyncCreationCallback, AsyncInterface, AsyncNamingCallback, Options} from '../types';
 
 import AbstractInterfaceBase from './AbstractInterfaceBase';
 import AsyncObjectCreator from './AsyncObjectCreator';

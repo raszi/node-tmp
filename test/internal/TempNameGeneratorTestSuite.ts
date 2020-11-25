@@ -4,8 +4,6 @@ import TempNameGenerator from '../../src/internal/TempNameGenerator';
 
 import TestUtils from '../TestUtils';
 
-import * as path from 'path';
-
 import {suite, test} from '@testdeck/jest';
 import * as assert from 'assert';
 

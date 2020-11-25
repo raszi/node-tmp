@@ -1,4 +1,4 @@
-import {SyncResult} from '..';
+import {SyncResult} from '../types';
 
 import Configuration from './Configuration';
 import GarbageCollector from './GarbageCollector';

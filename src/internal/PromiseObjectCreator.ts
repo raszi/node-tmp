@@ -1,4 +1,4 @@
-import {PromiseResult} from '..';
+import {PromiseResult} from '../types';
 
 import Configuration from './Configuration';
 import GarbageCollector from './GarbageCollector';

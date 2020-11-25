@@ -1,4 +1,4 @@
-import {BaseInterface, Options} from '..';
+import {BaseInterface, Options} from '../types';
 
 import Configuration from './Configuration';
 import GarbageCollector from './GarbageCollector';

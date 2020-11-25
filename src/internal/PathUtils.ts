@@ -32,8 +32,7 @@ export default class PathUtils {
             return '';
         }
 
-        // TODO do we require support for UNC paths such as \\server\path or //server/path?
-        // replace all occurrences of '/' and '\' by a single '/'
+        // Note: this does not support UNC paths such as \\server\path or //server/path
         const result = [];
         const components = name.replace(/[/]+/g, '/')
             .replace(/[\\]+/g, '/')

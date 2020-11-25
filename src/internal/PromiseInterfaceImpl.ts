@@ -1,5 +1,5 @@
 
-import {Options, PromiseResult, PromiseInterface} from '..';
+import {Options, PromiseResult, PromiseInterface} from '../types';
 
 import AbstractInterfaceBase from './AbstractInterfaceBase';
 import Configuration from './Configuration';

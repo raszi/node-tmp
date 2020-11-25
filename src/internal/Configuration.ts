@@ -1,5 +1,5 @@
 
-import {Options} from '..';
+import {Options} from '../types';
 
 import MathUtils from './MathUtils';
 import PathUtils from './PathUtils';

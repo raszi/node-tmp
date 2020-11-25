@@ -41,18 +41,18 @@ class StringUtilsTestSuite {
 
     @test
     public determinePrefix() {
-        assert.equal(StringUtils.determinePrefix('ab', ['a']), 'a');
-        assert.equal(StringUtils.determinePrefix('ab', ['b']), 'ab');
+        assert.strictEqual(StringUtils.determinePrefix('ab', ['a']), 'a');
+        assert.strictEqual(StringUtils.determinePrefix('ab', ['b']), 'ab');
     }
 
     @test
     public nameFromComponents() {
-        assert.equal(StringUtils.nameFromComponents('a', 'b'), `a-${process.pid}-b`);
-        assert.equal(StringUtils.nameFromComponents('a', 'b', 'c'), `a-${process.pid}-b-c`);
+        assert.strictEqual(StringUtils.nameFromComponents('a', 'b'), `a-${process.pid}-b`);
+        assert.strictEqual(StringUtils.nameFromComponents('a', 'b', 'c'), `a-${process.pid}-b-c`);
     }
 
     @test
     public nameFromTemplate() {
-        assert.equal(StringUtils.nameFromTemplate(/XXX/, 'aXXXb', 'AAA'), `aAAAb`);
+        assert.strictEqual(StringUtils.nameFromTemplate(/XXX/, 'aXXXb', 'AAA'), `aAAAb`);
     }
 }

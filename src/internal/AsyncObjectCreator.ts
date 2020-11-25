@@ -1,4 +1,4 @@
-import {AsyncCreationCallback} from '..';
+import {AsyncCreationCallback} from '../types';
 
 import Configuration from './Configuration';
 import GarbageCollector from './GarbageCollector';

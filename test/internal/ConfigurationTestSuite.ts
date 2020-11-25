@@ -14,20 +14,20 @@ class ConfigurationTestSuite {
     @test
     public defaultConfiguration() {
         function assertions(configuration) {
-            assert.equal(configuration.name, '');
-            assert.equal(configuration.dir, '');
-            assert.equal(configuration.tmpdir, PathUtils.normalizedOsTmpDir);
-            assert.equal(configuration.template, '');
-            assert.equal(configuration.prefix, 'tmp');
-            assert.equal(configuration.postfix, '');
-            assert.equal(configuration.tmpdir, os.tmpdir());
-            assert.equal(configuration.tries, Configuration.DEFAULT_TRIES);
-            assert.equal(configuration.fileMode, Configuration.DEFAULT_FILE_MODE);
-            assert.equal(configuration.fileFlags, Configuration.DEFAULT_FILE_FLAGS);
-            assert.equal(configuration.dirMode, Configuration.DEFAULT_DIR_MODE);
-            assert.equal(configuration.keep, false);
-            assert.equal(configuration.forceClean, false);
-            assert.equal(configuration.length, Configuration.DEFAULT_LENGTH);
+            assert.strictEqual(configuration.name, '');
+            assert.strictEqual(configuration.dir, '');
+            assert.strictEqual(configuration.tmpdir, PathUtils.normalizedOsTmpDir);
+            assert.strictEqual(configuration.template, '');
+            assert.strictEqual(configuration.prefix, 'tmp');
+            assert.strictEqual(configuration.postfix, '');
+            assert.strictEqual(configuration.tmpdir, os.tmpdir());
+            assert.strictEqual(configuration.tries, Configuration.DEFAULT_TRIES);
+            assert.strictEqual(configuration.fileMode, Configuration.DEFAULT_FILE_MODE);
+            assert.strictEqual(configuration.fileFlags, Configuration.DEFAULT_FILE_FLAGS);
+            assert.strictEqual(configuration.dirMode, Configuration.DEFAULT_DIR_MODE);
+            assert.strictEqual(configuration.keep, false);
+            assert.strictEqual(configuration.forceClean, false);
+            assert.strictEqual(configuration.length, Configuration.DEFAULT_LENGTH);
         }
 
         assertions(new Configuration({}));
@@ -36,31 +36,31 @@ class ConfigurationTestSuite {
     @test
     public invalidOrUndefinedTriesMustHaveBeenCompensatedFor() {
         let configuration = new Configuration({ tries: -1 });
-        assert.equal(configuration.tries, Configuration.MIN_TRIES);
+        assert.strictEqual(configuration.tries, Configuration.MIN_TRIES);
 
         configuration = new Configuration({ tries: NaN });
-        assert.equal(configuration.tries, Configuration.MIN_TRIES);
+        assert.strictEqual(configuration.tries, Configuration.MIN_TRIES);
 
         configuration = new Configuration({ tries: 0 });
-        assert.equal(configuration.tries, Configuration.MIN_TRIES);
+        assert.strictEqual(configuration.tries, Configuration.MIN_TRIES);
 
         configuration = new Configuration({ tries: 100 });
-        assert.equal(configuration.tries, Configuration.MAX_TRIES);
+        assert.strictEqual(configuration.tries, Configuration.MAX_TRIES);
 
         configuration = new Configuration({});
-        assert.equal(configuration.tries, Configuration.DEFAULT_TRIES);
+        assert.strictEqual(configuration.tries, Configuration.DEFAULT_TRIES);
     }
 
     @test
     public userProvidedValidTries() {
         let configuration = new Configuration({ tries: Configuration.MIN_TRIES });
-        assert.equal(configuration.tries, Configuration.MIN_TRIES);
+        assert.strictEqual(configuration.tries, Configuration.MIN_TRIES);
 
         configuration = new Configuration({ tries: 5 });
-        assert.equal(configuration.tries, 5);
+        assert.strictEqual(configuration.tries, 5);
 
         configuration = new Configuration({ tries: Configuration.MAX_TRIES });
-        assert.equal(configuration.tries, Configuration.MAX_TRIES);
+        assert.strictEqual(configuration.tries, Configuration.MAX_TRIES);
     }
 
     @test
@@ -73,7 +73,7 @@ class ConfigurationTestSuite {
     @test
     public onTemplateLengthMustEqualTemplateLength() {
         const configuration = new Configuration({ template: 'XXXXXX' });
-        assert.equal(configuration.length, Configuration.MIN_LENGTH);
+        assert.strictEqual(configuration.length, Configuration.MIN_LENGTH);
     }
 
     @test
@@ -83,7 +83,7 @@ class ConfigurationTestSuite {
         });
     }
 
-    @test.only
+    @test
     public validationMustFailOnDirTryingToEscapeRootTmpDir() {
         assert.throws(() => {
             const _ = new Configuration({ dir: PathUtils.join('..', 'etc') });
@@ -134,18 +134,18 @@ class ConfigurationTestSuite {
     @test
     public mustNotFailOnLengthLessThanExpectedMinimumLength() {
         const configuration = new Configuration({ length: 5 });
-        assert.equal(configuration.length, Configuration.MIN_LENGTH);
+        assert.strictEqual(configuration.length, Configuration.MIN_LENGTH);
     }
 
     @test
     public mustNotFailOnLengthGreaterThanExpectedMaximumLength() {
         const configuration = new Configuration({ length: 25 });
-        assert.equal(configuration.length, Configuration.MAX_LENGTH);
+        assert.strictEqual(configuration.length, Configuration.MAX_LENGTH);
     }
 
     @test
     public lengthMustHaveUserDefinedValue() {
         const configuration = new Configuration({ length: 20 });
-        assert.equal(configuration.length, 20);
+        assert.strictEqual(configuration.length, 20);
     }
 }

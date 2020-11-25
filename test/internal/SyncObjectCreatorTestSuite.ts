@@ -18,11 +18,13 @@ class SyncObjectCreatorTestSuite {
     public before() {
         TestUtils.discard(this.FILE);
         TestUtils.discard(this.DIR);
+        GarbageCollector.INSTANCE.forceClean = false;
     }
 
     public after() {
         TestUtils.discard(this.FILE);
         TestUtils.discard(this.DIR);
+        GarbageCollector.INSTANCE.forceClean = false;
     }
 
     @test
@@ -30,12 +32,12 @@ class SyncObjectCreatorTestSuite {
         const configuration = new Configuration({ name: this.FILE });
         const name = TestUtils.qualifiedPath(configuration.name);
         const result = this.sut.createFile(name, configuration);
-        assert.equal(result.name, name);
+        assert.strictEqual(result.name, name);
         assert.ok(typeof result.dispose === 'function');
         assert.ok(TestUtils.fileExists(result.name));
         assert.ok(typeof result.removeCallback === 'function');
         result.dispose();
-        assert.ok(!TestUtils.fileExists(result.name));
+        assert.ok(TestUtils.notExists(result.name));
         assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(name));
     }
 
@@ -44,13 +46,13 @@ class SyncObjectCreatorTestSuite {
         const configuration = new Configuration({ name: this.DIR });
         const name = TestUtils.qualifiedPath(configuration.name);
         const result = this.sut.createDir(name, configuration);
-        assert.equal(result.name, name);
+        assert.strictEqual(result.name, name);
         assert.ok(TestUtils.dirExists(result.name));
         assert.ok(typeof result.dispose === 'function');
         assert.ok(typeof result.removeCallback === 'function');
         result.dispose();
         assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(name));
-        assert.ok(!TestUtils.dirExists(result.name));
+        assert.ok(TestUtils.notExists(result.name));
     }
 
     // TODO: createFileDisposeMustNotTryToUnlinkNonExistingObject
@@ -60,15 +62,11 @@ class SyncObjectCreatorTestSuite {
     public createDirDisposeMustForceCleanOnGlobalSetting() {
         const configuration = new Configuration({ name: this.DIR });
         const name = TestUtils.qualifiedPath(configuration.name);
-        try {
-            const result = this.sut.createDir(name, configuration);
-            TestUtils.createTempFile(TestUtils.qualifiedSubPath(this.FILE, result.name));
-            GarbageCollector.INSTANCE.forceClean = true;
-            result.dispose();
-            assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(name));
-        } finally {
-            GarbageCollector.INSTANCE.forceClean = false;
-        }
+        const result = this.sut.createDir(name, configuration);
+        TestUtils.createTempFile(TestUtils.qualifiedSubPath(this.FILE, result.name));
+        GarbageCollector.INSTANCE.forceClean = true;
+        result.dispose();
+        assert.ok(!GarbageCollector.INSTANCE.isRegisteredObject(name));
     }
 
     @test

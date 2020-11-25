@@ -1,5 +1,3 @@
-// import {Garbage} from './gc_types';
-
 import Configuration from './Configuration';
 import GarbageDisposer from './GarbageDisposer';
 import GarbagePruner from './GarbagePruner';

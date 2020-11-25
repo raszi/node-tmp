@@ -1,4 +1,4 @@
-import {AsyncInterface} from '../../src';
+import {AsyncInterface} from '../../src/types';
 
 import AsyncInterfaceImpl from '../../src/internal/AsyncInterfaceImpl';
 
@@ -31,7 +31,7 @@ class AsyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<AsyncInterf
         this.sut.name((err, name) => {
             if (err) { return done(err); }
             try {
-                assert.equal(name, TestUtils.qualifiedPath(this.FILE));
+                assert.strictEqual(name, TestUtils.qualifiedPath(this.FILE));
                 return done();
             } catch (err) {
                 return done(err);
@@ -41,9 +41,7 @@ class AsyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<AsyncInterf
 
     @test
     public nameMustHandleErrorsAsExpected(done) {
-        (this.sut as any)._nameGenerator = { generate: (configuration) => {
-            throw new Error();
-        }};
+        (this.sut as any)._nameGenerator = { generate: (configuration) => { throw new Error(); }};
         this.sut.name((err, name) => {
             try {
                 assert.ok(err instanceof Error);
@@ -59,12 +57,18 @@ class AsyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<AsyncInterf
         this.sut.file((err, result) => {
             if (err) { return done(err); }
             try {
-                assert.equal(result.name, TestUtils.qualifiedPath(this.FILE));
+                assert.strictEqual(result.name, TestUtils.qualifiedPath(this.FILE));
                 assert.ok(TestUtils.fileExists(result.name));
-                // TODO: assert is file
                 assert.ok(typeof result.dispose === 'function');
-                result.dispose();
-                return done();
+                result.dispose((err) => {
+                    if (err) { return done(err); }
+                    try {
+                        assert.ok(TestUtils.notExists(result.name));
+                        return done();
+                    } catch (ex) {
+                        return done(ex);
+                    }
+                });
             } catch (err) {
                 return done(err);
             }
@@ -73,9 +77,7 @@ class AsyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<AsyncInterf
 
     @test
     public fileMustHandleNameErrorsAsExpected(done) {
-        (this.sut as any)._nameGenerator = { generate: (configuration) => {
-                throw new Error();
-            }};
+        (this.sut as any)._nameGenerator = { generate: (configuration) => { throw new Error(); }};
         this.sut.file((err) => {
             try {
                 assert.ok(err instanceof Error);
@@ -88,9 +90,7 @@ class AsyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<AsyncInterf
 
     @test
     public fileMustHandleObjectCreationErrorsAsExpected(done) {
-        (this.sut as any)._creator = { createFile: (name, configuration, cb) => {
-                return cb(new Error());
-            }};
+        (this.sut as any)._creator = { createFile: (name, configuration, cb) => { return cb(new Error()); }};
         this.sut.file((err) => {
             try {
                 assert.ok(err instanceof Error);
@@ -106,12 +106,18 @@ class AsyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<AsyncInterf
         this.sut.dir((err, result) => {
             if (err) { return done(err); }
             try {
-                assert.equal(result.name, TestUtils.qualifiedPath(this.DIR));
+                assert.strictEqual(result.name, TestUtils.qualifiedPath(this.DIR));
                 assert.ok(TestUtils.dirExists(result.name));
-                // TODO: assert is dir
                 assert.ok(typeof result.dispose === 'function');
-                result.dispose();
-                return done();
+                result.dispose((err) => {
+                    if (err) { return done(err); }
+                    try {
+                        assert.ok(TestUtils.notExists(result.name));
+                        return done();
+                    } catch (ex) {
+                        return done(ex);
+                    }
+                });
             } catch (err) {
                 return done(err);
             }
@@ -120,9 +126,7 @@ class AsyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<AsyncInterf
 
     @test
     public dirMustHandleNameErrorsAsExpected(done) {
-        (this.sut as any)._nameGenerator = { generate: (configuration) => {
-                throw new Error();
-            }};
+        (this.sut as any)._nameGenerator = { generate: (configuration) => { throw new Error(); }};
         this.sut.dir((err) => {
             try {
                 assert.ok(err instanceof Error);
@@ -135,9 +139,7 @@ class AsyncInterfaceTestSuite extends AbstractInterfaceTestSuiteBase<AsyncInterf
 
     @test
     public dirMustHandleObjectCreationErrorsAsExpected(done) {
-        (this.sut as any)._creator = { createDir: (name, configuration, cb) => {
-                return cb(new Error());
-            }};
+        (this.sut as any)._creator = { createDir: (name, configuration, cb) => { return cb(new Error()); }};
         this.sut.dir((err) => {
             try {
                 assert.ok(err instanceof Error);

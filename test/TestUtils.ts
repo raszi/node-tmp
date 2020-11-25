@@ -11,6 +11,7 @@ export default class TestUtils {
             const stat = fs.statSync(name);
             return stat.isFile();
         } catch (err) {
+            console.log(err);
             return false;
         }
     }
@@ -22,6 +23,10 @@ export default class TestUtils {
         } catch (err) {
             return false;
         }
+    }
+
+    public static notExists(name: string): boolean {
+        return !fs.existsSync(name);
     }
 
     public static createTempDir(name: string): void {
