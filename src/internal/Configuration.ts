@@ -26,10 +26,9 @@ export default class Configuration {
     public static defaultOptions: Options = {
         prefix: Configuration.DEFAULT_PREFIX, length: Configuration.DEFAULT_LENGTH, tries: Configuration.DEFAULT_TRIES,
         fileMode: Configuration.DEFAULT_FILE_MODE, fileFlags: Configuration.DEFAULT_FILE_FLAGS,
-        dirMode: Configuration.DEFAULT_DIR_MODE, forceClean: false,
+        dirMode: Configuration.DEFAULT_DIR_MODE, forceClean: false, dir: '',
         // TODO 1.0.0 remove
-        unsafeCleanup: false,
-        dir: ''
+        unsafeCleanup: false
     };
 
     public readonly tmpdir: string;
