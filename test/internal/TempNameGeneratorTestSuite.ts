@@ -1,8 +1,8 @@
 import Configuration from '../../src/internal/Configuration';
-import StringUtils from '../../src/internal/StringUtils';
+import {nameFromComponents, nameFromTemplate} from '../../src/internal/StringUtils';
 import TempNameGenerator from '../../src/internal/TempNameGenerator';
 
-import TestUtils from '../TestUtils';
+import * as TestUtils from '../TestUtils';
 
 import {suite, test} from '@testdeck/jest';
 import * as assert from 'assert';
@@ -63,7 +63,7 @@ class TempNameGeneratorTestSuite {
                 return 'duplicate';
             }
         };
-        const name = StringUtils.nameFromTemplate(Configuration.TEMPLATE_REGEXP, configuration.template, 'duplicate');
+        const name = nameFromTemplate(Configuration.TEMPLATE_REGEXP, configuration.template, 'duplicate');
         TestUtils.createTempFile(name);
         assert.throws(() => { this.sut.generate(configuration); });
     }
@@ -76,7 +76,7 @@ class TempNameGeneratorTestSuite {
                 return 'duplicate';
             }
         };
-        const name = StringUtils.nameFromComponents(configuration.prefix, 'duplicate');
+        const name = nameFromComponents(configuration.prefix, 'duplicate');
         TestUtils.createTempFile(name);
         try {
             assert.throws(() => {
@@ -95,7 +95,7 @@ class TempNameGeneratorTestSuite {
                 return 'duplicate';
             }
         };
-        const name = StringUtils.nameFromComponents(configuration.prefix, 'duplicate', configuration.postfix);
+        const name = nameFromComponents(configuration.prefix, 'duplicate', configuration.postfix);
         TestUtils.createTempFile(name);
         try {
             assert.throws(() => { this.sut.generate(configuration); });

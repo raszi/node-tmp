@@ -2,7 +2,7 @@ import {AsyncInterface} from '../../src/types';
 
 import AsyncInterfaceImpl from '../../src/internal/AsyncInterfaceImpl';
 
-import TestUtils from '../TestUtils';
+import * as TestUtils from '../TestUtils';
 
 import AbstractInterfaceTestSuiteBase from './AbstractInterfaceTestSuiteBase';
 

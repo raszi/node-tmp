@@ -1,6 +1,6 @@
-import PathUtils from '../../src/internal/PathUtils';
+import * as PathUtils from '../../src/internal/PathUtils';
 
-import TestUtils from '../TestUtils';
+import * as TestUtils from '../TestUtils';
 
 import * as os from 'os';
 
@@ -41,7 +41,7 @@ class PathUtilsTestSuite {
 
     @test
     public exists() {
-        assert.ok(PathUtils.exists(PathUtils.osTmpDir));
+        assert.ok(PathUtils.exists(PathUtils.osTmpDir()));
         assert.ok(!PathUtils.exists(TestUtils.nativeRootPath(['tmp-NON_EXISTING'])));
     }
 
@@ -79,12 +79,12 @@ class PathUtilsTestSuite {
 
     @test
     public osTmpDir() {
-        assert.strictEqual(PathUtils.osTmpDir, os.tmpdir());
+        assert.strictEqual(PathUtils.osTmpDir(), os.tmpdir());
     }
 
     @test
     public normalizedOsTmpDir() {
-        assert.strictEqual(PathUtils.normalizedOsTmpDir, os.tmpdir());
+        assert.strictEqual(PathUtils.normalizedOsTmpDir(), os.tmpdir());
     }
 
     @test

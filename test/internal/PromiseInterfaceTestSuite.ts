@@ -2,7 +2,7 @@ import {PromiseInterface} from '../../src/types';
 
 import PromiseInterfaceImpl from '../../src/internal/PromiseInterfaceImpl';
 
-import TestUtils from '../TestUtils';
+import * as TestUtils from '../TestUtils';
 import AbstractInterfaceTestSuiteBase from './AbstractInterfaceTestSuiteBase';
 
 import {suite, test} from '@testdeck/jest';

@@ -2,7 +2,7 @@ import Configuration from '../../src/internal/Configuration';
 import GarbageCollector from '../../src/internal/GarbageCollector';
 import SyncObjectCreator from '../../src/internal/SyncObjectCreator';
 
-import TestUtils from '../TestUtils';
+import * as TestUtils from '../TestUtils';
 
 import {suite, test} from '@testdeck/jest';
 import * as assert from 'assert';

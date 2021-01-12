@@ -3,7 +3,7 @@ module.exports = {
   testMatch: ['<rootDir>/test/**/*TestSuite.ts'],
   collectCoverage: true,
   verbose: true,
-  collectCoverageFrom: [ '<rootDir>/src/*/*.ts' ],
+  collectCoverageFrom: [ '<rootDir>/src/**/*.js' ],
   coverageThreshold: {
     global: {
       branches: 0,

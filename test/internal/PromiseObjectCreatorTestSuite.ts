@@ -4,7 +4,7 @@ import Configuration from '../../src/internal/Configuration';
 import GarbageCollector from '../../src/internal/GarbageCollector';
 import PromiseObjectCreator from '../../src/internal/PromiseObjectCreator';
 
-import TestUtils from '../TestUtils';
+import * as TestUtils from '../TestUtils';
 
 import {suite, test} from '@testdeck/jest';
 import * as assert from 'assert';

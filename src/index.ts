@@ -1,60 +1,17 @@
 import {
-    AsyncInterface,
     AsyncNamingCallback,
     DirOrFileCallback,
     Options,
-    PromiseInterface,
-    SyncInterface,
     SyncResult
 } from './types';
 
-import AsyncInterfaceImpl from './internal/AsyncInterfaceImpl';
-import PromiseInterfaceImpl from './internal/PromiseInterfaceImpl';
-import SyncInterfaceImpl from './internal/SyncInterfaceImpl';
-
 import GarbageCollector from './internal/GarbageCollector';
-import PathUtils from './internal/PathUtils';
+import {normalizedOsTmpDir} from './internal/PathUtils';
 
-/**
- * This is the singleton instance of the {@link SyncInterface}.
- *
- * @public
- *
- * @example
- * import {sync as tmp} from 'tmp';
- *
- * @example
- * const tmp = require('tmp').sync;
- *
- * @category Interfaces / Sync
- */
-export const sync : SyncInterface = new SyncInterfaceImpl();
+import tmpAsync from './async';
+import tmpSync from './sync';
 
-/**
- * This is the singleton instance of the {@link AsyncInterface}.
- *
- * @example
- * import {async as tmp} from 'tmp';
- *
- * @example
- * const tmp = require('tmp').async;
- *
- * @category Interfaces / Async
- */
-export const async : AsyncInterface = new AsyncInterfaceImpl();
-
-/**
- * This is the singleton instance of the {@link PromiseInterface}.
- *
- * @example
- * import {promise as tmp} from 'tmp';
- *
- * @example
- * const tmp = require('tmp').promise;
- *
- * @category Interfaces / Promise
- */
-export const promise : PromiseInterface = new PromiseInterfaceImpl();
+import './internal/InstallListeners';
 
 /**
  * @function
@@ -74,7 +31,7 @@ export function setGracefulCleanup() {
  *
  * @category Tmp Legacy Interface
  */
-export const tmpdir: string = PathUtils.normalizedOsTmpDir;
+export const tmpdir: string = normalizedOsTmpDir();
 
 /**
  * @function
@@ -86,7 +43,7 @@ export const tmpdir: string = PathUtils.normalizedOsTmpDir;
  * @category Tmp Legacy Interface
  */
 export function tmpNameSync(options: Options = {}): string {
-    return sync.name(options);
+    return tmpSync.name(options);
 }
 
 /**
@@ -99,7 +56,7 @@ export function tmpNameSync(options: Options = {}): string {
  * @category Tmp Legacy Interface
  */
 export function fileSync(options: Options = {}): SyncResult {
-    return sync.file(options);
+    return tmpSync.file(options);
 }
 
 /**
@@ -112,7 +69,7 @@ export function fileSync(options: Options = {}): SyncResult {
  * @category Tmp Legacy Interface
  */
 export function dirSync(options: Options = {}): SyncResult {
-    return sync.dir(options);
+    return tmpSync.dir(options);
 }
 
 /**
@@ -126,7 +83,7 @@ export function dirSync(options: Options = {}): SyncResult {
  */
 export function tmpName(callbackOrOptions: Options | AsyncNamingCallback, callback?: AsyncNamingCallback): void {
     const [opts, cb] = _parseArguments(callbackOrOptions, callback);
-    return async.name(cb, opts);
+    return tmpAsync.name(cb, opts);
 }
 
 /**
@@ -140,7 +97,7 @@ export function tmpName(callbackOrOptions: Options | AsyncNamingCallback, callba
  */
 export function file(callbackOrOptions: Options | DirOrFileCallback, callback?: DirOrFileCallback): void {
     const [opts, cb] = _parseArguments(callbackOrOptions, callback);
-    return async.file((err, result) => {
+    return tmpAsync.file((err, result) => {
         if (err) {
             return cb(err);
         } else {
@@ -160,7 +117,7 @@ export function file(callbackOrOptions: Options | DirOrFileCallback, callback?: 
  */
 export function dir(callbackOrOptions: Options | DirOrFileCallback, callback?: DirOrFileCallback): void {
     const [opts, cb] = _parseArguments(callbackOrOptions, callback);
-    return async.dir((err, result) => {
+    return tmpAsync.dir((err, result) => {
         if (err) {
             return cb(err);
         } else {
@@ -187,29 +144,3 @@ function _parseArguments(callbackOrOptions, callback) {
         return [callbackOrOptions, callback];
     }
 }
-
-/**
- * Process exit listener.
- *
- * This gets installed by default in order to make sure that all remaining garbage will be removed on process exit.
- *
- * Note that if a process keeps an active lock on any of the temporary objects created by tmp, then these objects
- * will remain in place and cannot be removed.
- *
- * Note also, that for all file and directory objects that have been configured for {@link Options#keep}ing but which
- * are children of a temporary directory that can be removed by tmp, especially when the {@link Options#forceClean}
- * option has been set, then these objects will be removed as well.
- *
- * In order to clean up on SIGINT, e.g. CTRL-C, you will have to install a handler yourself, see the below example.
- *
- * @example
- * process.on('SIGINT', process.exit);
- *
- * @function exit_listener
- * @protected
- *
- * @category Installed Listeners
- */
-process.on('exit', function () {
-    GarbageCollector.INSTANCE.dispose();
-});

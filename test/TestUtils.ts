@@ -1,62 +1,61 @@
 import Configuration from '../src/internal/Configuration';
-import PathUtils from '../src/internal/PathUtils';
+import {exists, isWin32, normalizedOsTmpDir, resolvePath} from '../src/internal/PathUtils';
 
 import * as fs from 'fs';
 import * as path from 'path';
 import rimraf = require('rimraf');
 
-export default class TestUtils {
-    public static fileExists(name: string): boolean {
-        try {
-            const stat = fs.statSync(name);
-            return stat.isFile();
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
+export function fileExists(name: string): boolean {
+    try {
+        const stat = fs.statSync(name);
+        return stat.isFile();
+    } catch (err) {
+        console.log(err);
+        return false;
     }
+}
 
-    public static dirExists(name: string): boolean {
-        try {
-            const stat = fs.statSync(name);
-            return stat.isDirectory();
-        } catch (err) {
-            return false;
-        }
+export function dirExists(name: string): boolean {
+    try {
+        const stat = fs.statSync(name);
+        return stat.isDirectory();
+    } catch (err) {
+        console.log(err);
+        return false;
     }
+}
 
-    public static notExists(name: string): boolean {
-        return !fs.existsSync(name);
-    }
+export function notExists(name: string): boolean {
+    return !exists(name);
+}
 
-    public static createTempDir(name: string): void {
-        fs.mkdirSync(this.qualifiedPath(name), Configuration.DEFAULT_DIR_MODE);
-    }
+export function createTempDir(name: string): void {
+    fs.mkdirSync(qualifiedPath(name), Configuration.DEFAULT_DIR_MODE);
+}
 
-    public static discard(name: string): void {
-        rimraf.sync(this.qualifiedPath(name));
-    }
+export function discard(name: string): void {
+    rimraf.sync(qualifiedPath(name));
+}
 
-    public static createTempFile(name: string): void {
-        const fd: number = fs.openSync(this.qualifiedPath(name), Configuration.DEFAULT_FILE_FLAGS, Configuration.DEFAULT_FILE_MODE);
-        fs.closeSync(fd);
-    }
+export function createTempFile(name: string): void {
+    const fd: number = fs.openSync(qualifiedPath(name), Configuration.DEFAULT_FILE_FLAGS, Configuration.DEFAULT_FILE_MODE);
+    fs.closeSync(fd);
+}
 
-    public static qualifiedSubPath(name: string, root: string): string {
-        return path.join(root, name);
-    }
+export function qualifiedSubPath(name: string, root: string): string {
+    return path.join(root, name);
+}
 
-    public static qualifiedPath(name: string): string {
-        return PathUtils.resolvePath(name, PathUtils.normalizedOsTmpDir);
-    }
+export function qualifiedPath(name: string): string {
+    return resolvePath(name, normalizedOsTmpDir());
+}
 
-    public static nativeRootPath(components: string[]): string {
-        if (PathUtils.isWin32) {
-            // FIXME this must not be fixed to C:
-            return [ 'C:', ...components ].join(path.sep);
-        } else {
-            // FIXME this must not be fixed to /
-            return [ '', ...components ].join(path.sep);
-        }
+export function nativeRootPath(components: string[]): string {
+    if (isWin32) {
+        // FIXME this must not be fixed to C:
+        return [ 'C:', ...components ].join(path.sep);
+    } else {
+        // FIXME this must not be fixed to /
+        return [ '', ...components ].join(path.sep);
     }
 }

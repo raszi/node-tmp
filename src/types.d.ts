@@ -457,3 +457,25 @@ export declare function file(callbackOrOptions: Options | DirOrFileCallback, cal
  * @category Tmp Legacy Interface
  */
 export declare function dir(callbackOrOptions: Options | DirOrFileCallback, callback?: DirOrFileCallback): void;
+
+declare module 'sync' {
+    export = SyncInterface;
+    export function file(options?: Options): SyncResult;
+    export function dir(options?: Options): SyncResult;
+    export function name(options?: Options): string;
+    export function forceClean(): void;
+}
+declare module 'async' {
+    export = AsyncInterface;
+    export function file(callback: AsyncCreationCallback, options?: Options): void;
+    export function dir(callback: AsyncCreationCallback, options?: Options): void;
+    export function name(callback: AsyncNamingCallback, options?: Options): void;
+    export function forceClean(): void;
+}
+declare module 'promise' {
+    export = PromiseInterface;
+    export function file(options?: Options): Promise<PromiseResult>;
+    export function dir(options?: Options): Promise<PromiseResult>;
+    export function name(options?: Options): Promise<string>;
+    export function forceClean(): void;
+}

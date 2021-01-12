@@ -2,7 +2,7 @@ import {BaseInterface, Options} from '../types';
 
 import Configuration from './Configuration';
 import GarbageCollector from './GarbageCollector';
-import PathUtils from './PathUtils';
+import {normalizedOsTmpDir} from './PathUtils';
 import TempNameGenerator from './TempNameGenerator';
 
 export default abstract class AbstractInterfaceBase implements BaseInterface {
@@ -14,7 +14,7 @@ export default abstract class AbstractInterfaceBase implements BaseInterface {
     }
 
     public get tmpdir(): string {
-        return PathUtils.normalizedOsTmpDir;
+        return normalizedOsTmpDir();
     }
 
     public set defaultOptions(options: Options) {

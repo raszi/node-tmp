@@ -1,9 +1,9 @@
 
 import {Options} from '../types';
 
-import MathUtils from './MathUtils';
-import PathUtils from './PathUtils';
-import StringUtils from './StringUtils';
+import {clamp} from './MathUtils';
+import * as PathUtils from './PathUtils';
+import {isBlank} from './StringUtils';
 
 export default class Configuration {
 
@@ -50,21 +50,22 @@ export default class Configuration {
 
     public constructor(options : Options = {}) {
         const mergedOptions: Options = {...Configuration.defaultOptions, ...options};
-        this.tmpdir = StringUtils.isBlank(mergedOptions.tmpdir) ? PathUtils.normalizedOsTmpDir : PathUtils.normalize(mergedOptions.tmpdir);
+        this.tmpdir = isBlank(mergedOptions.tmpdir)
+            ? PathUtils.normalizedOsTmpDir() : PathUtils.normalize(mergedOptions.tmpdir);
         this.name = PathUtils.normalize(mergedOptions.name);
         this.dir = PathUtils.normalize(mergedOptions.dir);
         this.prefix = PathUtils.normalize(mergedOptions.prefix);
         this.postfix = PathUtils.normalize(mergedOptions.postfix);
         this.keep = !!mergedOptions.keep;
-        this.tries = MathUtils.clamp(mergedOptions.tries, Configuration.MIN_TRIES, Configuration.MAX_TRIES);
+        this.tries = clamp(mergedOptions.tries, Configuration.MIN_TRIES, Configuration.MAX_TRIES);
         this.fileMode = mergedOptions.fileMode;
         this.fileFlags = mergedOptions.fileFlags;
         this.dirMode = mergedOptions.dirMode;
         // TODO 1.0.0 remove support for template and unsafeCleanup
         this.template = PathUtils.normalize(mergedOptions.template);
         this.forceClean = !!mergedOptions.unsafeCleanup || !!mergedOptions.forceClean;
-        const length = StringUtils.isBlank(this.template) ? mergedOptions.length : Configuration.MIN_LENGTH;
-        this.length = MathUtils.clamp(length, Configuration.MIN_LENGTH, Configuration.MAX_LENGTH);
+        const length = isBlank(this.template) ? mergedOptions.length : Configuration.MIN_LENGTH;
+        this.length = clamp(length, Configuration.MIN_LENGTH, Configuration.MAX_LENGTH);
 
         this.validate();
     }
@@ -78,7 +79,7 @@ export default class Configuration {
         if (!PathUtils.exists(this.tmpdir)) {
             throw new Error(`configured tmpdir '${this.tmpdir}' does not exist.`);
         }
-        const dirIsNotBlank = !StringUtils.isBlank(this.dir);
+        const dirIsNotBlank = !isBlank(this.dir);
         if (dirIsNotBlank && !PathUtils.exists(PathUtils.resolvePath(this.dir, this.tmpdir))) {
             throw new Error(`configured dir '${this.dir}' does not exist.`);
         }
@@ -90,7 +91,7 @@ export default class Configuration {
         if (PathUtils.containsPathSeparator(this.template)) {
             throw new Error(`Invalid template, must not contain path separator, got '${this.template}'.`);
         }
-        if (!StringUtils.isBlank(this.template) && !this.template.match(Configuration.TEMPLATE_REGEXP)) {
+        if (!isBlank(this.template) && !this.template.match(Configuration.TEMPLATE_REGEXP)) {
             throw new Error(`Invalid template, got '${this.template}'.`);
         }
         if (PathUtils.containsPathSeparator(this.name)) {

@@ -2,7 +2,7 @@ import AsyncObjectCreator from '../../src/internal/AsyncObjectCreator';
 import Configuration from '../../src/internal/Configuration';
 import GarbageCollector from '../../src/internal/GarbageCollector';
 
-import TestUtils from '../TestUtils';
+import * as TestUtils from '../TestUtils';
 
 import * as fs from 'fs';
 

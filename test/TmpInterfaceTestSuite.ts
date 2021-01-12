@@ -1,5 +1,21 @@
-
-import * as tmp from '../src';
+import {
+    default as tmpAsync,
+    dir as asyncDir,
+    file as asyncFile,
+    forceClean as asyncForceClean
+} from '../src/async';
+import {
+    default as tmpPromise,
+    dir as promiseDir,
+    file as promiseFile,
+    forceClean as promiseForceClean
+} from '../src/promise';
+import {
+    default as tmpSync,
+    dir as syncDir,
+    file as syncFile,
+    forceClean as syncForceClean
+} from '../src/sync';
 
 import AsyncInterfaceImpl from '../src/internal/AsyncInterfaceImpl';
 import PromiseInterfaceImpl from '../src/internal/PromiseInterfaceImpl';
@@ -13,16 +29,16 @@ class TmpInterfaceTestSuite {
 
     @test
     public asyncInterfaceMustExist() {
-        assert.ok(tmp.async instanceof AsyncInterfaceImpl);
+        assert.ok(tmpAsync instanceof AsyncInterfaceImpl);
     }
 
     @test
     public syncInterfaceMustExist() {
-        assert.ok(tmp.sync instanceof SyncInterfaceImpl);
+        assert.ok(tmpSync instanceof SyncInterfaceImpl);
     }
 
     @test
     public promiseInterfaceMustExist() {
-        assert.ok(tmp.promise instanceof PromiseInterfaceImpl);
+        assert.ok(tmpPromise instanceof PromiseInterfaceImpl);
     }
 }

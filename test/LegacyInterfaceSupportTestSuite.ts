@@ -1,6 +1,6 @@
 import * as tmp from '../src';
 
-import PathUtils from '../src/internal/PathUtils';
+import {normalizedOsTmpDir} from '../src/internal/PathUtils';
 
 import {suite, test} from '@testdeck/jest';
 import * as assert from 'assert';
@@ -13,7 +13,7 @@ class LegacyInterfaceSupportTestSuite {
 
     @test
     public tmpdirMustExit() {
-        assert.strictEqual(tmp.tmpdir, PathUtils.normalizedOsTmpDir);
+        assert.strictEqual(tmp.tmpdir, normalizedOsTmpDir());
     }
 
     @test

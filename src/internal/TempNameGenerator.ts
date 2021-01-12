@@ -1,28 +1,27 @@
-
 import Configuration from './Configuration';
-import PathUtils from './PathUtils';
+import {exists, resolvePath} from './PathUtils';
 import RandomNameGenerator from './RandomNameGenerator';
-import StringUtils from './StringUtils';
+import {isBlank, nameFromComponents, nameFromTemplate} from './StringUtils';
 
 export default class TempNameGenerator {
 
     private _nameGenerator: RandomNameGenerator = new RandomNameGenerator();
 
     public generate(configuration: Configuration): string {
-        const root = PathUtils.resolvePath(configuration.dir, configuration.tmpdir);
-        if (!StringUtils.isBlank(configuration.name)) {
-            const result = PathUtils.resolvePath(configuration.name, root);
-            if (!PathUtils.exists(result)) {
+        const root = resolvePath(configuration.dir, configuration.tmpdir);
+        if (!isBlank(configuration.name)) {
+            const result = resolvePath(configuration.name, root);
+            if (!exists(result)) {
                 return result;
             }
             throw new Error(`temporary object '${result}' already exists.`);
-        } else if (!StringUtils.isBlank(configuration.template)) {
+        } else if (!isBlank(configuration.template)) {
             let tries: number = configuration.tries;
             while (tries-- > 0) {
-                const result = PathUtils.resolvePath(StringUtils.nameFromTemplate(
+                const result = resolvePath(nameFromTemplate(
                     Configuration.TEMPLATE_REGEXP, configuration.template,
                     this._nameGenerator.generate(configuration.length)), root);
-                if (!PathUtils.exists(result)) {
+                if (!exists(result)) {
                     return result;
                 }
             }
@@ -30,10 +29,10 @@ export default class TempNameGenerator {
         } else {
             let tries: number = configuration.tries;
             while (tries-- > 0) {
-                const result = PathUtils.resolvePath(StringUtils.nameFromComponents(
+                const result = resolvePath(nameFromComponents(
                     configuration.prefix, this._nameGenerator.generate(configuration.length),
                     configuration.postfix), root);
-                if (!PathUtils.exists(result)) {
+                if (!exists(result)) {
                     return result;
                 }
             }

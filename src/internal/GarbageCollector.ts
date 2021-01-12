@@ -1,8 +1,8 @@
 import Configuration from './Configuration';
 import GarbageDisposer from './GarbageDisposer';
 import GarbagePruner from './GarbagePruner';
-import PathUtils from './PathUtils';
-import StringUtils from './StringUtils';
+import {isRelative} from './PathUtils';
+import {determinePrefix, rsort} from './StringUtils';
 
 export interface Garbage {
     name: string;
@@ -47,7 +47,7 @@ export default class GarbageCollector {
     }
 
     public registerFile(name: string, configuration: Configuration): void {
-        const root: string = StringUtils.determinePrefix(name, StringUtils.rsort(this._branches));
+        const root: string = determinePrefix(name, rsort(this._branches));
         this._leaves.add(name);
         const garbage: Garbage = {
             name,
@@ -80,14 +80,14 @@ export default class GarbageCollector {
         collectedBranches.push(name);
         this._branches.forEach((branch) => {
             /* istanbul ignore else */
-            if (PathUtils.isRelative(branch, name)) {
+            if (isRelative(branch, name)) {
                 collectedBranches.push(branch);
             }
         });
         const collectedLeaves: string[] = [];
         this._leaves.forEach((leaf) =>{
             /* istanbul ignore else */
-           if (PathUtils.isRelative(leaf, name)) {
+           if (isRelative(leaf, name)) {
                collectedLeaves.push(leaf);
            }
         });
@@ -101,7 +101,7 @@ export default class GarbageCollector {
     }
 
     private unregisterFile(name: string): void {
-        const root: string = StringUtils.determinePrefix(name, StringUtils.rsort(this._branches));
+        const root: string = determinePrefix(name, rsort(this._branches));
         if (this._branches.has(root)) {
             delete this._dirGarbage[root].garbage[name];
         } else {

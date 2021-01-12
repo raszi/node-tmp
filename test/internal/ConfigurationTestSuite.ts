@@ -1,7 +1,7 @@
 import Configuration from '../../src/internal/Configuration';
-import PathUtils from '../../src/internal/PathUtils';
+import {join, normalizedOsTmpDir} from '../../src/internal/PathUtils';
 
-import TestUtils from '../TestUtils';
+import * as TestUtils from '../TestUtils';
 
 import * as os from 'os';
 
@@ -16,7 +16,7 @@ class ConfigurationTestSuite {
         function assertions(configuration) {
             assert.strictEqual(configuration.name, '');
             assert.strictEqual(configuration.dir, '');
-            assert.strictEqual(configuration.tmpdir, PathUtils.normalizedOsTmpDir);
+            assert.strictEqual(configuration.tmpdir, normalizedOsTmpDir());
             assert.strictEqual(configuration.template, '');
             assert.strictEqual(configuration.prefix, 'tmp');
             assert.strictEqual(configuration.postfix, '');
@@ -86,7 +86,7 @@ class ConfigurationTestSuite {
     @test
     public validationMustFailOnDirTryingToEscapeRootTmpDir() {
         assert.throws(() => {
-            const _ = new Configuration({ dir: PathUtils.join('..', 'etc') });
+            const _ = new Configuration({ dir: join('..', 'etc') });
         });
     }
 
@@ -96,7 +96,7 @@ class ConfigurationTestSuite {
         (os as any).tmpdir = () => { return TestUtils.nativeRootPath(['tmp-NONEXISTING_TEMP_DIR']); };
         try {
             assert.throws(() => {
-                const _ = new Configuration({ dir: PathUtils.join('..', 'etc') });
+                const _ = new Configuration({ dir: join('..', 'etc') });
             });
         } finally {
             (os as any).tmpdir = origfn;
@@ -106,28 +106,28 @@ class ConfigurationTestSuite {
     @test
     public validationMustFailOnNameContainingPathSeparators() {
         assert.throws(() => {
-            const _ = new Configuration({ name: PathUtils.join('..', 'name') });
+            const _ = new Configuration({ name: join('..', 'name') });
         });
     }
 
     @test
     public validationMustFailOnTemplateContainingPathSeparators() {
         assert.throws(() => {
-            const _ = new Configuration({ template: PathUtils.join('..', 'templateXXXXXX') });
+            const _ = new Configuration({ template: join('..', 'templateXXXXXX') });
         });
     }
 
     @test
     public validationMustFailOnPrefixContainingPathSeparators() {
         assert.throws(() => {
-            const _ = new Configuration({ prefix: PathUtils.join('..', 'prefix') });
+            const _ = new Configuration({ prefix: join('..', 'prefix') });
         });
     }
 
     @test
     public validationMustFailOnPostfixContainingPathSeparators() {
         assert.throws(() => {
-            const _ = new Configuration({ postfix: PathUtils.join('..', 'postfix') });
+            const _ = new Configuration({ postfix: join('..', 'postfix') });
         });
     }
 

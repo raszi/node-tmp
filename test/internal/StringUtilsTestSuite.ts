@@ -1,4 +1,4 @@
-import StringUtils from '../../src/internal/StringUtils';
+import * as  StringUtils from '../../src/internal/StringUtils';
 
 import {suite, test} from '@testdeck/jest';
 import * as assert from 'assert';
