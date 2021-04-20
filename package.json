@@ -43,7 +43,6 @@
     "typescript": "latest"
   },
   "files": [
-    "dist/",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
@@ -60,15 +59,15 @@
   },
   "scripts": {
     "changelog": "lerna-changelog",
-    "clean": "rimraf ./coverage ./dist ./docs src/**/*.js",
+    "clean": "rimraf ./coverage ./dist ./docs src/*.js src/**/*.js test/*.js test/**/*.js",
     "predist": "npm run clean && npm run test",
     "dist": "tsc --project ./tsconfig-dist.json",
-    "postdist": "cp src/types.d.ts dist/lib/index.d.ts && cp -f README.md CHANGELOG.md package.json dist/",
+    "postdist": "cp src/types.d.ts dist/index.d.ts && cp -f LICENSE README.md CHANGELOG.md package.json dist/",
     "predocs": "rimraf docs",
     "docs": "typedoc",
     "postdocs": "cp CHANGELOG.md docs/",
     "lint": "tslint --project .",
-    "pretest": "npm run lint && tsc",
+    "pretest": "npm run lint",
     "test": "jest",
     "watch": "jest --watch"
   }
