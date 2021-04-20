@@ -10,7 +10,7 @@
     "experimentalDecorators": false,
     "declaration": false,
     "newLine": "lf",
-    "outDir": "dist/lib"
+    "outDir": "dist"
   },
   "compileOnSave": false,
   "include": [
