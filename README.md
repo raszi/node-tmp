@@ -341,11 +341,8 @@ All options are optional :)
   * `mode`: the file mode to create with, falls back to `0o600` on file creation and `0o700` on directory creation
   * `prefix`: the optional prefix, defaults to `tmp`
   * `postfix`: the optional postfix
-  * `template`: [`mkstemp`][3] like filename template, no default, can be either an absolute or a relative path that resolves 
-     to a relative path of the system's default temporary directory, must include `XXXXXX` once for random name generation, e.g.
-     'foo/bar/XXXXXX'. Absolute paths are also fine as long as they are relative to os.tmpdir().
-     Any directories along the so specified path must exist, otherwise a ENOENT error will be thrown upon access, 
-     as tmp will not check the availability of the path, nor will it establish the requested path for you. 
+  * `template`: [`mkstemp`][3] like filename template, no default, must include `XXXXXX` once for random name generation, e.g.
+     'foo-bar-XXXXXX'. 
   * `dir`: the optional temporary directory that must be relative to the system's default temporary directory.
      absolute paths are fine as long as they point to a location under the system's default temporary directory.
      Any directories along the so specified path must exist, otherwise a ENOENT error will be thrown upon access, 
