@@ -27,6 +27,20 @@ not.
 If you do not want to store your temporary directories and files in the
 standard OS temporary directory, then you are free to override that as well.
 
+## An Important Note on Previously Undocumented Breaking Changes
+
+All breaking changes that had been introduced, i.e.
+
+- tmpdir must be located under the system defined tmpdir root.
+- Spaces being collapsed into single spaces
+- Removal of all single and double quote characters
+
+have been reverted in v0.2.2 and tmp should now behave as it was before the
+introduction of these breaking changes.
+
+In order to override the system's tmpdir, you will have to use the newly
+introduced tmpdir option.
+
 ## An Important Note on Compatibility
 
 See the [CHANGELOG](./CHANGELOG.md) for more information.
