@@ -40,7 +40,7 @@ introduction of these breaking changes.
 
 Other breaking changes, i.e.
 
-- template must not include any path components
+- template must be relative to tmpdir
 - name must be relative to tmpdir
 - dir option must be relative to tmpdir
 
