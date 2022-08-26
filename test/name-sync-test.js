@@ -4,6 +4,7 @@
 const
   assert = require('assert'),
   os = require('os'),
+  path = require('path'),
   inbandStandardTests = require('./name-inband-standard'),
   tmp = require('../lib/tmp');
 
@@ -53,30 +54,30 @@ describe('tmp', function () {
           }
         });
       });
-      describe('on issue #246', function () {
+      describe('on issue #268', function () {
         const origfn = os.tmpdir;
-        it('must produce correct name on os.tmpdir() returning path that includes double quotes', function () {
+        it(`should not alter ${isWindows ? 'invalid' : 'valid'} path on os.tmpdir() returning path that includes double quotes`, function () {
           const tmpdir = isWindows ? '"C:\\Temp With Spaces"' : '"/tmp with spaces"';
           os.tmpdir = function () {
             return tmpdir;
           };
           const name = tmp.tmpNameSync();
+          const index = name.indexOf(path.sep + tmpdir + path.sep);
           try {
-            assert.ok(name.indexOf('"') === -1);
-            assert.ok(name.startsWith(tmpdir.replace(/["']/g, '')));
+            assert.ok(index > 0, `${tmpdir} should have been a subdirectory name in ${name}`);
           } finally {
             os.tmpdir = origfn;
           }
         });
-        it('must produce correct name on os.tmpdir() returning path that includes single quotes', function () {
+        it('should not alter valid path on os.tmpdir() returning path that includes single quotes', function () {
           const tmpdir = isWindows ? '\'C:\\Temp With Spaces\'' : '\'/tmp with spaces\'';
           os.tmpdir = function () {
             return tmpdir;
           };
           const name = tmp.tmpNameSync();
+          const index = name.indexOf(path.sep + tmpdir + path.sep);
           try {
-            assert.ok(name.indexOf('\'') === -1);
-            assert.ok(name.startsWith(tmpdir.replace(/["']/g, '')));
+            assert.ok(index > 0, `${tmpdir} should have been a subdirectory name in ${name}`);
           } finally {
             os.tmpdir = origfn;
           }
