@@ -16,7 +16,7 @@ module.exports = function (result) {
   // Skip on Windows because symlinks require elevated privileges (instead just
   // create the file)
   if (process.platform === 'win32') {
-    fs.writeFileSync(symlinkTarget);
+    fs.writeFileSync(symlinkTarget, '');
   } else {
     fs.symlinkSync(symlinkSource, symlinkTarget, 'dir');
   }
