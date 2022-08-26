@@ -60,6 +60,18 @@ npm install tmp
 
 Please also check [API docs][4].
 
+## Graceful cleanup
+
+If graceful cleanup is set, tmp will remove all controlled temporary objects on process exit, otherwise the temporary objects will remain in place, waiting to be cleaned up on system restart or otherwise scheduled temporary object removal.
+
+To enforce this, you can call the `setGracefulCleanup()` method:
+
+```javascript
+const tmp = require('tmp');
+
+tmp.setGracefulCleanup();
+```
+
 ### Asynchronous file creation
 
 Simple temporary file creation, the file will be closed and unlinked on process exit.
@@ -317,20 +329,6 @@ const tmp = require('tmp');
 const options = {};
 const tmpname = tmp.tmpNameSync(options);
 console.log('Created temporary filename: ', tmpname);
-```
-
-## Graceful cleanup
-
-If graceful cleanup is set, tmp will remove all controlled temporary objects on process exit, otherwise the
-temporary objects will remain in place, waiting to be cleaned up on system restart or otherwise scheduled temporary
-object removal.
-
-To enforce this, you can call the `setGracefulCleanup()` method:
-
-```javascript
-const tmp = require('tmp');
-
-tmp.setGracefulCleanup();
 ```
 
 ## Options
