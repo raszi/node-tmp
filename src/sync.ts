@@ -1,7 +1,7 @@
 import {
-    Options,
-    SyncInterface,
-    SyncResult
+  Options,
+  SyncInterface,
+  SyncResult
 } from './types';
 
 import SyncInterfaceImpl from './internal/SyncInterfaceImpl';
@@ -39,7 +39,7 @@ export default instance;
  * @category Interfaces / Sync
  */
 export function file(options?: Options): SyncResult {
-    return instance.file(options);
+  return instance.file(options);
 }
 
 /**
@@ -56,7 +56,7 @@ export function file(options?: Options): SyncResult {
  * @category Interfaces / Sync
  */
 export function dir(options?: Options): SyncResult {
-    return instance.dir(options);
+  return instance.dir(options);
 }
 
 /**
@@ -73,7 +73,7 @@ export function dir(options?: Options): SyncResult {
  * @category Interfaces / Sync
  */
 export function name(options?: Options): string {
-    return instance.name(options);
+  return instance.name(options);
 }
 
 /**
@@ -90,5 +90,5 @@ export function name(options?: Options): string {
  * @category Interfaces / Sync
  */
 export function forceClean(): void {
-    instance.forceClean();
+  instance.forceClean();
 }

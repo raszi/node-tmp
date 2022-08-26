@@ -1,8 +1,8 @@
 import {
-    AsyncNamingCallback,
-    DirOrFileCallback,
-    Options,
-    SyncResult
+  AsyncNamingCallback,
+  DirOrFileCallback,
+  Options,
+  SyncResult
 } from './types';
 
 import GarbageCollector from './internal/GarbageCollector';
@@ -21,7 +21,7 @@ import './internal/InstallListeners';
  * @category Tmp Legacy Interface
  */
 export function setGracefulCleanup() {
-    GarbageCollector.INSTANCE.forceClean = true;
+  GarbageCollector.INSTANCE.forceClean = true;
 }
 
 /**
@@ -43,7 +43,7 @@ export const tmpdir: string = normalizedOsTmpDir();
  * @category Tmp Legacy Interface
  */
 export function tmpNameSync(options: Options = {}): string {
-    return tmpSync.name(options);
+  return tmpSync.name(options);
 }
 
 /**
@@ -56,7 +56,7 @@ export function tmpNameSync(options: Options = {}): string {
  * @category Tmp Legacy Interface
  */
 export function fileSync(options: Options = {}): SyncResult {
-    return tmpSync.file(options);
+  return tmpSync.file(options);
 }
 
 /**
@@ -69,7 +69,7 @@ export function fileSync(options: Options = {}): SyncResult {
  * @category Tmp Legacy Interface
  */
 export function dirSync(options: Options = {}): SyncResult {
-    return tmpSync.dir(options);
+  return tmpSync.dir(options);
 }
 
 /**
@@ -82,8 +82,8 @@ export function dirSync(options: Options = {}): SyncResult {
  * @category Tmp Legacy Interface
  */
 export function tmpName(callbackOrOptions: Options | AsyncNamingCallback, callback?: AsyncNamingCallback): void {
-    const [opts, cb] = _parseArguments(callbackOrOptions, callback);
-    return tmpAsync.name(cb, opts);
+  const [opts, cb] = _parseArguments(callbackOrOptions, callback);
+  return tmpAsync.name(cb, opts);
 }
 
 /**
@@ -96,14 +96,14 @@ export function tmpName(callbackOrOptions: Options | AsyncNamingCallback, callba
  * @category Tmp Legacy Interface
  */
 export function file(callbackOrOptions: Options | DirOrFileCallback, callback?: DirOrFileCallback): void {
-    const [opts, cb] = _parseArguments(callbackOrOptions, callback);
-    return tmpAsync.file((err, result) => {
-        if (err) {
-            return cb(err);
-        } else {
-            return cb(null, result.name, result.dispose);
-        }
-    }, opts);
+  const [opts, cb] = _parseArguments(callbackOrOptions, callback);
+  return tmpAsync.file((err, result) => {
+    if (err) {
+      return cb(err);
+    } else {
+      return cb(null, result.name, result.dispose);
+    }
+  }, opts);
 }
 
 /**
@@ -116,14 +116,14 @@ export function file(callbackOrOptions: Options | DirOrFileCallback, callback?: 
  * @category Tmp Legacy Interface
  */
 export function dir(callbackOrOptions: Options | DirOrFileCallback, callback?: DirOrFileCallback): void {
-    const [opts, cb] = _parseArguments(callbackOrOptions, callback);
-    return tmpAsync.dir((err, result) => {
-        if (err) {
-            return cb(err);
-        } else {
-            return cb(null, result.name, result.dispose);
-        }
-    }, opts);
+  const [opts, cb] = _parseArguments(callbackOrOptions, callback);
+  return tmpAsync.dir((err, result) => {
+    if (err) {
+      return cb(err);
+    } else {
+      return cb(null, result.name, result.dispose);
+    }
+  }, opts);
 }
 
 /**
@@ -138,9 +138,9 @@ export function dir(callbackOrOptions: Options | DirOrFileCallback, callback?: D
  * @deprecated this will be removed in v1.0.0
  */
 function _parseArguments(callbackOrOptions, callback) {
-    if (typeof callbackOrOptions === 'function') {
-        return [callback, callbackOrOptions];
-    } else {
-        return [callbackOrOptions, callback];
-    }
+  if (typeof callbackOrOptions === 'function') {
+    return [callback, callbackOrOptions];
+  } else {
+    return [callbackOrOptions, callback];
+  }
 }

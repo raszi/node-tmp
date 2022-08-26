@@ -6,25 +6,25 @@ import * as crypto from 'crypto';
  */
 export default class RandomNameGenerator {
 
-    public static readonly POOL: string = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    public static readonly POOL_LENGTH: number = RandomNameGenerator.POOL.length;
+  public static readonly POOL: string = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  public static readonly POOL_LENGTH: number = RandomNameGenerator.POOL.length;
 
-    public generate(length: number): string {
+  public generate(length: number): string {
 
-        let result: string = '';
+    let result = '';
 
-        // make sure that we do not fail because we ran out of entropy
-        let rnd = null;
-        try {
-            rnd = crypto.randomBytes(length);
-        } catch (_) {
-            rnd = crypto.pseudoRandomBytes(length);
-        }
-
-        for (let idx = 0; idx < length; idx++) {
-            result += RandomNameGenerator.POOL[rnd[idx] % RandomNameGenerator.POOL_LENGTH];
-        }
-
-        return result;
+    // make sure that we do not fail because we ran out of entropy
+    let rnd = null;
+    try {
+      rnd = crypto.randomBytes(length);
+    } catch (_) {
+      rnd = crypto.pseudoRandomBytes(length);
     }
+
+    for (let idx = 0; idx < length; idx++) {
+      result += RandomNameGenerator.POOL[rnd[idx] % RandomNameGenerator.POOL_LENGTH];
+    }
+
+    return result;
+  }
 }

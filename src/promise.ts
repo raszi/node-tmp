@@ -1,7 +1,7 @@
 import {
-    Options,
-    PromiseInterface,
-    PromiseResult
+  Options,
+  PromiseInterface,
+  PromiseResult
 } from './types';
 
 import PromiseInterfaceImpl from './internal/PromiseInterfaceImpl';
@@ -39,7 +39,7 @@ export default instance;
  * @category Interfaces / Promise
  */
 export function file(options?: Options): Promise<PromiseResult> {
-    return instance.file(options);
+  return instance.file(options);
 }
 
 /**
@@ -56,7 +56,7 @@ export function file(options?: Options): Promise<PromiseResult> {
  * @category Interfaces / Promise
  */
 export function dir(options?: Options): Promise<PromiseResult> {
-    return instance.dir(options);
+  return instance.dir(options);
 }
 
 /**
@@ -73,7 +73,7 @@ export function dir(options?: Options): Promise<PromiseResult> {
  * @category Interfaces / Promise
  */
 export function name(options?: Options): Promise<string> {
-    return instance.name(options);
+  return instance.name(options);
 }
 
 /**
@@ -90,5 +90,5 @@ export function name(options?: Options): Promise<string> {
  * @category Interfaces / Promise
  */
 export function forceClean(): void {
-    instance.forceClean();
+  instance.forceClean();
 }

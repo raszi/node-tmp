@@ -1,8 +1,8 @@
 import {
-    AsyncCreationCallback,
-    AsyncInterface,
-    AsyncNamingCallback,
-    Options,
+  AsyncCreationCallback,
+  AsyncInterface,
+  AsyncNamingCallback,
+  Options,
 } from './types';
 
 import AsyncInterfaceImpl from './internal/AsyncInterfaceImpl';
@@ -40,7 +40,7 @@ export default instance;
  * @category Interfaces / Async
  */
 export function file(callback: AsyncCreationCallback, options?: Options): void {
-    return instance.file(callback, options);
+  return instance.file(callback, options);
 }
 
 /**
@@ -57,7 +57,7 @@ export function file(callback: AsyncCreationCallback, options?: Options): void {
  * @category Interfaces / Async
  */
 export function dir(callback: AsyncCreationCallback, options?: Options): void {
-    return instance.dir(callback, options);
+  return instance.dir(callback, options);
 }
 
 /**
@@ -74,7 +74,7 @@ export function dir(callback: AsyncCreationCallback, options?: Options): void {
  * @category Interfaces / Async
  */
 export function name(callback: AsyncNamingCallback, options?: Options): void {
-    return instance.name(callback, options);
+  return instance.name(callback, options);
 }
 
 /**
@@ -91,5 +91,5 @@ export function name(callback: AsyncNamingCallback, options?: Options): void {
  * @category Interfaces / Async
  */
 export function forceClean(): void {
-    instance.forceClean();
+  instance.forceClean();
 }

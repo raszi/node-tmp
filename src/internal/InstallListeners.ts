@@ -25,8 +25,8 @@ let guard: boolean;
  * @category Installed Listeners
  */
 if (!guard) {
-    process.on('exit', function () {
-        GarbageCollector.INSTANCE.dispose();
-    });
-    guard = true;
+  process.on('exit', function () {
+    GarbageCollector.INSTANCE.dispose();
+  });
+  guard = true;
 }
