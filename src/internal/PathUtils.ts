@@ -12,7 +12,7 @@ export function osTmpDir(): string {
 }
 
 export function normalizedOsTmpDir(): string {
-    return normalize(this.osTmpDir());
+    return normalize(osTmpDir());
 }
 
 export function resolvePath(name: string, root: string): string {
@@ -43,8 +43,8 @@ export function normalize(name: string): string {
     const result = [];
     const components = name.replace(/[/]+/g, '/')
         .replace(/[\\]+/g, '/')
-        .replace(/["]/g, '')
-        .replace(/[']/g, '')
+//        .replace(/["]/g, '')
+//        .replace(/[']/g, '')
         .split('/');
 
     // make sure that we retain the leading path separator on Un*x derivates
