@@ -4,9 +4,11 @@
 const
   assert = require('assert'),
   os = require('os'),
+  path = require('path'),
   inbandStandardTests = require('./name-inband-standard'),
   tmp = require('../lib/tmp');
 
+const isWindows = os.platform() === 'win32';
 
 describe('tmp', function () {
   describe('#tmpNameSync()', function () {
@@ -39,12 +41,43 @@ describe('tmp', function () {
       describe('on issue #176', function () {
         const origfn = os.tmpdir;
         it('must fail on invalid os.tmpdir()', function () {
-          os.tmpdir = function () { return undefined; };
+          os.tmpdir = function () {
+            return undefined;
+          };
           try {
             tmp.tmpNameSync();
             assert.fail('should have failed');
           } catch (err) {
             assert.ok(err instanceof Error);
+          } finally {
+            os.tmpdir = origfn;
+          }
+        });
+      });
+      describe('on issue #268', function () {
+        const origfn = os.tmpdir;
+        it(`should not alter ${isWindows ? 'invalid' : 'valid'} path on os.tmpdir() returning path that includes double quotes`, function () {
+          const tmpdir = isWindows ? '"C:\\Temp With Spaces"' : '"/tmp with spaces"';
+          os.tmpdir = function () {
+            return tmpdir;
+          };
+          const name = tmp.tmpNameSync();
+          const index = name.indexOf(path.sep + tmpdir + path.sep);
+          try {
+            assert.ok(index > 0, `${tmpdir} should have been a subdirectory name in ${name}`);
+          } finally {
+            os.tmpdir = origfn;
+          }
+        });
+        it('should not alter valid path on os.tmpdir() returning path that includes single quotes', function () {
+          const tmpdir = isWindows ? '\'C:\\Temp With Spaces\'' : '\'/tmp with spaces\'';
+          os.tmpdir = function () {
+            return tmpdir;
+          };
+          const name = tmp.tmpNameSync();
+          const index = name.indexOf(path.sep + tmpdir + path.sep);
+          try {
+            assert.ok(index > 0, `${tmpdir} should have been a subdirectory name in ${name}`);
           } finally {
             os.tmpdir = origfn;
           }
