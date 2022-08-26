@@ -2,7 +2,6 @@ node_modules/
 coverage/
 .idea/
 .*.swp
-package-lock.json
 .changelog
 CHANGELOG.new.md
 CHANGELOG.add.md
