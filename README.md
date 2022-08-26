@@ -38,6 +38,14 @@ All breaking changes that had been introduced, i.e.
 have been reverted in v0.2.2 and tmp should now behave as it did before the
 introduction of these breaking changes.
 
+Other breaking changes, i.e.
+
+- template must not include any path components
+- name must be relative to tmpdir
+- dir option must be relative to tmpdir
+
+are still in place.
+
 In order to override the system's tmpdir, you will have to use the newly
 introduced tmpdir option.
 
