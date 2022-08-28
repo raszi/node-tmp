@@ -22,7 +22,7 @@
     "url": "http://github.com/raszi/node-tmp/issues"
   },
   "engines": {
-    "node": ">=8.17.0"
+    "node": ">=12.17.0"
   },
   "dependencies": {
     "tslib": "^2.4.0"
