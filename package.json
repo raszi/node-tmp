@@ -25,19 +25,37 @@
     "node": ">=8.17.0"
   },
   "dependencies": {
-    "rimraf": "^3.0.0"
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "eslint": "^6.3.0",
-    "eslint-plugin-mocha": "^6.1.1",
-    "istanbul": "^0.4.5",
+    "@types/jest": "^28.1.8",
+    "@types/node": "^18.7.13",
+    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/parser": "^5.35.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^27.0.0",
+    "import-sort-style-module": "^6.0.0",
     "lerna-changelog": "^1.0.1",
-    "mocha": "^6.2.0"
+    "prettier": "^2.7.1",
+    "prettier-plugin-import-sort": "^0.0.7",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^28.0.8",
+    "typescript": "~4.7.4"
   },
-  "main": "lib/tmp.js",
+  "main": "dist/index.js",
   "files": [
-    "lib/"
+    "dist"
   ],
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm test && npm run lint",
+    "changelog": "lerna-changelog",
+    "lint": "eslint --max-warnings 0 ./src --ext .ts",
+    "clean": "rm -Rf ./coverage ./dist",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
   "changelog": {
     "labels": {
       "breaking": ":boom: Breaking Change",
@@ -48,11 +66,27 @@
     },
     "cacheDir": ".changelog"
   },
-  "scripts": {
-    "changelog": "lerna-changelog",
-    "lint": "eslint lib --env mocha test",
-    "clean": "rm -Rf ./coverage",
-    "test": "npm run clean && istanbul cover ./node_modules/mocha/bin/_mocha --report none --print none --dir ./coverage/json -u exports -R test/*-test.js && istanbul report --root ./coverage/json html && istanbul report text-summary",
-    "doc": "jsdoc -c .jsdoc.json"
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:jest/recommended",
+      "prettier"
+    ]
+  },
+  "importSort": {
+    ".ts": {
+      "style": "module",
+      "parser": "typescript"
+    }
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "printWidth": 120,
+    "singleQuote": true
   }
 }

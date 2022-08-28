@@ -1,8 +1,10 @@
 node_modules/
 coverage/
+dist/
 .idea/
 .*.swp
 .changelog
+*.tgz
 CHANGELOG.new.md
 CHANGELOG.add.md
 CHANGELOG.new.md.tmp
