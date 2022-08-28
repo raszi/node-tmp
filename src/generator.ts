@@ -26,7 +26,7 @@ type WithConstraints = {
 const unwantedBase64Chars = new RegExp('[+=/]', 'g');
 
 const randomChars = (length: number) =>
-  randomBytes(length).toString('base64').replaceAll(unwantedBase64Chars, '').slice(0, length);
+  randomBytes(length).toString('base64').replace(unwantedBase64Chars, '').slice(0, length);
 
 const affixGenerator = ({ prefix = 'tmp', postfix }: WithConstraints): Generator => {
   return () => [prefix, process.pid, randomChars(20), postfix].filter(Boolean).join('-');
