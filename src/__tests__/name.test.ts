@@ -25,7 +25,7 @@ describe.each(cases)('create()', (description, options) => {
     });
 
     it('does not create a file', async () => {
-      await expect(async () => await stat(path)).rejects.toThrowError(/ENOENT/);
+      await expect(async () => await stat(path)).rejects.toThrow(/ENOENT/);
     });
   });
 });

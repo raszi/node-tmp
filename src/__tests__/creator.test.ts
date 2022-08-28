@@ -8,7 +8,7 @@ const constantly = <T>(value: T) => {
 
 describe('createEntry()', () => {
   it('throws an error when maximum tries reached', async () => {
-    await expect(async () => await createEntry({}, constantly(false))).rejects.toThrowError(/^Maximum tries reached/);
+    await expect(async () => await createEntry({}, constantly(false))).rejects.toThrow(/^Maximum tries reached/);
   });
 
   it('returns a random name with the dir when providing a dir', async () => {
@@ -20,7 +20,7 @@ describe('createEntry()', () => {
   });
 
   it('throws an error when the tries are not enough', async () => {
-    await expect(async () => await createEntry({ tries: 0 }, constantly(true))).rejects.toThrowError(
+    await expect(async () => await createEntry({ tries: 0 }, constantly(true))).rejects.toThrow(
       /^Maximum tries reached/
     );
   });
