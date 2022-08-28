@@ -36,10 +36,12 @@ describe.each(cases)('create()', (description, options) => {
 
       // Due to a libuv issue this check is disabled on Windows paltforms
       // https://github.com/nodejs/node-v0.x-archive/issues/4812
-      if (!platform().startsWith('win')) {
-        const mode = options?.mode || 0o600;
-        expect(actual.mode.toString(8).slice(-3)).toEqual(mode.toString(8));
+      if (platform().startsWith('win')) {
+        return;
       }
+
+      const mode = options?.mode || 0o600;
+      expect(actual.mode.toString(8).slice(-3)).toEqual(mode.toString(8));
     });
   });
 });
