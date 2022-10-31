@@ -22,9 +22,9 @@ async function create(options?: Options): Promise<string>;
 async function create(options?: Options, cb?: CallbackFunction<string>): Promise<void>;
 
 async function create(options: Options = {}, cb?: CallbackFunction<string>): Promise<void | string> {
-  const createName = createEntry(options, pathAvailable);
+  const createPromise = createEntry(options, pathAvailable);
 
-  return optionalCallback(createName, cb);
+  return optionalCallback(createPromise, cb);
 }
 
 export { create };
