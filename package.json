@@ -74,7 +74,10 @@
       "plugin:@typescript-eslint/recommended",
       "plugin:jest/recommended",
       "prettier"
-    ]
+    ],
+    "rules": {
+      "jest/valid-title": "off"
+    }
   },
   "importSort": {
     ".ts": {
@@ -84,7 +87,8 @@
   },
   "jest": {
     "preset": "ts-jest",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testMatch": ["**/__tests__/**/*.test.ts"]
   },
   "prettier": {
     "arrowParens": "always",

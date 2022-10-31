@@ -2,8 +2,9 @@ import { stat } from 'fs/promises';
 
 import { create } from '../name';
 import { Options } from '../types';
+import { TestCase, withCallbackWrapper } from './utils';
 
-const cases: [string, Options | undefined][] = [
+const cases: TestCase<Options>[] = [
   ['undefined', undefined],
   ['empty options', {}],
   ['template', { template: 'foo-XXXXXX-bar' }],
@@ -12,20 +13,23 @@ const cases: [string, Options | undefined][] = [
   ['fixed name', { name: 'fixed' }],
 ];
 
-describe.each(cases)('create()', (description, options) => {
-  describe(`with ${description}`, () => {
-    let path: string;
+describe.each(withCallbackWrapper(cases))('create()', (callbackWrapper, cases) => {
+  describe.each(cases)(callbackWrapper ? 'with callback' : 'without callback', (description, options) => {
+    describe(`with ${description}`, () => {
+      let path: string;
 
-    beforeEach(async () => {
-      path = await create(options);
-    });
+      beforeEach(async () => {
+        const createFunction = callbackWrapper ? callbackWrapper(create) : create;
+        path = await createFunction(options);
+      });
 
-    it('returns with a non-empty path', async () => {
-      expect(path).not.toBe('');
-    });
+      it('returns with a non-empty path', async () => {
+        expect(path).not.toBe('');
+      });
 
-    it('does not create a file', async () => {
-      await expect(async () => await stat(path)).rejects.toThrow(/ENOENT/);
+      it('does not create a file', async () => {
+        await expect(async () => await stat(path)).rejects.toThrow(/ENOENT/);
+      });
     });
   });
 });

@@ -27,3 +27,5 @@ export type Options = NameOptions & {
 };
 
 export type OptionalAsyncFunction<T, R> = ((input: T) => Promise<R>) | ((input: T) => R);
+
+export type CallbackFunction<T> = (err?: Error, value?: T) => void;

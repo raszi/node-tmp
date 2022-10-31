@@ -3,7 +3,8 @@ import { Mode } from 'fs';
 import { open } from 'fs/promises';
 
 import { createEntry } from './creator';
-import { Options } from './types';
+import { CallbackFunction, Options } from './types';
+import { optionalCallback } from './utils';
 
 export type CreateOptions = Options & {
   mode?: Mode;
@@ -12,8 +13,11 @@ export type CreateOptions = Options & {
 const fileMode = 0o600;
 const createFlags = O_CREAT | O_EXCL;
 
-export async function create({ mode, ...options }: CreateOptions = {}): Promise<string> {
-  return createEntry(options, async (path) => {
+async function create(options?: CreateOptions): Promise<string>;
+async function create(options?: CreateOptions, cb?: CallbackFunction<string>): Promise<void>;
+
+async function create({ mode, ...options }: CreateOptions = {}, cb?: CallbackFunction<string>): Promise<void | string> {
+  const createFile = createEntry(options, async (path) => {
     try {
       const fileHandle = await open(path, createFlags, mode || fileMode);
       await fileHandle.close();
@@ -23,4 +27,8 @@ export async function create({ mode, ...options }: CreateOptions = {}): Promise<
       return false;
     }
   });
+
+  return optionalCallback(createFile, cb);
 }
+
+export { create };
