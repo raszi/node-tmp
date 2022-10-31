@@ -13,22 +13,26 @@ export type CreateOptions = Options & {
 const fileMode = 0o600;
 const createFlags = O_CREAT | O_EXCL;
 
-async function create(options?: CreateOptions): Promise<string>;
-async function create(options?: CreateOptions, cb?: CallbackFunction<string>): Promise<void>;
-
-async function create({ mode, ...options }: CreateOptions = {}, cb?: CallbackFunction<string>): Promise<void | string> {
-  const createFile = createEntry(options, async (path) => {
+const createFile = (mode: Mode) => {
+  return async (path: string): Promise<boolean> => {
     try {
-      const fileHandle = await open(path, createFlags, mode || fileMode);
+      const fileHandle = await open(path, createFlags, mode);
       await fileHandle.close();
 
       return true;
     } catch {
       return false;
     }
-  });
+  };
+};
 
-  return optionalCallback(createFile, cb);
+async function create(options?: CreateOptions): Promise<string>;
+async function create(options?: CreateOptions, cb?: CallbackFunction<string>): Promise<void>;
+
+async function create({ mode, ...options }: CreateOptions = {}, cb?: CallbackFunction<string>): Promise<void | string> {
+  const createPromise = createEntry(options, createFile(mode || fileMode));
+
+  return optionalCallback(createPromise, cb);
 }
 
 export { create };
