@@ -9,20 +9,24 @@ export type CreateOptions = Options & MakeDirectoryOptions;
 
 const dirMode = 0o700;
 
-async function create(options?: CreateOptions): Promise<string>;
-async function create(options?: CreateOptions, cb?: CallbackFunction<string>): Promise<void>;
-
-async function create(options: CreateOptions = {}, cb?: CallbackFunction<string>): Promise<void | string> {
-  const createDir = createEntry(options, async (path) => {
+const createDir = (options: MakeDirectoryOptions) => {
+  return async (path: string): Promise<boolean> => {
     try {
       await mkdir(path, { mode: dirMode, ...options });
       return true;
     } catch {
       return false;
     }
-  });
+  };
+};
 
-  return optionalCallback(createDir, cb);
+async function create(options?: CreateOptions): Promise<string>;
+async function create(options?: CreateOptions, cb?: CallbackFunction<string>): Promise<void>;
+
+async function create(options: CreateOptions = {}, cb?: CallbackFunction<string>): Promise<void | string> {
+  const createPromise = createEntry(options, createDir(options));
+
+  return optionalCallback(createPromise, cb);
 }
 
 export { create };
