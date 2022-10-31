@@ -2,7 +2,7 @@ import { stat } from 'fs/promises';
 
 import { create } from '../name';
 import { Options } from '../types';
-import { TestCase, withCallbackWrapper } from './utils';
+import { TestCase, randomDir, withCallbackWrapper } from './utils';
 
 const cases: TestCase<Options>[] = [
   ['undefined', undefined],
@@ -10,7 +10,7 @@ const cases: TestCase<Options>[] = [
   ['template', { template: 'foo-XXXXXX-bar' }],
   ['prefix', { prefix: 'something' }],
   ['postfix', { postfix: '.tmp' }],
-  ['fixed name', { name: 'fixed' }],
+  ['fixed name', { name: 'fixed', dir: randomDir() }],
 ];
 
 describe.each(withCallbackWrapper(cases))('create()', (callbackWrapper, cases) => {

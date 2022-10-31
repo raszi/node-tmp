@@ -2,7 +2,7 @@ import { readdir, rmdir, stat } from 'fs/promises';
 import { platform } from 'os';
 
 import { CreateOptions, create } from '../dir';
-import { TestCase, withCallbackWrapper } from './utils';
+import { TestCase, randomDir, withCallbackWrapper } from './utils';
 
 const cases: TestCase<CreateOptions>[] = [
   ['undefined', undefined],
@@ -10,7 +10,7 @@ const cases: TestCase<CreateOptions>[] = [
   ['template', { template: 'foo-XXXXXX-bar' }],
   ['prefix', { prefix: 'something' }],
   ['postfix', { postfix: '.tmp' }],
-  ['fixed name', { name: 'fixed' }],
+  ['fixed name', { name: 'fixed', dir: randomDir() }],
   ['predefined mode', { mode: 0o711 }],
 ];
 

@@ -1,3 +1,8 @@
+import { mkdirSync as mkdir } from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
+
+import { randomChars } from '../generator';
 import { CallbackFunction } from '../types';
 
 export type TestCase<T> = [string, T | undefined];
@@ -26,3 +31,11 @@ export const withCallbackWrapper = <T>(testCases: TestCase<T>[]) =>
     [null, testCases],
     [callbackWrapper<T>, testCases],
   ] as const;
+
+export const randomDir = () => {
+  const dir = randomChars(10);
+
+  mkdir(join(tmpdir(), dir));
+
+  return dir;
+};
