@@ -54,7 +54,7 @@
     "prepublishOnly": "npm test && npm run lint",
     "changelog": "lerna-changelog",
     "lint": "eslint --max-warnings 0 ./src --ext .ts",
-    "clean": "rm -Rf ./coverage ./dist",
+    "clean": "npx rimraf coverage dist",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
