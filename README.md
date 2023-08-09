@@ -2,8 +2,8 @@
 
 A simple temporary file and directory creator for [node.js.][1]
 
-[![Build Status](https://travis-ci.org/raszi/node-tmp.svg?branch=master)](https://travis-ci.org/raszi/node-tmp)
-[![Dependencies](https://david-dm.org/raszi/node-tmp.svg)](https://david-dm.org/raszi/node-tmp)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/raszi/node-tmp/node.js.yml?branch=master)](https://github.com/raszi/node-tmp/actions/workflows/node.js.yml)
+[![Dependencies](https://img.shields.io/librariesio/github/raszi/node-tmp)](https://libraries.io/github/raszi/node-tmp)
 [![npm version](https://badge.fury.io/js/tmp.svg)](https://badge.fury.io/js/tmp)
 [![API documented](https://img.shields.io/badge/API-documented-brightgreen.svg)](https://raszi.github.io/node-tmp/)
 [![Known Vulnerabilities](https://snyk.io/test/npm/tmp/badge.svg)](https://snyk.io/test/npm/tmp)
