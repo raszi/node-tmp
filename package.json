@@ -32,7 +32,7 @@
     "eslint-plugin-mocha": "^6.1.1",
     "istanbul": "^0.4.5",
     "lerna-changelog": "^1.0.1",
-    "mocha": "^6.2.0"
+    "mocha": "^10.2.0"
   },
   "main": "lib/tmp.js",
   "files": [
