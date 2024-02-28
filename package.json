@@ -22,10 +22,9 @@
     "url": "http://github.com/raszi/node-tmp/issues"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=14.14"
   },
   "dependencies": {
-    "rimraf": "^5.0.5"
   },
   "devDependencies": {
     "eslint": "^6.3.0",
