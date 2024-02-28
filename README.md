@@ -55,7 +55,7 @@ See the [CHANGELOG](./CHANGELOG.md) for more information.
 
 ### Version 0.2.2
 
-Since version 0.2.2, all support for node version < 12 has been dropped.
+Since version 0.2.2, all support for node version <= 12 has been dropped.
 
 ### Version 0.1.0
 
