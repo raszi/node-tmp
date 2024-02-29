@@ -1,5 +1,6 @@
 node_modules/
 coverage/
+.env
 .idea/
 .*.swp
 .changelog
