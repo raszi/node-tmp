@@ -3,10 +3,10 @@
 
 var
   assert = require('assert'),
+  fs = require('fs'),
   inbandStandardTests = require('./inband-standard'),
   assertions = require('./assertions'),
   childProcess = require('./child-process').genericChildProcess,
-  rimraf = require('rimraf'),
   tmp = require('../lib/tmp');
 
 
@@ -57,7 +57,7 @@ describe('tmp', function () {
           try {
             assertions.assertDoesNotExist(stdout);
           } catch (err) {
-            rimraf.sync(stdout);
+            fs.rmSync(stdout, { recursive: true });
             return done(err);
           }
           done();
@@ -70,7 +70,7 @@ describe('tmp', function () {
           if (!stderr) return done(new Error('stderr expected'));
           try {
             assertions.assertExists(stdout, true);
-            rimraf.sync(stdout);
+            fs.rmSync(stdout, { recursive: true });
           } catch (err) {
             return done(err);
           }
@@ -84,7 +84,7 @@ describe('tmp', function () {
           if (stderr) return done(new Error(stderr));
           try {
             assertions.assertExists(stdout, true);
-            rimraf.sync(stdout);
+            fs.rmSync(stdout, { recursive: true });
           } catch (err) {
             return done(err);
           }
@@ -99,7 +99,7 @@ describe('tmp', function () {
           try {
             assertions.assertDoesNotExist(stdout);
           } catch (err) {
-            rimraf.sync(stdout);
+            fs.rmSync(stdout, { recursive: true });
             return done(err);
           }
           done();
@@ -115,7 +115,7 @@ describe('tmp', function () {
           try {
             assertions.assertDoesNotExist(stdout);
           } catch (err) {
-            rimraf.sync(stdout);
+            fs.rmSync(stdout, { recursive: true });
             return done(err);
           }
           done();
@@ -128,7 +128,7 @@ describe('tmp', function () {
           try {
             assertions.assertDoesNotExist(stdout);
           } catch (err) {
-            rimraf.sync(stdout);
+            fs.rmSync(stdout, { recursive: true });
             return done(err);
           }
           done();

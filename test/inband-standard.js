@@ -5,7 +5,6 @@ var
   fs = require('fs'),
   path = require('path'),
   assertions = require('./assertions'),
-  rimraf = require('rimraf'),
   tmp = require('../lib/tmp');
 
 module.exports = function inbandStandard(isFile, beforeHook, sync = false) {
@@ -86,7 +85,7 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook, sync = false) {
         } catch (err) {
           // important: remove file or dir unconditionally
           try {
-            rimraf.sync(this.topic.name);
+            fs.rmSync(this.topic.name, { recursive: true });
           } catch (_ignored) {
             // ignore
           }
@@ -101,7 +100,7 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook, sync = false) {
           try {
             assertions.assertDoesNotExist(self.topic.name);
           } catch (err) {
-            rimraf.sync(self.topic.name);
+            fs.rmSync(self.topic.name, { recursive: true });
             return done(err);
           }
           done();
