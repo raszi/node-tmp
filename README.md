@@ -53,9 +53,14 @@ introduced tmpdir option.
 
 See the [CHANGELOG](./CHANGELOG.md) for more information.
 
+### Version 0.2.3
+
+- Node version <= 14.4 has been dropped.
+- rimraf has been dropped from the dependencies
+
 ### Version 0.2.2
 
-Since version 0.2.2, all support for node version <= 12 has been dropped.
+Since version 0.2.2, all support for node version <= 14 has been dropped.
 
 ### Version 0.1.0
 

@@ -1,6 +1,6 @@
 
 
-## v0.2.2 (2022-08-26)
+## v0.2.2 (2024-02-28)
 
 #### :bug: Bug Fix
 * [#278](https://github.com/raszi/node-tmp/pull/278) Closes [#268](https://github.com/raszi/node-tmp/issues/268): Revert "fix #246: remove any double quotes or single quotes… ([@mbargiel](https://github.com/mbargiel))
@@ -8,12 +8,10 @@
 #### :memo: Documentation
 * [#279](https://github.com/raszi/node-tmp/pull/279) Closes [#266](https://github.com/raszi/node-tmp/issues/266): move paragraph on graceful cleanup to the head of the documentation ([@silkentrance](https://github.com/silkentrance))
 
-#### :house: Internal
-* switch to GitHub Actions
-* fix tests for node >= 16
-
-#### Committers: 3
+#### Committers: 5
 - Carsten Klein ([@silkentrance](https://github.com/silkentrance))
+- Dave Nicolson ([@dnicolson](https://github.com/dnicolson))
+- KARASZI István ([@raszi](https://github.com/raszi))
 - Maxime Bargiel ([@mbargiel](https://github.com/mbargiel))
 - [@robertoaceves](https://github.com/robertoaceves)
 

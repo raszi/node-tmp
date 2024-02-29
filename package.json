@@ -1,6 +1,6 @@
 {
   "name": "tmp",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Temporary file and directory creator",
   "author": "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
   "contributors": [
@@ -24,8 +24,7 @@
   "engines": {
     "node": ">=14.14"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^6.3.0",
     "eslint-plugin-mocha": "^6.1.1",
