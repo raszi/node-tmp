@@ -2,6 +2,7 @@ node_modules/
 coverage/
 .env
 .idea/
+.tool-versions
 .*.swp
 .changelog
 CHANGELOG.new.md
