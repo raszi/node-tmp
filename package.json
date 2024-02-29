@@ -24,8 +24,7 @@
   "engines": {
     "node": ">=14.14"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^6.3.0",
     "eslint-plugin-mocha": "^6.1.1",
