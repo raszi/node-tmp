@@ -35,6 +35,7 @@
   "main": "lib/tmp.js",
   "types": "index.d.ts",
   "files": [
+    "index.d.ts",
     "lib/"
   ],
   "changelog": {
