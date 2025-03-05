@@ -285,11 +285,13 @@ export function setLogger(logger: Logger): void;
  * @param [options.cleanup] If truthy, the subdirectory will be deleted
  *   when the function settles. Use with caution as it may delete files
  *   still in use.
+ * @param [options.logTags] If provided, these will be passed as the first
+ *   parameter to logger calls during cleanup.
  */
 export function withSubdir<T>(
 	dir: string,
 	fn: (cleanupFn: () => Promise<void>) => Promise<T>,
-	options?: { cleanup?: boolean }
+	options?: { cleanup?: boolean, logTags?: Record<string, unknown> }
 ): Promise<T>;
 
 /**
