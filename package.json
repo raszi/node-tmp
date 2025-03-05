@@ -33,6 +33,7 @@
     "mocha": "^10.2.0"
   },
   "main": "lib/tmp.js",
+  "types": "index.d.ts",
   "files": [
     "lib/"
   ],
