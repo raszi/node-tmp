@@ -22,7 +22,7 @@
     "url": "http://github.com/raszi/node-tmp/issues"
   },
   "engines": {
-    "node": ">=14.14"
+    "node": ">=18"
   },
   "dependencies": {},
   "devDependencies": {
@@ -33,7 +33,9 @@
     "mocha": "^10.2.0"
   },
   "main": "lib/tmp.js",
+  "types": "index.d.ts",
   "files": [
+    "index.d.ts",
     "lib/"
   ],
   "changelog": {
