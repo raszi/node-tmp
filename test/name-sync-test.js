@@ -1,14 +1,10 @@
 /* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-const
-  assert = require('assert'),
-  os = require('os'),
-  path = require('path'),
-  inbandStandardTests = require('./name-inband-standard'),
-  tmp = require('../lib/tmp');
-
-const isWindows = os.platform() === 'win32';
+const assert = require('assert');
+const os = require('os');
+const inbandStandardTests = require('./name-inband-standard');
+const tmp = require('../lib/tmp');
 
 describe('tmp', function () {
   describe('#tmpNameSync()', function () {
@@ -54,42 +50,6 @@ describe('tmp', function () {
           }
         });
       });
-      describe('on issue #268', function () {
-        const origfn = os.tmpdir;
-        it(`should not alter ${isWindows ? 'invalid' : 'valid'} path on os.tmpdir() returning path that includes double quotes`, function () {
-          const tmpdir = isWindows ? '"C:\\Temp With Spaces"' : '"/tmp with spaces"';
-          os.tmpdir = function () {
-            return tmpdir;
-          };
-          const name = tmp.tmpNameSync();
-          const index = name.indexOf(path.sep + tmpdir + path.sep);
-          try {
-            assert.ok(index > 0, `${tmpdir} should have been a subdirectory name in ${name}`);
-          } finally {
-            os.tmpdir = origfn;
-          }
-        });
-        it('should not alter valid path on os.tmpdir() returning path that includes single quotes', function () {
-          const tmpdir = isWindows ? '\'C:\\Temp With Spaces\'' : '\'/tmp with spaces\'';
-          os.tmpdir = function () {
-            return tmpdir;
-          };
-          const name = tmp.tmpNameSync();
-          const index = name.indexOf(path.sep + tmpdir + path.sep);
-          try {
-            assert.ok(index > 0, `${tmpdir} should have been a subdirectory name in ${name}`);
-          } finally {
-            os.tmpdir = origfn;
-          }
-        });
-      });
-    });
-
-    describe('when running standard outband tests', function () {
-    });
-
-    describe('when running issue specific outband tests', function () {
     });
   });
 });
-

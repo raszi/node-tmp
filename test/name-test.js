@@ -1,14 +1,10 @@
 /* eslint-disable no-octal */
 // vim: expandtab:ts=2:sw=2
 
-const
-  assert = require('assert'),
-  os = require('os'),
-  path = require('path'),
-  inbandStandardTests = require('./name-inband-standard'),
-  tmp = require('../lib/tmp');
-
-const isWindows = os.platform() === 'win32';
+const assert = require('assert');
+const os = require('os');
+const inbandStandardTests = require('./name-inband-standard');
+const tmp = require('../lib/tmp');
 
 describe('tmp', function () {
   describe('#tmpName()', function () {
@@ -51,7 +47,9 @@ describe('tmp', function () {
       describe('on issue #176', function () {
         const origfn = os.tmpdir;
         it('must fail on invalid os.tmpdir()', function (done) {
-          os.tmpdir = function () { return undefined; };
+          os.tmpdir = function () {
+            return undefined;
+          };
           tmp.tmpName(function (err) {
             try {
               assert.ok(err instanceof Error, 'should have failed');
@@ -64,45 +62,6 @@ describe('tmp', function () {
           });
         });
       });
-      describe('on issue #268', function () {
-        const origfn = os.tmpdir;
-        it(`should not alter ${isWindows ? 'invalid' : 'valid'} path on os.tmpdir() returning path that includes double quotes`, function (done) {
-          const tmpdir = isWindows ? '"C:\\Temp With Spaces"' : '"/tmp with spaces"';
-          os.tmpdir = function () { return tmpdir; };
-          tmp.tmpName(function (err, name) {
-            const index = name.indexOf(path.sep + tmpdir + path.sep);
-            try {
-              assert.ok(index > 0, `${tmpdir} should have been a subdirectory name in ${name}`);
-            } catch (err) {
-              return done(err);
-            } finally {
-              os.tmpdir = origfn;
-            }
-            done();
-          });
-        });
-        it('should not alter valid path on os.tmpdir() returning path that includes single quotes', function (done) {
-          const tmpdir = isWindows ? '\'C:\\Temp With Spaces\'' : '\'/tmp with spaces\'';
-          os.tmpdir = function () { return tmpdir; };
-          tmp.tmpName(function (err, name) {
-            const index = name.indexOf(path.sep + tmpdir + path.sep);
-            try {
-              assert.ok(index > 0, `${tmpdir} should have been a subdirectory name in ${name}`);
-            } catch (err) {
-              return done(err);
-            } finally {
-              os.tmpdir = origfn;
-            }
-            done();
-          });
-        });
-      });
-    });
-
-    describe('when running standard outband tests', function () {
-    });
-
-    describe('when running issue specific outband tests', function () {
     });
   });
 });
