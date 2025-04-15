@@ -3,18 +3,8 @@
   "version": "0.2.3",
   "description": "Temporary file and directory creator",
   "author": "KARASZI István <github@spam.raszi.hu> (http://raszi.hu/)",
-  "contributors": [
-    "Carsten Klein <trancesilken@gmail.com> (https://github.com/silkentrance)"
-  ],
-  "keywords": [
-    "temporary",
-    "tmp",
-    "temp",
-    "tempdir",
-    "tempfile",
-    "tmpdir",
-    "tmpfile"
-  ],
+  "contributors": ["Carsten Klein <trancesilken@gmail.com> (https://github.com/silkentrance)"],
+  "keywords": ["temporary", "tmp", "temp", "tempdir", "tempfile", "tmpdir", "tmpfile"],
   "license": "MIT",
   "repository": "https://github.com/raszi/node-tmp.git",
   "homepage": "http://github.com/raszi/node-tmp",
@@ -33,9 +23,7 @@
     "mocha": "^10.2.0"
   },
   "main": "lib/tmp.js",
-  "files": [
-    "lib/"
-  ],
+  "files": ["lib/"],
   "changelog": {
     "labels": {
       "breaking": ":boom: Breaking Change",
