@@ -3,6 +3,7 @@
 
 var
   fs = require('fs'),
+  os = require('os'),
   path = require('path'),
   assertions = require('./assertions'),
   tmp = require('../lib/tmp');
@@ -18,6 +19,7 @@ module.exports = function inbandStandard(isFile, beforeHook, sync = false) {
   describe('with mode', inbandStandardTests(null, { mode: 0o755 }, isFile, beforeHook, sync));
   describe('with multiple options', inbandStandardTests(null, { prefix: 'tmp-multiple', postfix: 'bar', mode: 0o750 }, isFile, beforeHook, sync));
   describe('with tmpdir option', inbandStandardTests(null, { tmpdir: path.join(tmp.tmpdir, 'tmp-external'), mode: 0o750 }, isFile, beforeHook, sync));
+  describe('with dir option', inbandStandardTests(null, { dir: os.tmpdir(), mode: 0o750 }, isFile, beforeHook, sync));
   if (isFile) {
     describe('with discardDescriptor', inbandStandardTests(null, { mode: testMode, discardDescriptor: true }, isFile, beforeHook, sync));
     describe('with detachDescriptor', inbandStandardTests(null, { mode: testMode, detachDescriptor: true }, isFile, beforeHook, sync));
