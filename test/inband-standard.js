@@ -94,8 +94,36 @@ function inbandStandardTests(testOpts, opts, isFile, beforeHook, sync = false) {
           throw err;
         }
       }.bind(topic));
+
+      it('should support removeCallback called multiple times', function () {
+        try {
+          this.topic.removeCallback();
+        } catch (err) {
+          // important: remove file or dir unconditionally
+          try {
+            fs.rmSync(this.topic.name, { recursive: true });
+          } catch (_ignored) {
+            // ignore
+          }
+          throw err;
+        }
+      }.bind(topic));
     } else {
       it('should have a working removeCallback', function (done) {
+        const self = this;
+        this.topic.removeCallback(function (err) {
+          if (err) return done(err);
+          try {
+            assertions.assertDoesNotExist(self.topic.name);
+          } catch (err) {
+            fs.rmSync(self.topic.name, { recursive: true });
+            return done(err);
+          }
+          done();
+        });
+      }.bind(topic));
+
+      it('should support removeCallback called multiple times', function (done) {
         const self = this;
         this.topic.removeCallback(function (err) {
           if (err) return done(err);
